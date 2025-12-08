@@ -56,7 +56,7 @@ const SignUp = () => {
     setIsLoading(false);
 
     if (result.success) {
-      navigate('/');
+      navigate('/dashboard');
     } else {
       setError(result.error || 'Sign up failed');
     }
