@@ -277,7 +277,7 @@ const DraftEditor = () => {
             <PreviewPanel
               platform={activePlatform}
               content={currentVersion.content}
-              metadata={currentVersion.metadata as Record<string, unknown>}
+              metadata={currentVersion.metadata as unknown as Record<string, unknown>}
             />
           )}
           
