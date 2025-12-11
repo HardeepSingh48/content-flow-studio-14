@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Home, PlusCircle, Settings, Clock, LogOut, Zap } from 'lucide-react';
+import { Home, PlusCircle, Settings, Clock, LogOut, Zap, BarChart3, ListTodo, Cog } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { auth } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
@@ -8,8 +8,11 @@ import { cn } from '@/lib/utils';
 const navItems = [
   { to: '/dashboard', icon: Home, label: 'Dashboard', end: true },
   { to: '/dashboard/create', icon: PlusCircle, label: 'Create Content' },
-  { to: '/dashboard/configuration', icon: Settings, label: 'Configuration' },
   { to: '/dashboard/history', icon: Clock, label: 'History' },
+  { to: '/dashboard/queue', icon: ListTodo, label: 'Queue' },
+  { to: '/dashboard/analytics', icon: BarChart3, label: 'Analytics' },
+  { to: '/dashboard/configuration', icon: Settings, label: 'Integrations' },
+  { to: '/dashboard/settings', icon: Cog, label: 'Settings' },
 ];
 
 export const Sidebar = () => {
