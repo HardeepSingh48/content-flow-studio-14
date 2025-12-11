@@ -12,6 +12,10 @@ import DashboardOverview from "./pages/DashboardOverview";
 import Configuration from "./pages/Configuration";
 import CreateContent from "./pages/CreateContent";
 import History from "./pages/History";
+import DraftEditor from "./pages/DraftEditor";
+import Analytics from "./pages/Analytics";
+import Queue from "./pages/Queue";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +44,10 @@ const App = () => (
             <Route path="configuration" element={<Configuration />} />
             <Route path="create" element={<CreateContent />} />
             <Route path="history" element={<History />} />
+            <Route path="drafts/:sessionId" element={<DraftEditor />} />
+            <Route path="analytics" element={<Analytics />} />
+            <Route path="queue" element={<Queue />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
