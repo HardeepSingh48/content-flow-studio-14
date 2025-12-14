@@ -54,6 +54,47 @@
     
     --blur-glass: blur(12px);
   }
+
+  /* Light mode overrides */
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 210 40% 98%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 239 84% 57%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 263 70% 56%;
+    --secondary-foreground: 210 40% 98%;
+
+    --accent: 188 94% 43%;
+    --accent-foreground: 0 0% 100%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 20% 45%;
+
+    --destructive: 0 84% 55%;
+    --destructive-foreground: 210 40% 98%;
+
+    --success: 160 84% 35%;
+    --success-foreground: 210 40% 98%;
+
+    --warning: 38 92% 45%;
+    --warning-foreground: 222 47% 11%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 239 84% 57%;
+
+    --gradient-dark: linear-gradient(180deg, hsl(210 40% 98%) 0%, hsl(210 40% 96%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100% / 0.9) 0%, hsl(210 40% 98% / 0.8) 100%);
+    --shadow-card: 0 8px 32px hsl(222 47% 11% / 0.1);
+  }
 }
 
 @layer base {
@@ -77,9 +118,17 @@
   .glass {
     @apply bg-card/60 backdrop-blur-xl border border-border/50;
   }
+
+  .light .glass {
+    @apply bg-card/90 backdrop-blur-xl border border-border shadow-sm;
+  }
   
   .glass-strong {
     @apply bg-card/80 backdrop-blur-2xl border border-border/60;
+  }
+
+  .light .glass-strong {
+    @apply bg-card/95 backdrop-blur-2xl border border-border shadow-md;
   }
 
   .gradient-text {
@@ -102,6 +151,16 @@
 
   .card-gradient {
     background: var(--gradient-card);
+  }
+
+  /* Focus styles for accessibility */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background;
+  }
+
+  /* Skip link for accessibility */
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-lg;
   }
 }
 
