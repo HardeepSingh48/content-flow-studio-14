@@ -4,10 +4,12 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Zap, Mail, Lock, Loader2, AlertCircle, Check } from 'lucide-react';
-import { auth } from '@/lib/auth';
+import { useAuth } from '@/hooks/useAuth';
+import { toast } from 'sonner';
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { register } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -51,14 +53,16 @@ const SignUp = () => {
 
     setIsLoading(true);
 
-    const result = await auth.signUp(email, password);
-
-    setIsLoading(false);
-
-    if (result.success) {
+    try {
+      await register(email, password);
+      toast.success('Account created successfully!');
       navigate('/dashboard');
-    } else {
-      setError(result.error || 'Sign up failed');
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.error || error.message || 'Sign up failed';
+      setError(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -163,9 +167,8 @@ const SignUp = () => {
                 {passwordRequirements.map((req) => (
                   <div
                     key={req.label}
-                    className={`flex items-center gap-2 text-sm ${
-                      req.met ? 'text-accent' : 'text-muted-foreground'
-                    }`}
+                    className={`flex items-center gap-2 text-sm ${req.met ? 'text-accent' : 'text-muted-foreground'
+                      }`}
                   >
                     <Check className={`w-4 h-4 ${req.met ? 'opacity-100' : 'opacity-30'}`} />
                     {req.label}

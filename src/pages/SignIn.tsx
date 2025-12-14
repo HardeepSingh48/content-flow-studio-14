@@ -4,10 +4,13 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Zap, Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
-import { auth } from '@/lib/auth';
+import { useAuth } from '@/hooks/useAuth';
+import { toast } from 'sonner';
+
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -40,14 +43,16 @@ const SignIn = () => {
 
     setIsLoading(true);
 
-    const result = await auth.signIn(email, password);
-
-    setIsLoading(false);
-
-    if (result.success) {
+    try {
+      await login(email, password);
+      toast.success('Welcome back!');
       navigate('/dashboard');
-    } else {
-      setError(result.error || 'Sign in failed');
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.error || error.message || 'Sign in failed';
+      setError(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
   };
 
