@@ -1,4 +1,5 @@
 import { ContentSession, ContentVersion, Platform, PublishOptions } from '@/types/content';
+import { api } from './api';
 
 export interface IdeaResponse {
   sessionId: string;
@@ -29,310 +30,310 @@ export interface Draft {
   status: 'draft' | 'published';
 }
 
-// Mock data for content sessions
-const mockSessions: ContentSession[] = [
-  {
-    id: 'session_1',
-    title: 'The Future of AI in Content Creation',
-    inputType: 'topic',
-    inputValue: 'AI content creation tools',
-    status: 'drafts',
-    currentStep: 4,
-    selectedIdeaId: '1',
-    selectedIdea: {
-      title: 'The Future of AI in Content Creation',
-      description: 'Explore how artificial intelligence is revolutionizing the way we create, distribute, and consume content across digital platforms.',
-    },
-    answers: {
-      q1: 'Educate content creators about AI tools',
-      q2: 'Marketing professionals and content creators',
-      q3: 'Efficiency, quality, cost savings',
-      q4: 'Professional',
-      q5: 'ChatGPT, Jasper AI examples',
-    },
-    platforms: ['article', 'twitter', 'linkedin'],
-    createdAt: '2024-01-15T10:30:00Z',
-    updatedAt: '2024-01-15T14:45:00Z',
-  },
-  {
-    id: 'session_2',
-    title: 'Building a Multi-Platform Content Strategy',
-    inputType: 'url',
-    inputValue: 'https://example.com/content-strategy',
-    status: 'questions',
-    currentStep: 3,
-    selectedIdeaId: '2',
-    selectedIdea: {
-      title: 'Building a Multi-Platform Content Strategy',
-      description: 'Learn how to create cohesive content that works across all your marketing channels.',
-    },
-    platforms: [],
-    createdAt: '2024-01-14T09:00:00Z',
-    updatedAt: '2024-01-14T09:30:00Z',
-  },
-  {
-    id: 'session_3',
-    title: 'SEO Best Practices 2024',
-    inputType: 'keywords',
-    inputValue: ['SEO', 'search optimization', 'Google ranking', 'content marketing'],
-    status: 'published',
-    currentStep: 4,
-    selectedIdeaId: '3',
-    selectedIdea: {
-      title: 'SEO Best Practices for 2024',
-      description: 'Stay ahead of the curve with the latest SEO strategies and techniques.',
-    },
-    answers: {
-      q1: 'Rank higher on Google',
-      q2: 'Small business owners',
-      q3: 'Technical SEO, content optimization',
-      q4: 'Educational',
-      q5: 'Real case studies from clients',
-    },
-    platforms: ['article', 'linkedin'],
-    createdAt: '2024-01-10T08:00:00Z',
-    updatedAt: '2024-01-12T16:00:00Z',
-  },
-];
-
-const mockVersions: Record<string, ContentVersion[]> = {
-  session_1: [
-    {
-      id: 'version_1_article',
-      sessionId: 'session_1',
-      platform: 'article',
-      content: `# The Future of AI in Content Creation
-
-Artificial intelligence is fundamentally transforming how we create, distribute, and consume content. From automated writing assistants to sophisticated image generation, AI tools are becoming indispensable for modern content creators.
-
-## The Rise of AI Writing Tools
-
-Content creators now have access to powerful AI assistants that can help with everything from brainstorming ideas to polishing final drafts. Tools like ChatGPT and Jasper AI have demonstrated that AI can produce high-quality written content at scale.
-
-## Key Benefits for Content Creators
-
-1. **Increased Efficiency** - AI can help you create content 10x faster
-2. **Consistent Quality** - Maintain your brand voice across all content
-3. **Cost Savings** - Reduce the need for large content teams
-
-## Looking Ahead
-
-The future of content creation will be a collaboration between human creativity and AI capabilities. Those who embrace these tools will have a significant competitive advantage.`,
-      metadata: {
-        metaTitle: 'The Future of AI in Content Creation | 2024 Guide',
-        metaDescription: 'Discover how AI is revolutionizing content creation. Learn about the tools, benefits, and strategies for leveraging AI in your content workflow.',
-        focusKeyword: 'AI content creation',
-        wordCount: 180,
-      },
-      status: 'draft',
-    },
-    {
-      id: 'version_1_twitter',
-      sessionId: 'session_1',
-      platform: 'twitter',
-      content: '',
-      metadata: {
-        tweets: [
-          { id: 't1', content: '🚀 AI is revolutionizing content creation. Here\'s what you need to know (thread) 🧵', order: 1 },
-          { id: 't2', content: 'First, the numbers: Content creators using AI tools report 10x faster production times. That\'s not a typo.', order: 2 },
-          { id: 't3', content: 'But it\'s not about replacing humans. It\'s about augmenting creativity. The best content still needs human insight and emotion.', order: 3 },
-          { id: 't4', content: 'Key tools to explore:\n\n• ChatGPT for ideation\n• Jasper for long-form\n• Midjourney for visuals\n\nThe stack matters.', order: 4 },
-          { id: 't5', content: 'My prediction: In 2025, every successful content creator will have AI in their workflow. The question is HOW you use it. 💡', order: 5 },
-        ],
-        hashtags: ['#AI', '#ContentCreation', '#MarketingTips'],
-      },
-      status: 'draft',
-    },
-    {
-      id: 'version_1_linkedin',
-      sessionId: 'session_1',
-      platform: 'linkedin',
-      content: `I've been experimenting with AI content tools for the past 6 months, and here's what I've learned:
-
-The future of content creation isn't AI OR humans. It's AI AND humans.
-
-Here's my workflow:
-1️⃣ Use AI for research and ideation
-2️⃣ Add human insight and experience
-3️⃣ Polish with AI assistance
-4️⃣ Final human review for authenticity
-
-The result? 3x more content, higher engagement, and more time for strategy.
-
-If you're not exploring AI tools yet, you're falling behind.
-
-What's your experience with AI in content creation?
-
-#ContentMarketing #AI #FutureOfWork`,
-      metadata: {
-        hashtags: ['#ContentMarketing', '#AI', '#FutureOfWork'],
-        characterCount: 587,
-      },
-      status: 'draft',
-    },
-  ],
-};
-
+/**
+ * Generate content ideas based on user input
+ * @param type - Input type: 'url', 'topic', 'keywords', or 'feed'
+ * @param input - The input value (string or array of keywords)
+ * @returns Session ID and generated ideas
+ */
 export const generateIdeas = async (
   type: 'url' | 'topic' | 'keywords' | 'feed',
   input: string | string[]
 ): Promise<IdeaResponse> => {
-  await new Promise(resolve => setTimeout(resolve, 1500));
-  
-  const mockIdeas: Idea[] = [
-    {
-      id: '1',
-      title: 'The Future of AI in Content Creation',
-      description: 'Explore how artificial intelligence is revolutionizing the way we create, distribute, and consume content across digital platforms.',
-    },
-    {
-      id: '2',
-      title: 'Maximizing Engagement Through Data-Driven Content',
-      description: 'Learn strategies for using analytics and user behavior data to craft content that resonates with your target audience.',
-    },
-    {
-      id: '3',
-      title: 'Building a Multi-Platform Content Strategy',
-      description: 'Discover how to repurpose and adapt your content for different platforms while maintaining brand consistency.',
-    },
-  ];
+  try {
+    const inputValue = Array.isArray(input) ? input.join(', ') : input;
+    const data = await api.generateIdeas(type, inputValue);
 
-  return {
-    sessionId: `session_${Date.now()}`,
-    ideas: mockIdeas,
-  };
+    return {
+      sessionId: data.sessionId,
+      ideas: data.ideas.map((idea: any) => ({
+        id: idea.id,
+        title: idea.title,
+        description: idea.description,
+      })),
+    };
+  } catch (error) {
+    console.error('Error generating ideas:', error);
+    throw error;
+  }
 };
 
+/**
+ * Generate refinement questions for a selected idea
+ * @param ideaId - The ID of the selected idea
+ * @returns Array of questions to refine the content
+ */
 export const generateQuestions = async (ideaId: string): Promise<Question[]> => {
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  
-  return [
-    { id: 'q1', text: 'What is the primary goal of this content?', required: true },
-    { id: 'q2', text: 'Who is your target audience?', required: true },
-    { id: 'q3', text: 'What key points should be emphasized?', required: true },
-    { id: 'q4', text: 'What tone do you prefer? (Professional, Casual, Educational)', required: true },
-    { id: 'q5', text: 'Any specific examples or case studies to include?', required: false },
-  ];
+  try {
+    const data = await api.generateQuestions(ideaId);
+
+    return data.questions.map((q: any) => ({
+      id: q.id,
+      text: q.questionText,
+      required: true,
+    }));
+  } catch (error) {
+    console.error('Error generating questions:', error);
+    throw error;
+  }
 };
 
+/**
+ * Generate platform-specific content drafts
+ * @param sessionId - The content session ID
+ * @param answers - User's answers to refinement questions
+ * @param platforms - Target platforms for content generation
+ * @returns Generated drafts for each platform
+ */
 export const generateDrafts = async (
   sessionId: string,
   answers: Record<string, string>,
   platforms: string[]
 ): Promise<DraftResponse> => {
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  
-  const drafts: Draft[] = platforms.map(platform => ({
-    id: `draft_${platform}_${Date.now()}`,
-    platform,
-    content: `Generated ${platform} content for session ${sessionId}`,
-    status: 'draft',
-  }));
+  try {
+    // Convert answers object to array format expected by backend
+    const answersArray = Object.entries(answers).map(([questionId, answerText]) => ({
+      questionId,
+      answerText,
+    }));
 
-  return {
-    success: true,
-    drafts,
-  };
+    const data = await api.generateDrafts(sessionId, answersArray, platforms);
+
+    return {
+      success: true,
+      drafts: data.versions.map((version: any) => ({
+        id: version.id,
+        platform: version.platform,
+        content: version.body,
+        status: version.status,
+      })),
+    };
+  } catch (error) {
+    console.error('Error generating drafts:', error);
+    throw error;
+  }
 };
 
+/**
+ * Get all content sessions with optional filtering
+ * @param filters - Optional filters for status, platform, date range, and search
+ * @returns Array of content sessions
+ */
 export const getContentSessions = async (filters?: {
   status?: string;
   platform?: string;
   dateRange?: string;
   search?: string;
 }): Promise<ContentSession[]> => {
-  await new Promise(resolve => setTimeout(resolve, 800));
-  
-  let sessions = [...mockSessions];
-  
-  if (filters?.status && filters.status !== 'all') {
-    sessions = sessions.filter(s => s.status === filters.status);
+  try {
+    const data = await api.getContentSessions({
+      status: filters?.status !== 'all' ? filters?.status : undefined,
+      platform: filters?.platform !== 'all' ? filters?.platform : undefined,
+      search: filters?.search,
+    });
+
+    return data.sessions.map((session: any) => ({
+      id: session.id,
+      title: session.idea?.title || 'Untitled',
+      inputType: session.inputType,
+      inputValue: session.inputValue,
+      status: session.status,
+      currentStep: determineCurrentStep(session.status),
+      selectedIdeaId: session.selectedIdeaId,
+      selectedIdea: session.idea ? {
+        title: session.idea.title,
+        description: session.idea.description,
+      } : undefined,
+      answers: session.answers || {},
+      platforms: session.versions?.map((v: any) => v.platform) || [],
+      createdAt: session.createdAt,
+      updatedAt: session.updatedAt,
+    }));
+  } catch (error) {
+    console.error('Error fetching content sessions:', error);
+    throw error;
   }
-  
-  if (filters?.platform && filters.platform !== 'all') {
-    sessions = sessions.filter(s => s.platforms.includes(filters.platform as Platform));
-  }
-  
-  if (filters?.search) {
-    const search = filters.search.toLowerCase();
-    sessions = sessions.filter(s => s.title.toLowerCase().includes(search));
-  }
-  
-  return sessions;
 };
 
+/**
+ * Helper function to determine current step based on session status
+ */
+const determineCurrentStep = (status: string): number => {
+  switch (status) {
+    case 'IDEAS':
+      return 2;
+    case 'QUESTIONS':
+      return 3;
+    case 'DRAFTS':
+    case 'READY':
+      return 4;
+    default:
+      return 1;
+  }
+};
+
+/**
+ * Get detailed information about a specific content session
+ * @param sessionId - The session ID
+ * @returns Session details with all content versions
+ */
 export const getSessionDetails = async (sessionId: string): Promise<{
   session: ContentSession;
   versions: ContentVersion[];
 } | null> => {
-  await new Promise(resolve => setTimeout(resolve, 500));
-  
-  const session = mockSessions.find(s => s.id === sessionId);
-  if (!session) return null;
-  
-  const versions = mockVersions[sessionId] || [];
-  
-  return { session, versions };
+  try {
+    const data = await api.getSessionDetails(sessionId);
+
+    if (!data || !data.session) {
+      return null;
+    }
+
+    const session: ContentSession = {
+      id: data.session.id,
+      title: data.session.idea?.title || 'Untitled',
+      inputType: data.session.inputType,
+      inputValue: data.session.inputValue,
+      status: data.session.status,
+      currentStep: determineCurrentStep(data.session.status),
+      selectedIdeaId: data.session.selectedIdeaId,
+      selectedIdea: data.session.idea ? {
+        title: data.session.idea.title,
+        description: data.session.idea.description,
+      } : undefined,
+      answers: data.session.answers || {},
+      platforms: data.versions?.map((v: any) => v.platform) || [],
+      createdAt: data.session.createdAt,
+      updatedAt: data.session.updatedAt,
+    };
+
+    const versions: ContentVersion[] = (data.versions || []).map((version: any) => ({
+      id: version.id,
+      sessionId: version.sessionId,
+      platform: version.platform,
+      content: version.body,
+      metadata: version.metadata || {},
+      status: version.status,
+    }));
+
+    return { session, versions };
+  } catch (error) {
+    console.error('Error fetching session details:', error);
+    throw error;
+  }
 };
 
+/**
+ * Update a content version's text and metadata
+ * @param versionId - The version ID to update
+ * @param content - New content text
+ * @param metadata - Optional metadata updates
+ * @returns Updated content version
+ */
 export const updateContentVersion = async (
   versionId: string,
   content: string,
   metadata?: Record<string, unknown>
 ): Promise<ContentVersion> => {
-  await new Promise(resolve => setTimeout(resolve, 500));
-  
-  return {
-    id: versionId,
-    sessionId: 'session_1',
-    platform: 'article',
-    content,
-    metadata: metadata as unknown as ContentVersion['metadata'],
-    status: 'draft',
-  };
+  try {
+    const data = await api.updateContentVersion(versionId, content, metadata);
+
+    return {
+      id: data.id,
+      sessionId: data.sessionId,
+      platform: data.platform,
+      content: data.body,
+      metadata: data.metadata || {},
+      status: data.status,
+    };
+  } catch (error) {
+    console.error('Error updating content version:', error);
+    throw error;
+  }
 };
 
+/**
+ * Delete a content session and all associated versions
+ * @param sessionId - The session ID to delete
+ * @returns Success status
+ */
 export const deleteSession = async (sessionId: string): Promise<boolean> => {
-  await new Promise(resolve => setTimeout(resolve, 500));
-  return true;
+  try {
+    await api.deleteSession(sessionId);
+    return true;
+  } catch (error) {
+    console.error('Error deleting session:', error);
+    throw error;
+  }
 };
 
+/**
+ * Publish content to selected platforms
+ * @param versionId - The content version to publish
+ * @param options - Publishing options including platforms and scheduling
+ * @returns Publishing results
+ */
 export const publishContent = async (
   versionId: string,
   options: PublishOptions
 ): Promise<{ success: boolean; publishedTo: string[] }> => {
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  
-  const publishedTo = options.platforms
-    .filter(p => p.enabled)
-    .map(p => p.platform);
-  
-  return { success: true, publishedTo };
+  try {
+    const integrationIds = options.platforms
+      .filter(p => p.enabled)
+      .map(p => p.integrationId)
+      .filter(Boolean) as string[];
+
+    if (integrationIds.length === 0) {
+      throw new Error('No platforms selected for publishing');
+    }
+
+    const data = await api.publishContent(
+      versionId,
+      integrationIds,
+      options.scheduledFor,
+      options.metadata
+    );
+
+    return {
+      success: true,
+      publishedTo: data.jobs?.map((job: any) => job.integration?.provider) || [],
+    };
+  } catch (error) {
+    console.error('Error publishing content:', error);
+    throw error;
+  }
 };
 
+/**
+ * Regenerate content with different parameters
+ * NOTE: This function requires backend implementation
+ * @param versionId - The version to regenerate
+ * @param options - Regeneration options (action, tone, etc.)
+ * @returns Regenerated content version
+ */
 export const regenerateContent = async (
   versionId: string,
   options: { action: string; tone?: string }
 ): Promise<ContentVersion> => {
-  await new Promise(resolve => setTimeout(resolve, 1500));
-  
-  return {
-    id: versionId,
-    sessionId: 'session_1',
-    platform: 'article',
-    content: 'Regenerated content based on your preferences...',
-    status: 'draft',
-  };
+  // TODO: Implement backend endpoint POST /api/content/regenerate
+  console.warn('regenerateContent: Backend endpoint not yet implemented');
+
+  // Temporary fallback - return current version
+  throw new Error('Content regeneration feature requires backend implementation');
 };
 
+/**
+ * Auto-fix content guardrail violations
+ * NOTE: This function requires backend implementation
+ * @param versionId - The version with violations
+ * @param violationType - Type of violation to fix
+ * @returns Fixed content
+ */
 export const autoFixViolation = async (
   versionId: string,
   violationType: string
 ): Promise<{ fixed: boolean; newContent: string }> => {
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  
-  return {
-    fixed: true,
-    newContent: 'Content with fixed violation...',
-  };
+  // TODO: Implement backend endpoint POST /api/content/auto-fix
+  console.warn('autoFixViolation: Backend endpoint not yet implemented');
+
+  throw new Error('Auto-fix feature requires backend implementation');
 };

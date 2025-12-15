@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 import { api } from '../services/api';
+import { toast } from 'sonner';
+
 
 interface User {
     id: string;
@@ -15,6 +17,8 @@ interface AuthState {
     register: (email: string, password: string) => Promise<void>;
     logout: () => void;
     checkAuth: () => void;
+    oauthLogin: (provider: 'google' | 'github') => Promise<void>;
+    setAuthFromToken: (token: string) => void;
 }
 
 export const useAuth = create<AuthState>((set) => ({
@@ -64,4 +68,29 @@ export const useAuth = create<AuthState>((set) => ({
             });
         }
     },
+
+    oauthLogin: async (provider: 'google' | 'github') => {
+        try {
+            window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:4000'}/auth/${provider}`;
+        } catch (error) {
+            toast.error('Failed to initiate OAuth login');
+        }
+    },
+
+    setAuthFromToken: (token: string) => {
+        localStorage.setItem('token',token);
+
+        try{
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            set({
+                user:{
+                    id: payload.userId, email: payload.email,
+                },
+                token,
+                isAuthenticated: true,
+            })
+        }catch(error) {
+            console.error('Failed to parse token:', error);
+        }
+    }
 }));

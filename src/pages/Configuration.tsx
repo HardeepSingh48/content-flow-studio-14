@@ -5,6 +5,8 @@ import { toast } from 'sonner';
 import { TabNavigation } from '@/components/dashboard/TabNavigation';
 import { ConfigCard } from '@/components/dashboard/ConfigCard';
 import { IntegrationProvider } from '@/types/integrations';
+import { useIntegrations } from '@/hooks/useIntegrations';
+import { api } from '@/services/api';
 
 const tabs = [
   { id: 'ai', label: 'AI Models', icon: <Bot className="h-4 w-4" /> },
@@ -12,51 +14,112 @@ const tabs = [
   { id: 'video', label: 'Video Platforms', icon: <Video className="h-4 w-4" /> },
 ];
 
-// Store configs in React state (will connect to backend later)
-interface ConfigState {
-  [key: string]: {
-    isConnected: boolean;
-    credentials: Record<string, string>;
-  };
-}
-
 const Configuration = () => {
   const [activeTab, setActiveTab] = useState('ai');
-  const [configs, setConfigs] = useState<ConfigState>({});
+  const { integrations, isLoading, createIntegration, deleteIntegration } = useIntegrations();
+
+  // Helper function to check if an integration exists
+  const isConnected = (provider: string) => {
+    return integrations.some((i: any) => i.provider === provider.toUpperCase());
+  };
+
+  // Helper function to get integration ID
+  const getIntegrationId = (provider: string) => {
+    const integration = integrations.find((i: any) => i.provider === provider.toUpperCase());
+    return integration?.id;
+  };
 
   const handleSave = async (provider: IntegrationProvider, values: Record<string, string>) => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    setConfigs((prev) => ({
-      ...prev,
-      [provider]: {
-        isConnected: true,
-        credentials: values,
-      },
-    }));
+    try {
+      // Map frontend provider names to backend enum values
+      const providerMap: Record<string, string> = {
+        'gemini': 'GEMINI',
+        'openai': 'OPENAI',
+        'twitter': 'TWITTER',
+        'linkedin': 'LINKEDIN',
+        'wordpress': 'WORDPRESS',
+        'heygen': 'HEYGEN',
+        'elevenlabs': 'ELEVENLABS',
+      };
 
-    toast.success(`${provider} configuration saved successfully!`);
+      const backendProvider = providerMap[provider.toLowerCase()] || provider.toUpperCase();
+
+      // Check if already connected - if so, user needs to delete and re-add
+      if (isConnected(provider)) {
+        toast.error(`${provider} is already connected. Delete the existing integration first to update credentials.`);
+        return;
+      }
+
+      // Prepare credentials based on provider
+      const credentials: Record<string, any> = {};
+      const metadata: Record<string, any> = {};
+
+      // Separate credentials from metadata
+      for (const [key, value] of Object.entries(values)) {
+        if (key === 'model' || key === 'voiceId') {
+          metadata[key] = value;
+        } else {
+          credentials[key] = value;
+        }
+      }
+
+      await createIntegration({
+        provider: backendProvider,
+        credentials,
+        metadata: Object.keys(metadata).length > 0 ? metadata : undefined,
+      });
+    } catch (error: any) {
+      console.error('Error saving integration:', error);
+      // Error toast is handled by the mutation
+    }
   };
 
   const handleTest = async (provider: IntegrationProvider): Promise<boolean> => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    const success = Math.random() > 0.3; // 70% success rate for demo
-    
-    if (success) {
-      toast.success(`${provider} connection test successful!`);
-    } else {
+    try {
+      const integrationId = getIntegrationId(provider);
+
+      if (!integrationId) {
+        toast.error('Please save the integration first before testing');
+        return false;
+      }
+
+      const result = await api.testIntegration(provider.toUpperCase(), {});
+
+      if (result.success) {
+        toast.success(`${provider} connection test successful!`);
+        return true;
+      } else {
+        toast.error(`${provider} connection test failed: ${result.message || 'Unknown error'}`);
+        return false;
+      }
+    } catch (error: any) {
+      console.error('Test error:', error);
       toast.error(`${provider} connection test failed. Please check your credentials.`);
+      return false;
     }
-    
-    return success;
   };
 
   const handleOAuthConnect = (provider: IntegrationProvider) => {
-    toast.info(`OAuth flow for ${provider} would start here`);
+    toast.info(`OAuth flow for ${provider} is not yet implemented. Please use API credentials instead.`);
   };
+
+  const handleDisconnect = async (provider: IntegrationProvider) => {
+    const integrationId = getIntegrationId(provider);
+    if (integrationId) {
+      await deleteIntegration(integrationId);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">Configuration</h1>
+          <p className="text-muted-foreground mt-1">Loading integrations...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -89,7 +152,7 @@ const Configuration = () => {
           <ConfigCard
             title="Gemini AI"
             icon="✨"
-            isConnected={configs.gemini?.isConnected}
+            isConnected={isConnected('gemini')}
             fields={[
               {
                 name: 'apiKey',
@@ -100,12 +163,13 @@ const Configuration = () => {
               },
             ]}
             onSave={(values) => handleSave('gemini', values)}
+            onDisconnect={() => handleDisconnect('gemini')}
           />
 
           <ConfigCard
             title="OpenAI"
             icon="🤖"
-            isConnected={configs.openai?.isConnected}
+            isConnected={isConnected('openai')}
             fields={[
               {
                 name: 'apiKey',
@@ -126,6 +190,7 @@ const Configuration = () => {
               },
             ]}
             onSave={(values) => handleSave('openai', values)}
+            onDisconnect={() => handleDisconnect('openai')}
           />
         </motion.div>
       )}
@@ -141,18 +206,18 @@ const Configuration = () => {
           <ConfigCard
             title="Twitter / X"
             icon="𝕏"
-            isConnected={configs.twitter?.isConnected}
+            isConnected={isConnected('twitter')}
             fields={[
               {
-                name: 'apiKey',
-                label: 'API Key',
+                name: 'consumerKey',
+                label: 'API Key (Consumer Key)',
                 type: 'password',
                 placeholder: 'Enter API Key',
                 required: true,
               },
               {
-                name: 'apiSecret',
-                label: 'API Secret',
+                name: 'consumerSecret',
+                label: 'API Secret (Consumer Secret)',
                 type: 'password',
                 placeholder: 'Enter API Secret',
                 required: true,
@@ -165,7 +230,7 @@ const Configuration = () => {
                 required: true,
               },
               {
-                name: 'accessSecret',
+                name: 'accessTokenSecret',
                 label: 'Access Token Secret',
                 type: 'password',
                 placeholder: 'Enter Access Token Secret',
@@ -174,22 +239,38 @@ const Configuration = () => {
             ]}
             onSave={(values) => handleSave('twitter', values)}
             onTest={() => handleTest('twitter')}
+            onDisconnect={() => handleDisconnect('twitter')}
           />
 
           <ConfigCard
             title="LinkedIn"
             icon="💼"
-            isConnected={configs.linkedin?.isConnected}
-            fields={[]}
-            showOAuth
-            onOAuthConnect={() => handleOAuthConnect('linkedin')}
-            onSave={async () => {}}
+            isConnected={isConnected('linkedin')}
+            fields={[
+              {
+                name: 'accessToken',
+                label: 'Access Token',
+                type: 'password',
+                placeholder: 'Enter LinkedIn Access Token',
+                required: true,
+              },
+              {
+                name: 'personId',
+                label: 'Person/Organization ID',
+                type: 'text',
+                placeholder: 'Enter Person or Organization ID',
+                required: true,
+              },
+            ]}
+            onSave={(values) => handleSave('linkedin', values)}
+            onTest={() => handleTest('linkedin')}
+            onDisconnect={() => handleDisconnect('linkedin')}
           />
 
           <ConfigCard
             title="WordPress"
             icon="🌐"
-            isConnected={configs.wordpress?.isConnected}
+            isConnected={isConnected('wordpress')}
             fields={[
               {
                 name: 'siteUrl',
@@ -215,6 +296,7 @@ const Configuration = () => {
             ]}
             onSave={(values) => handleSave('wordpress', values)}
             onTest={() => handleTest('wordpress')}
+            onDisconnect={() => handleDisconnect('wordpress')}
           />
         </motion.div>
       )}
@@ -230,7 +312,7 @@ const Configuration = () => {
           <ConfigCard
             title="HeyGen"
             icon="🎬"
-            isConnected={configs.heygen?.isConnected}
+            isConnected={isConnected('heygen')}
             fields={[
               {
                 name: 'apiKey',
@@ -241,12 +323,13 @@ const Configuration = () => {
               },
             ]}
             onSave={(values) => handleSave('heygen', values)}
+            onDisconnect={() => handleDisconnect('heygen')}
           />
 
           <ConfigCard
             title="ElevenLabs"
             icon="🎙️"
-            isConnected={configs.elevenlabs?.isConnected}
+            isConnected={isConnected('elevenlabs')}
             fields={[
               {
                 name: 'apiKey',
@@ -268,6 +351,7 @@ const Configuration = () => {
               },
             ]}
             onSave={(values) => handleSave('elevenlabs', values)}
+            onDisconnect={() => handleDisconnect('elevenlabs')}
           />
         </motion.div>
       )}

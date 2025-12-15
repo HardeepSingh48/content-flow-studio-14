@@ -22,6 +22,7 @@ interface ConfigCardProps {
   isConnected?: boolean;
   onSave: (values: Record<string, string>) => Promise<void>;
   onTest?: () => Promise<boolean>;
+  onDisconnect?: () => Promise<void>;
   showOAuth?: boolean;
   onOAuthConnect?: () => void;
 }
@@ -33,6 +34,7 @@ export const ConfigCard = ({
   isConnected = false,
   onSave,
   onTest,
+  onDisconnect,
   showOAuth,
   onOAuthConnect,
 }: ConfigCardProps) => {
@@ -40,6 +42,7 @@ export const ConfigCard = ({
   const [showPasswords, setShowPasswords] = useState<Record<string, boolean>>({});
   const [isSaving, setIsSaving] = useState(false);
   const [isTesting, setIsTesting] = useState(false);
+  const [isDisconnecting, setIsDisconnecting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleChange = (name: string, value: string) => {
@@ -84,6 +87,16 @@ export const ConfigCard = ({
     }
   };
 
+  const handleDisconnect = async () => {
+    if (!onDisconnect) return;
+    setIsDisconnecting(true);
+    try {
+      await onDisconnect();
+    } finally {
+      setIsDisconnecting(false);
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -96,9 +109,29 @@ export const ConfigCard = ({
           <h3 className="text-lg font-semibold text-foreground">{title}</h3>
         </div>
         {isConnected && (
-          <div className="flex items-center gap-2 text-green-400 text-sm">
-            <Check className="h-4 w-4" />
-            Connected
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 text-green-400 text-sm">
+              <Check className="h-4 w-4" />
+              Connected
+            </div>
+            {onDisconnect && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleDisconnect}
+                disabled={isDisconnecting}
+                className="text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground"
+              >
+                {isDisconnecting ? (
+                  <>
+                    <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                    Disconnecting...
+                  </>
+                ) : (
+                  'Disconnect'
+                )}
+              </Button>
+            )}
           </div>
         )}
       </div>

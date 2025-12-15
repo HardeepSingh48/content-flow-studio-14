@@ -17,6 +17,7 @@ import Analytics from "./pages/Analytics";
 import Queue from "./pages/Queue";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
+import OAuthCallback from "./pages/OAuthCallback";
 
 const queryClient = new QueryClient();
 
@@ -30,7 +31,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-          
+          <Route path="/auth/callback" element={<OAuthCallback />} />
+
           {/* Protected Dashboard Routes */}
           <Route
             path="/dashboard"

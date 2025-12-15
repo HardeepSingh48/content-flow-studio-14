@@ -79,9 +79,12 @@ export interface PublishOptions {
   platforms: {
     platform: string;
     enabled: boolean;
+    integrationId?: string;
     options?: Record<string, string>;
   }[];
   schedule: 'now' | 'later';
   scheduledAt?: string;
+  scheduledFor?: string;
   wordpressStatus?: 'publish' | 'draft';
+  metadata?: Record<string, unknown>;
 }
