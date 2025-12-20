@@ -1,0 +1,14 @@
+node_modules
+dist
+.env
+.env.local
+.git
+.gitignore
+*.md
+.vscode
+.idea
+coverage
+*.log
+.DS_Store
+bun.lockb
+package-lock.json
