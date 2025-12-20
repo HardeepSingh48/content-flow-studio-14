@@ -1,6 +1,28 @@
 import { ContentSession, ContentVersion, Platform, PublishOptions } from '@/types/content';
 import { api } from './api';
 
+/**
+ * Normalize platform names from backend to frontend format
+ * Backend: ARTICLE, TWITTER, LINKEDIN, REEL_SCRIPT, YT_SCRIPT, PODCAST_SCRIPT
+ * Frontend: article, twitter, linkedin, reel
+ */
+const normalizePlatform = (platform: string): Platform => {
+  const normalized = platform.toLowerCase();
+
+  // Map backend platform names to frontend platform keys
+  const platformMap: Record<string, Platform> = {
+    'article': 'article',
+    'twitter': 'twitter',
+    'linkedin': 'linkedin',
+    'reel_script': 'reel',
+    'reel': 'reel',
+    'yt_script': 'reel', // Map YouTube to reel for now
+    'podcast_script': 'reel', // Map podcast to reel for now
+  };
+
+  return platformMap[normalized] || 'article';
+};
+
 export interface IdeaResponse {
   sessionId: string;
   ideas: Idea[];
@@ -101,7 +123,7 @@ export const generateDrafts = async (
 
     return {
       success: true,
-      drafts: data.versions.map((version: any) => ({
+      drafts: data.contentVersions.map((version: any) => ({
         id: version.id,
         platform: version.platform,
         content: version.body,
@@ -134,7 +156,7 @@ export const getContentSessions = async (filters?: {
 
     return data.sessions.map((session: any) => ({
       id: session.id,
-      title: session.idea?.title || 'Untitled',
+      title: session.title || 'Untitled',
       inputType: session.inputType,
       inputValue: session.inputValue,
       status: session.status,
@@ -145,7 +167,7 @@ export const getContentSessions = async (filters?: {
         description: session.idea.description,
       } : undefined,
       answers: session.answers || {},
-      platforms: session.versions?.map((v: any) => v.platform) || [],
+      platforms: session.versions?.map((v: any) => normalizePlatform(v.platform)) || [],
       createdAt: session.createdAt,
       updatedAt: session.updatedAt,
     }));
@@ -159,14 +181,19 @@ export const getContentSessions = async (filters?: {
  * Helper function to determine current step based on session status
  */
 const determineCurrentStep = (status: string): number => {
-  switch (status) {
+  switch (status.toUpperCase()) {
+    case 'IDEA':
     case 'IDEAS':
       return 2;
+    case 'QNA':
     case 'QUESTIONS':
       return 3;
+    case 'DRAFT':
     case 'DRAFTS':
     case 'READY':
       return 4;
+    case 'PUBLISHED':
+      return 5;
     default:
       return 1;
   }
@@ -184,35 +211,41 @@ export const getSessionDetails = async (sessionId: string): Promise<{
   try {
     const data = await api.getSessionDetails(sessionId);
 
-    if (!data || !data.session) {
+    if (!data) {
       return null;
     }
 
+    // Handle both nested and flat response structures
+    const sessionData = data.session || data;
+    const versionsData = data.contentVersions || sessionData.contentVersions || [];
+
     const session: ContentSession = {
-      id: data.session.id,
-      title: data.session.idea?.title || 'Untitled',
-      inputType: data.session.inputType,
-      inputValue: data.session.inputValue,
-      status: data.session.status,
-      currentStep: determineCurrentStep(data.session.status),
-      selectedIdeaId: data.session.selectedIdeaId,
-      selectedIdea: data.session.idea ? {
-        title: data.session.idea.title,
-        description: data.session.idea.description,
+      id: sessionData.id,
+      title: sessionData.title || 'Untitled',
+      inputType: sessionData.inputType,
+      inputValue: sessionData.inputValue || sessionData.inputPayload?.input,
+      status: sessionData.status,
+      currentStep: determineCurrentStep(sessionData.status),
+      selectedIdeaId: sessionData.selectedIdeaId || sessionData.selectedIdea?.id,
+      selectedIdea: sessionData.selectedIdea ? {
+        title: sessionData.selectedIdea.title,
+        description: sessionData.selectedIdea.description,
       } : undefined,
-      answers: data.session.answers || {},
-      platforms: data.versions?.map((v: any) => v.platform) || [],
-      createdAt: data.session.createdAt,
-      updatedAt: data.session.updatedAt,
+      answers: sessionData.answers || {},
+      platforms: versionsData.map((v: any) => normalizePlatform(v.platform)),
+      createdAt: sessionData.createdAt,
+      updatedAt: sessionData.updatedAt,
     };
 
-    const versions: ContentVersion[] = (data.versions || []).map((version: any) => ({
+    const versions: ContentVersion[] = versionsData.map((version: any) => ({
       id: version.id,
-      sessionId: version.sessionId,
-      platform: version.platform,
+      sessionId: version.sessionId || sessionId,
+      platform: normalizePlatform(version.platform),
       content: version.body,
       metadata: version.metadata || {},
       status: version.status,
+      createdAt: version.createdAt,
+      updatedAt: version.updatedAt,
     }));
 
     return { session, versions };
@@ -262,6 +295,31 @@ export const deleteSession = async (sessionId: string): Promise<boolean> => {
     return true;
   } catch (error) {
     console.error('Error deleting session:', error);
+    throw error;
+  }
+};
+
+/**
+ * Get content versions (drafts) for a specific session
+ * @param sessionId - The session ID
+ * @returns Array of content versions
+ */
+export const getSessionDrafts = async (sessionId: string): Promise<ContentVersion[]> => {
+  try {
+    const data = await api.getSessionDrafts(sessionId);
+
+    return data.drafts.map((draft: any) => ({
+      id: draft.id,
+      sessionId: sessionId,
+      platform: normalizePlatform(draft.platform),
+      content: draft.body,
+      metadata: draft.metadata || {},
+      status: draft.status,
+      createdAt: draft.createdAt,
+      updatedAt: draft.updatedAt,
+    }));
+  } catch (error) {
+    console.error('Error fetching session drafts:', error);
     throw error;
   }
 };

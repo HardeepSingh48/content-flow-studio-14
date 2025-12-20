@@ -1,11 +1,27 @@
 import { Platform, Tweet } from '@/types/content';
 import { Twitter, Linkedin, FileText, Video, Heart, MessageCircle, Repeat2, Share } from 'lucide-react';
+import { marked } from 'marked';
+import { useEffect, useState } from 'react';
 
 interface PreviewPanelProps {
   platform: Platform;
   content: string;
   metadata?: Record<string, unknown>;
 }
+
+/**
+ * Detect if content is markdown
+ */
+const isMarkdown = (content: string): boolean => {
+  const markdownPatterns = [
+    /^#{1,6}\s/m,
+    /\*\*[^*]+\*\*/,
+    /\*[^*]+\*/,
+    /^\* /m,
+    /^\d+\.\s/m,
+  ];
+  return markdownPatterns.some(pattern => pattern.test(content));
+};
 
 const PreviewPanel = ({ platform, content, metadata }: PreviewPanelProps) => {
   switch (platform) {
@@ -103,6 +119,17 @@ const LinkedInPreview = ({ content }: { content: string }) => {
 };
 
 const ArticlePreview = ({ content, metadata }: { content: string; metadata?: Record<string, unknown> }) => {
+  const [htmlContent, setHtmlContent] = useState(content);
+
+  useEffect(() => {
+    if (isMarkdown(content)) {
+      const html = marked.parse(content) as string;
+      setHtmlContent(html);
+    } else {
+      setHtmlContent(content);
+    }
+  }, [content]);
+
   return (
     <div>
       <h4 className="text-sm font-medium text-muted-foreground mb-3">Article Preview</h4>
@@ -112,9 +139,9 @@ const ArticlePreview = ({ content, metadata }: { content: string; metadata?: Rec
             {metadata.metaTitle as string}
           </h1>
         )}
-        <div 
+        <div
           className="text-foreground/90"
-          dangerouslySetInnerHTML={{ __html: content }}
+          dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
       </div>
     </div>
@@ -138,7 +165,7 @@ const ReelPreview = ({ metadata }: { metadata?: Record<string, unknown> }) => {
             Total: {Math.floor(totalDuration / 60)}:{(totalDuration % 60).toString().padStart(2, '0')}
           </span>
         </div>
-        
+
         <div className="space-y-2">
           {scenes.map((scene, index) => (
             <div

@@ -4,12 +4,41 @@ import { Bold, Italic, Heading1, Heading2, Heading3, List, ListOrdered } from 'l
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useEffect } from 'react';
+import { marked } from 'marked';
 
 interface RichTextEditorProps {
   content: string;
   onChange: (content: string) => void;
   placeholder?: string;
 }
+
+/**
+ * Detect if content is markdown by checking for common markdown syntax
+ */
+const isMarkdown = (content: string): boolean => {
+  const markdownPatterns = [
+    /^#{1,6}\s/m,  // Headers (# ## ###)
+    /\*\*[^*]+\*\*/,  // Bold
+    /\*[^*]+\*/,  // Italic
+    /^\* /m,  // Bullet lists
+    /^\d+\.\s/m,  // Numbered lists
+  ];
+
+  return markdownPatterns.some(pattern => pattern.test(content));
+};
+
+/**
+ * Convert markdown to HTML
+ */
+const markdownToHtml = (markdown: string): string => {
+  try {
+    const html = marked.parse(markdown) as string;
+    return html;
+  } catch (error) {
+    console.error('Error converting markdown:', error);
+    return markdown;
+  }
+};
 
 const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps) => {
   const editor = useEditor({
@@ -26,8 +55,14 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
   });
 
   useEffect(() => {
-    if (editor && content !== editor.getHTML()) {
-      editor.commands.setContent(content);
+    if (editor && content && content !== editor.getHTML()) {
+      // Check if content is markdown and convert if needed
+      if (isMarkdown(content)) {
+        const html = markdownToHtml(content);
+        editor.commands.setContent(html);
+      } else {
+        editor.commands.setContent(content);
+      }
     }
   }, [content, editor]);
 
@@ -56,7 +91,7 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
     </Button>
   );
 
-  const wordCount = editor.storage.characterCount?.words?.() || 
+  const wordCount = editor.storage.characterCount?.words?.() ||
     editor.getText().split(/\s+/).filter(Boolean).length;
   const charCount = editor.getText().length;
 
@@ -107,13 +142,13 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
         >
           <ListOrdered className="w-4 h-4" />
         </ToolbarButton>
-        
+
         <div className="ml-auto flex items-center gap-3 text-xs text-muted-foreground">
           <span>{wordCount} words</span>
           <span>{charCount} chars</span>
         </div>
       </div>
-      
+
       <EditorContent editor={editor} />
     </div>
   );

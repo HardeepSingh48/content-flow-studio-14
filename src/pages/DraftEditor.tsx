@@ -30,7 +30,7 @@ const DraftEditor = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [publishModalOpen, setPublishModalOpen] = useState(false);
-  
+
   const {
     currentSession,
     contentVersions,
@@ -54,15 +54,38 @@ const DraftEditor = () => {
     if (!sessionId) return;
     setIsLoading(true);
     try {
+      console.log('=== DraftEditor Debug ===');
+      console.log('1. SessionId from URL:', sessionId);
+
       const data = await getSessionDetails(sessionId);
+      console.log('2. API Response:', data);
+
       if (data) {
+        console.log('3. Session data:', data.session);
+        console.log('4. Versions count:', data.versions?.length);
+        console.log('5. Versions:', data.versions);
+
         setCurrentSession(data.session);
-        data.versions.forEach(v => setContentVersion(v.platform, v));
+
+        // Set content versions
+        data.versions.forEach((v, index) => {
+          console.log(`6.${index} Setting version for platform:`, v.platform, 'Data:', v);
+          setContentVersion(v.platform, v);
+        });
+
         if (data.versions.length > 0) {
-          setActivePlatform(data.versions[0].platform);
+          const firstPlatform = data.versions[0].platform;
+          console.log('7. Setting active platform:', firstPlatform);
+          setActivePlatform(firstPlatform);
         }
+
+        console.log('8. Data loading complete');
+      } else {
+        console.error('No data returned from getSessionDetails');
+        toast.error('Session not found');
       }
     } catch (error) {
+      console.error('Error loading session:', error);
       toast.error('Failed to load session');
     } finally {
       setIsLoading(false);
@@ -72,7 +95,7 @@ const DraftEditor = () => {
   const debouncedSave = useDebouncedCallback(async () => {
     const version = contentVersions[activePlatform];
     if (!version) return;
-    
+
     setIsSaving(true);
     try {
       await updateContentVersion(version.id, version.content);
@@ -91,7 +114,7 @@ const DraftEditor = () => {
   const handleRegenerate = async (action: string, tone?: string) => {
     const version = contentVersions[activePlatform];
     if (!version) return;
-    
+
     setIsSaving(true);
     try {
       const result = await regenerateContent(version.id, { action, tone });
@@ -107,7 +130,7 @@ const DraftEditor = () => {
   const handleAutoFix = async (violationId: string) => {
     const version = contentVersions[activePlatform];
     if (!version) return;
-    
+
     try {
       const result = await autoFixViolation(version.id, violationId);
       if (result.fixed) {
@@ -126,10 +149,45 @@ const DraftEditor = () => {
   const currentVersion = contentVersions[activePlatform];
   const availablePlatforms = currentSession?.platforms || [];
 
+  // Debug current state
+  console.log('=== Render State ===');
+  console.log('isLoading:', isLoading);
+  console.log('currentSession:', currentSession);
+  console.log('availablePlatforms:', availablePlatforms);
+  console.log('activePlatform:', activePlatform);
+  console.log('currentVersion:', currentVersion);
+  console.log('contentVersions:', contentVersions);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  // Add null check for session
+  if (!currentSession) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+        <h2 className="text-xl font-bold">Session not found</h2>
+        <p className="text-muted-foreground">The requested session could not be loaded.</p>
+        <Button onClick={() => navigate('/dashboard/history')}>
+          Back to History
+        </Button>
+      </div>
+    );
+  }
+
+  // Add check for empty platforms
+  if (availablePlatforms.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+        <h2 className="text-xl font-bold">{currentSession.title}</h2>
+        <p className="text-muted-foreground">No content versions available yet.</p>
+        <Button onClick={() => navigate('/dashboard/history')}>
+          Back to History
+        </Button>
       </div>
     );
   }
@@ -191,21 +249,38 @@ const DraftEditor = () => {
               onChange={(content) => updateVersionContent('article', content)}
             />
           )}
-          
-          {activePlatform === 'twitter' && currentVersion?.metadata && (
-            <TweetThreadEditor
-              tweets={(currentVersion.metadata as { tweets: Tweet[] }).tweets || []}
-              onChange={(tweets) => {
-                setContentVersion('twitter', {
-                  ...currentVersion,
-                  metadata: { ...currentVersion.metadata, tweets } as ContentVersion['metadata'],
-                });
-                setUnsavedChanges(true);
-              }}
-              hashtags={(currentVersion.metadata as { hashtags: string[] }).hashtags || []}
-            />
+
+
+          {activePlatform === 'twitter' && currentVersion && (
+            <>
+              {currentVersion.metadata && (currentVersion.metadata as any).tweets ? (
+                <TweetThreadEditor
+                  tweets={(currentVersion.metadata as { tweets: Tweet[] }).tweets || []}
+                  onChange={(tweets) => {
+                    setContentVersion('twitter', {
+                      ...currentVersion,
+                      metadata: { ...currentVersion.metadata, tweets } as ContentVersion['metadata'],
+                    });
+                    setUnsavedChanges(true);
+                  }}
+                  hashtags={(currentVersion.metadata as { hashtags: string[] }).hashtags || []}
+                />
+              ) : (
+                <div className="space-y-4">
+                  <Textarea
+                    value={currentVersion.content}
+                    onChange={(e) => updateVersionContent('twitter', e.target.value)}
+                    className="min-h-[300px]"
+                    maxLength={280}
+                  />
+                  <div className="text-sm text-muted-foreground text-right">
+                    {currentVersion.content.length}/280
+                  </div>
+                </div>
+              )}
+            </>
           )}
-          
+
           {activePlatform === 'linkedin' && currentVersion && (
             <div className="space-y-4">
               <Textarea
@@ -219,55 +294,71 @@ const DraftEditor = () => {
               </div>
             </div>
           )}
-          
-          {activePlatform === 'reel' && currentVersion?.metadata && (
-            <div className="space-y-4">
-              {((currentVersion.metadata as { scenes: Scene[] }).scenes || []).map((scene, idx) => (
-                <SceneCard
-                  key={scene.id}
-                  scene={scene}
-                  onChange={(updated) => {
-                    const scenes = [...(currentVersion.metadata as { scenes: Scene[] }).scenes];
-                    scenes[idx] = updated;
-                    setContentVersion('reel', {
-                      ...currentVersion,
-                      metadata: { ...currentVersion.metadata, scenes } as ContentVersion['metadata'],
-                    });
-                    setUnsavedChanges(true);
-                  }}
-                  onDelete={() => {
-                    const scenes = (currentVersion.metadata as { scenes: Scene[] }).scenes.filter((_, i) => i !== idx);
-                    setContentVersion('reel', {
-                      ...currentVersion,
-                      metadata: { ...currentVersion.metadata, scenes } as ContentVersion['metadata'],
-                    });
-                    setUnsavedChanges(true);
-                  }}
-                  canDelete={(currentVersion.metadata as { scenes: Scene[] }).scenes.length > 1}
-                />
-              ))}
-              <Button
-                variant="outline"
-                className="w-full"
-                onClick={() => {
-                  const scenes = (currentVersion.metadata as { scenes: Scene[] }).scenes || [];
-                  const newScene: Scene = {
-                    id: `scene_${Date.now()}`,
-                    sceneNumber: scenes.length + 1,
-                    duration: 5,
-                    script: '',
-                    visualNotes: '',
-                  };
-                  setContentVersion('reel', {
-                    ...currentVersion,
-                    metadata: { ...currentVersion.metadata, scenes: [...scenes, newScene] } as ContentVersion['metadata'],
-                  });
-                  setUnsavedChanges(true);
-                }}
-              >
-                Add Scene
-              </Button>
-            </div>
+
+          {activePlatform === 'reel' && currentVersion && (
+            <>
+              {currentVersion.metadata && (currentVersion.metadata as any).scenes ? (
+                <div className="space-y-4">
+                  {((currentVersion.metadata as { scenes: Scene[] }).scenes || []).map((scene, idx) => (
+                    <SceneCard
+                      key={scene.id}
+                      scene={scene}
+                      onChange={(updated) => {
+                        const scenes = [...(currentVersion.metadata as { scenes: Scene[] }).scenes];
+                        scenes[idx] = updated;
+                        setContentVersion('reel', {
+                          ...currentVersion,
+                          metadata: { ...currentVersion.metadata, scenes } as ContentVersion['metadata'],
+                        });
+                        setUnsavedChanges(true);
+                      }}
+                      onDelete={() => {
+                        const scenes = (currentVersion.metadata as { scenes: Scene[] }).scenes.filter((_, i) => i !== idx);
+                        setContentVersion('reel', {
+                          ...currentVersion,
+                          metadata: { ...currentVersion.metadata, scenes } as ContentVersion['metadata'],
+                        });
+                        setUnsavedChanges(true);
+                      }}
+                      canDelete={(currentVersion.metadata as { scenes: Scene[] }).scenes.length > 1}
+                    />
+                  ))}
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => {
+                      const scenes = (currentVersion.metadata as { scenes: Scene[] }).scenes || [];
+                      const newScene: Scene = {
+                        id: `scene_${Date.now()}`,
+                        sceneNumber: scenes.length + 1,
+                        duration: 5,
+                        script: '',
+                        visualNotes: '',
+                      };
+                      setContentVersion('reel', {
+                        ...currentVersion,
+                        metadata: { ...currentVersion.metadata, scenes: [...scenes, newScene] } as ContentVersion['metadata'],
+                      });
+                      setUnsavedChanges(true);
+                    }}
+                  >
+                    Add Scene
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <Textarea
+                    value={currentVersion.content}
+                    onChange={(e) => updateVersionContent('reel', e.target.value)}
+                    className="min-h-[300px]"
+                    placeholder="Reel script content..."
+                  />
+                  <div className="text-sm text-muted-foreground text-right">
+                    {currentVersion.content.length} characters
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
 
@@ -280,12 +371,12 @@ const DraftEditor = () => {
               metadata={currentVersion.metadata as unknown as Record<string, unknown>}
             />
           )}
-          
+
           <GuardrailChecker
             violations={guardrailViolations[activePlatform]}
             onAutoFix={handleAutoFix}
           />
-          
+
           {/* AI Assistant */}
           <div className="bg-card border border-border rounded-lg p-4">
             <h3 className="font-medium text-foreground mb-3">AI Assistant</h3>

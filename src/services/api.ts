@@ -113,6 +113,11 @@ class ApiService {
     return data;
   }
 
+  async getSessionDrafts(sessionId: string) {
+    const { data } = await this.client.get(`/content/sessions/${sessionId}/drafts`);
+    return data;
+  }
+
   async updateContentVersion(versionId: string, body: string, metadata?: any) {
     const { data } = await this.client.patch(`/content/versions/${versionId}`, {
       body,

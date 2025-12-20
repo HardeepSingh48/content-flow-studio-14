@@ -71,25 +71,27 @@ export const useAuth = create<AuthState>((set) => ({
 
     oauthLogin: async (provider: 'google' | 'github') => {
         try {
-            window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:4000'}/auth/${provider}`;
+            // OAuth routes are mounted at /auth, not /api/auth
+            const baseUrl = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:4000';
+            window.location.href = `${baseUrl}/auth/${provider}`;
         } catch (error) {
             toast.error('Failed to initiate OAuth login');
         }
     },
 
     setAuthFromToken: (token: string) => {
-        localStorage.setItem('token',token);
+        localStorage.setItem('token', token);
 
-        try{
+        try {
             const payload = JSON.parse(atob(token.split('.')[1]));
             set({
-                user:{
+                user: {
                     id: payload.userId, email: payload.email,
                 },
                 token,
                 isAuthenticated: true,
             })
-        }catch(error) {
+        } catch (error) {
             console.error('Failed to parse token:', error);
         }
     }

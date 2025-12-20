@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import TimelineIndicator from './TimelineIndicator';
 import { ContentSession } from '@/types/content';
 import { formatDistanceToNow } from 'date-fns';
+import { FileText } from 'lucide-react';
 
 interface ContentSessionCardProps {
   session: ContentSession;
@@ -35,9 +36,10 @@ const ContentSessionCard = ({
   onViewDrafts,
 }: ContentSessionCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  
-  const InputIcon = inputTypeIcons[session.inputType];
-  const isComplete = session.status === 'published' || session.status === 'ready';
+
+  const InputIcon = inputTypeIcons[session.inputType] ?? FileText;
+  const statusLower = session.status.toLowerCase();
+  const isComplete = statusLower === 'draft' || statusLower === 'drafts' || statusLower === 'ready' || statusLower === 'published';
 
   return (
     <motion.div
@@ -61,7 +63,7 @@ const ContentSessionCard = ({
                 </Badge>
               )}
             </div>
-            
+
             <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
               <span>
                 Updated {formatDistanceToNow(new Date(session.updatedAt), { addSuffix: true })}
@@ -72,10 +74,10 @@ const ContentSessionCard = ({
                 </span>
               )}
             </div>
-            
+
             <TimelineIndicator currentStep={session.currentStep} status={session.status} />
           </div>
-          
+
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
@@ -94,7 +96,7 @@ const ContentSessionCard = ({
                 </>
               )}
             </Button>
-            
+
             {!isComplete && (
               <Button
                 size="sm"
@@ -104,7 +106,7 @@ const ContentSessionCard = ({
                 Continue
               </Button>
             )}
-            
+
             {isComplete && (
               <Button
                 size="sm"
@@ -114,7 +116,7 @@ const ContentSessionCard = ({
                 View Drafts
               </Button>
             )}
-            
+
             <Button
               variant="ghost"
               size="icon"
@@ -126,7 +128,7 @@ const ContentSessionCard = ({
           </div>
         </div>
       </div>
-      
+
       <AnimatePresence>
         {isExpanded && (
           <motion.div
@@ -146,7 +148,7 @@ const ContentSessionCard = ({
                   </div>
                 </div>
               )}
-              
+
               {session.answers && Object.keys(session.answers).length > 0 && (
                 <div>
                   <h4 className="text-sm font-medium text-muted-foreground mb-2">Your Answers</h4>
@@ -165,7 +167,7 @@ const ContentSessionCard = ({
                   </div>
                 </div>
               )}
-              
+
               {session.platforms.length > 0 && (
                 <div>
                   <h4 className="text-sm font-medium text-muted-foreground mb-2">Platforms</h4>
@@ -178,8 +180,8 @@ const ContentSessionCard = ({
                   </div>
                 </div>
               )}
-              
-              {(session.status === 'drafts' || session.status === 'ready') && (
+
+              {(statusLower === 'draft' || statusLower === 'drafts' || statusLower === 'ready') && (
                 <Button
                   variant="outline"
                   className="w-full"
