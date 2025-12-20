@@ -1,9 +1,13 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Home, PlusCircle, Settings, Clock, LogOut, Zap, BarChart3, ListTodo, Cog } from 'lucide-react';
+import { Home, PlusCircle, Settings, Clock, LogOut, Zap, BarChart3, ListTodo, Cog, Search, Keyboard } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { auth } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { CommandPalette } from '@/components/CommandPalette';
+import { KeyboardShortcutsDialog } from '@/components/KeyboardShortcuts';
 
 const navItems = [
   { to: '/dashboard', icon: Home, label: 'Dashboard', end: true },
@@ -18,6 +22,8 @@ const navItems = [
 export const Sidebar = () => {
   const navigate = useNavigate();
   const user = auth.getUser();
+  const [showCommands, setShowCommands] = useState(false);
+  const [showShortcuts, setShowShortcuts] = useState(false);
 
   const handleSignOut = () => {
     auth.logout();
@@ -63,6 +69,28 @@ export const Sidebar = () => {
         ))}
       </nav>
 
+      {/* Quick Actions */}
+      <div className="px-4 pb-2 space-y-1">
+        <Button
+          variant="ghost"
+          className="w-full justify-start text-muted-foreground hover:text-foreground"
+          onClick={() => setShowCommands(true)}
+        >
+          <Search className="h-4 w-4 mr-2" />
+          Search
+          <kbd className="ml-auto text-xs px-1.5 py-0.5 bg-muted rounded">⌘K</kbd>
+        </Button>
+        <Button
+          variant="ghost"
+          className="w-full justify-start text-muted-foreground hover:text-foreground"
+          onClick={() => setShowShortcuts(true)}
+        >
+          <Keyboard className="h-4 w-4 mr-2" />
+          Shortcuts
+          <kbd className="ml-auto text-xs px-1.5 py-0.5 bg-muted rounded">?</kbd>
+        </Button>
+      </div>
+
       {/* User Profile */}
       <div className="p-4 border-t border-border/50">
         <div className="flex items-center gap-3 mb-3">
@@ -73,6 +101,7 @@ export const Sidebar = () => {
             <p className="font-medium text-foreground truncate">{user?.name || 'User'}</p>
             <p className="text-sm text-muted-foreground truncate">{user?.email}</p>
           </div>
+          <ThemeToggle />
         </div>
         <Button
           variant="ghost"
@@ -83,6 +112,9 @@ export const Sidebar = () => {
           Sign Out
         </Button>
       </div>
+
+      <CommandPalette open={showCommands} onOpenChange={setShowCommands} />
+      <KeyboardShortcutsDialog open={showShortcuts} onOpenChange={setShowShortcuts} />
     </motion.aside>
   );
 };
