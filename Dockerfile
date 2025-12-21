@@ -46,9 +46,8 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 # Expose port 80 for Coolify
 EXPOSE 80
 
-# Health check for Coolify
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:80/health || exit 1
+# NO HEALTHCHECK - Static frontends don't need it
+# Coolify/Traefik handles routing and availability
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
