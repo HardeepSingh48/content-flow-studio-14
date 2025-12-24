@@ -1,6 +1,23 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
+import { toast } from '@/hooks/use-toast';
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+
+// Retry configuration
+const RETRY_CONFIG = {
+  maxRetries: 3,
+  retryDelay: 1000, // Start with 1 second
+  retryCondition: (error: AxiosError) => {
+    // Retry on network errors, 5xx errors, or specific 4xx errors that might be transient
+    return (
+      !error.response || // Network error
+      error.response.status >= 500 || // Server errors
+      error.response.status === 429 || // Rate limited
+      error.code === 'ECONNABORTED' || // Timeout
+      error.message.includes('timeout')
+    );
+  }
+};
 
 class ApiService {
   private client: AxiosInstance;
@@ -22,15 +39,268 @@ class ApiService {
       return config;
     });
 
-    // Response interceptor for error handling
+    // Response interceptor for error handling with retry logic
     this.client.interceptors.response.use(
       (response) => response,
-      (error: AxiosError) => {
-        if (error.response?.status === 401) {
-          // Token expired or invalid
-          localStorage.removeItem('token');
-          window.location.href = '/signin';
+      async (error: AxiosError) => {
+        const config = error.config;
+
+        // Check if we should retry
+        if (
+          config &&
+          RETRY_CONFIG.retryCondition(error) &&
+          (!(config as any)._retryCount || (config as any)._retryCount < RETRY_CONFIG.maxRetries)
+        ) {
+          (config as any)._retryCount = ((config as any)._retryCount || 0) + 1;
+
+          // Exponential backoff
+          const delay = RETRY_CONFIG.retryDelay * Math.pow(2, (config as any)._retryCount - 1);
+
+          // Show retry toast for user feedback
+          toast({
+            title: "Retrying...",
+            description: `Connection failed. Retrying (${(config as any)._retryCount}/${RETRY_CONFIG.maxRetries})...`,
+            variant: "default",
+          });
+
+          // Wait and retry
+          await new Promise(resolve => setTimeout(resolve, delay));
+          return this.client(config);
         }
+        const errorData = error.response?.data as any;
+
+        // Handle specific error codes
+        if (errorData?.error?.code) {
+          const errorCode = errorData.error.code;
+          const userMessage = errorData.error.userMessage;
+
+          switch (errorCode) {
+            case 'SESSION_EXPIRED':
+            case 'INVALID_TOKEN':
+              toast({
+                title: "Session Expired",
+                description: "Your session has expired. Redirecting to sign in...",
+                variant: "destructive",
+              });
+              localStorage.removeItem('token');
+              setTimeout(() => {
+                window.location.href = '/signin';
+              }, 2000);
+              break;
+
+            case 'INTEGRATION_NOT_FOUND':
+              toast({
+                title: "No AI Provider Connected",
+                description: "No content generation API connected. Please go to Settings > Integrations and connect OpenAI or another AI provider.",
+                variant: "destructive",
+              });
+              break;
+
+            case 'API_KEY_INVALID':
+            case 'API_KEY_EXPIRED':
+              toast({
+                title: "API Key Invalid",
+                description: "Your API key is invalid or expired. Please update it in Settings.",
+                variant: "destructive",
+              });
+              break;
+
+            case 'RATE_LIMIT_EXCEEDED':
+              toast({
+                title: "Rate Limit Exceeded",
+                description: "API rate limit exceeded. Please try again in a few minutes.",
+                variant: "destructive",
+              });
+              break;
+
+            case 'PLATFORM_NOT_CONNECTED':
+              toast({
+                title: "Platform Not Connected",
+                description: `Cannot publish: No ${errorData.error.details?.platform || 'platform'} account connected. Please add one in Settings.`,
+                variant: "destructive",
+              });
+              break;
+
+            case 'CONTENT_TOO_LONG':
+              toast({
+                title: "Content Too Long",
+                description: `Your content exceeds the maximum length of ${errorData.error.details?.maxLength || 'X'} characters.`,
+                variant: "destructive",
+              });
+              break;
+
+            case 'DRAFT_SAVE_FAILED':
+              toast({
+                title: "Save Failed",
+                description: "Failed to save draft. Your changes may be lost.",
+                variant: "destructive",
+              });
+              break;
+
+            case 'OAUTH_FAILED':
+              toast({
+                title: "Authentication Failed",
+                description: "Unable to connect with the provider. Please check your internet connection.",
+                variant: "destructive",
+              });
+              break;
+
+            case 'EMAIL_EXISTS':
+              toast({
+                title: "Account Exists",
+                description: "This account is already connected to another user.",
+                variant: "destructive",
+              });
+              break;
+
+            case 'INTEGRATION_ENCRYPTION_FAILED':
+              toast({
+                title: "Encryption Failed",
+                description: "Failed to save integration. Please try again.",
+                variant: "destructive",
+              });
+              break;
+
+            case 'INTEGRATION_DELETE_FAILED':
+              toast({
+                title: "Cannot Delete Integration",
+                description: "Cannot delete this integration while publish jobs are pending.",
+                variant: "destructive",
+              });
+              break;
+
+            case 'PUBLISH_JOB_LIMIT_EXCEEDED':
+              toast({
+                title: "Job Limit Exceeded",
+                description: `You've reached the maximum number of pending publish jobs (${errorData.error.details?.maxJobs || 'X'}/${errorData.error.details?.currentJobs || 'MAX'}).`,
+                variant: "destructive",
+              });
+              break;
+
+            case 'SCHEDULE_PAST_DATE':
+              toast({
+                title: "Invalid Schedule Date",
+                description: "Cannot schedule posts in the past. Please select a future date.",
+                variant: "destructive",
+              });
+              break;
+
+            case 'PLATFORM_API_ERROR':
+              toast({
+                title: "Publishing Failed",
+                description: `Publishing failed: ${errorData.error.details?.platform || 'Platform'} API error. Please check your connection.`,
+                variant: "destructive",
+              });
+              break;
+
+            case 'PLATFORM_TOKEN_EXPIRED':
+              toast({
+                title: "Token Expired",
+                description: `Your ${errorData.error.details?.platform || 'platform'} access token has expired. Please reconnect in Settings.`,
+                variant: "destructive",
+              });
+              break;
+
+            case 'CONTENT_REJECTED':
+              toast({
+                title: "Content Rejected",
+                description: `${errorData.error.details?.platform || 'Platform'} rejected your content. It may violate their policies.`,
+                variant: "destructive",
+              });
+              break;
+
+            case 'ANALYTICS_LOAD_FAILED':
+              toast({
+                title: "Analytics Error",
+                description: "Failed to load analytics data. Please refresh the page.",
+                variant: "destructive",
+              });
+              break;
+
+            case 'PLATFORM_METRICS_EXPIRED':
+              toast({
+                title: "Metrics Unavailable",
+                description: `Cannot fetch ${errorData.error.details?.platform || 'platform'} metrics: API credentials expired. Please reconnect.`,
+                variant: "destructive",
+              });
+              break;
+
+            case 'PLATFORM_RATE_LIMIT':
+              toast({
+                title: "Rate Limit",
+                description: `${errorData.error.details?.platform || 'Platform'} rate limit reached. Metrics will update in ${errorData.error.details?.retryIn || 'X'} minutes.`,
+                variant: "destructive",
+              });
+              break;
+
+            default:
+              // Generic error handling
+              if (error.response?.status === 401) {
+                toast({
+                  title: "Session Expired",
+                  description: "Your session has expired. Redirecting to sign in...",
+                  variant: "destructive",
+                });
+                localStorage.removeItem('token');
+                setTimeout(() => {
+                  window.location.href = '/signin';
+                }, 2000);
+              } else if (error.response?.status === 429) {
+                toast({
+                  title: "Too Many Requests",
+                  description: "API rate limit exceeded. Please try again later.",
+                  variant: "destructive",
+                });
+              } else if (!navigator.onLine) {
+                toast({
+                  title: "No Internet Connection",
+                  description: "No internet connection. Please check your network.",
+                  variant: "destructive",
+                });
+              } else if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+                toast({
+                  title: "Request Timeout",
+                  description: "Request timeout. Please check your connection and try again.",
+                  variant: "destructive",
+                });
+              } else {
+                toast({
+                  title: "Error",
+                  description: userMessage || "An unexpected error occurred. Please try again.",
+                  variant: "destructive",
+                });
+              }
+              break;
+          }
+        } else {
+          // Handle non-API errors (network issues, etc.)
+          if (!navigator.onLine) {
+            toast({
+              title: "No Internet Connection",
+              description: "No internet connection. Please check your network.",
+              variant: "destructive",
+            });
+          } else if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+            toast({
+              title: "Request Timeout",
+              description: "Request timeout. Please check your connection and try again.",
+              variant: "destructive",
+            });
+          } else if (error.response?.status >= 500) {
+            toast({
+              title: "Server Error",
+              description: "Server is temporarily unavailable. Please try again in a few minutes.",
+              variant: "destructive",
+            });
+          } else {
+            toast({
+              title: "Error",
+              description: "An unexpected error occurred. Please try again.",
+              variant: "destructive",
+            });
+          }
+        }
+
         return Promise.reject(error);
       }
     );
