@@ -28,6 +28,8 @@ const Queue = lazy(() => import("./pages/Queue"));
 const Settings = lazy(() => import("./pages/Settings"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const OAuthCallback = lazy(() => import("./pages/OAuthCallback"));
+const ContentWizard = lazy(() => import("./components/content/ContentWizard"));
+const ContentDisplay = lazy(() => import("./pages/ContentDisplay"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -76,6 +78,24 @@ const App = () => (
                     <Route path="queue" element={<Queue />} />
                     <Route path="settings" element={<Settings />} />
                   </Route>
+
+                  {/* NEW: Topic Analysis & Content Generation Routes */}
+                  <Route
+                    path="/create-content"
+                    element={
+                      <ProtectedRoute>
+                        <ContentWizard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/content/:sessionId"
+                    element={
+                      <ProtectedRoute>
+                        <ContentDisplay />
+                      </ProtectedRoute>
+                    }
+                  />
 
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />

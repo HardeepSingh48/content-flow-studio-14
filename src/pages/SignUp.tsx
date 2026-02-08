@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Zap, Mail, Lock, Loader2, AlertCircle, Check } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import NicheSelectionModal from '@/components/onboarding/NicheSelectionModal';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showNicheModal, setShowNicheModal] = useState(false);
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -56,7 +58,8 @@ const SignUp = () => {
     try {
       await register(email, password);
       toast.success('Account created successfully!');
-      navigate('/dashboard');
+      // Show niche modal instead of immediately redirecting
+      setShowNicheModal(true);
     } catch (error: any) {
       const errorMessage = error.response?.data?.error || error.message || 'Sign up failed';
       setError(errorMessage);
@@ -64,6 +67,15 @@ const SignUp = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleNicheSave = (niche: string) => {
+    toast.success(`Welcome! Your content will be personalized for ${niche}`);
+    navigate('/dashboard');
+  };
+
+  const handleNicheSkip = () => {
+    navigate('/dashboard');
   };
 
   return (
@@ -237,6 +249,13 @@ const SignUp = () => {
           </p>
         </div>
       </motion.div>
+
+      {/* Niche Selection Modal */}
+      <NicheSelectionModal
+        open={showNicheModal}
+        onClose={handleNicheSkip}
+        onSave={handleNicheSave}
+      />
     </div>
   );
 };

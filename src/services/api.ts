@@ -347,8 +347,14 @@ class ApiService {
   async testIntegration(provider: string, credentials: any) {
     const { data } = await this.client.post('/integrations/test', {
       provider,
-      credentials,
+      credentials: credentials.integrationId ? undefined : credentials,
+      integrationId: credentials.integrationId,
     });
+    return data;
+  }
+
+  async submitIntegrationRequest(requestData: any) {
+    const { data } = await this.client.post('/integration-requests', requestData);
     return data;
   }
 
@@ -465,6 +471,51 @@ class ApiService {
 
   async updatePreferences(preferences: any) {
     const { data } = await this.client.patch('/users/preferences', preferences);
+    return data;
+  }
+
+  // User Niche APIs
+  async getUserProfileWithNiche() {
+    const { data } = await this.client.get('/users/profile/niche');
+    return data;
+  }
+
+  async updateUserNiche(niche: string, nicheDetails?: any) {
+    const { data } = await this.client.put('/users/niche', { niche, nicheDetails });
+    return data;
+  }
+
+  // NEW WORKFLOW: Topic Analysis & Platform Content Generation
+  async createContentSession(topic: string, inputType = 'TOPIC') {
+    const { data } = await this.client.post('/content/sessions', { topic, inputType });
+    return data;
+  }
+
+  async getContentSession(sessionId: string) {
+    const { data } = await this.client.get(`/content/sessions/${sessionId}`);
+    return data;
+  }
+
+  async getSessionStatus(sessionId: string) {
+    const { data } = await this.client.get(`/content/sessions/${sessionId}/status`);
+    return data;
+  }
+
+  async submitAnswers(sessionId: string, answers: Array<{ questionId: string; answer: string }>) {
+    const { data } = await this.client.post(`/content/sessions/${sessionId}/answers`, { answers });
+    return data;
+  }
+
+  async getGeneratedContent(sessionId: string) {
+    const { data } = await this.client.get(`/content/sessions/${sessionId}/content`);
+    return data;
+  }
+
+  async regeneratePlatformContent(sessionId: string, platform: string, modifications?: any) {
+    const { data } = await this.client.post(`/content/sessions/${sessionId}/regenerate`, {
+      platform,
+      modifications,
+    });
     return data;
   }
 }

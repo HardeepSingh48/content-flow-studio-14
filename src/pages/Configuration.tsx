@@ -7,6 +7,8 @@ import { ConfigCard } from '@/components/dashboard/ConfigCard';
 import { IntegrationProvider } from '@/types/integrations';
 import { useIntegrations } from '@/hooks/useIntegrations';
 import { api } from '@/services/api';
+import { IntegrationRequestModal } from '@/components/dashboard/IntegrationRequestModal';
+import { useAuth } from '@/hooks/useAuth';
 
 const tabs = [
   { id: 'ai', label: 'AI Models', icon: <Bot className="h-4 w-4" /> },
@@ -17,6 +19,8 @@ const tabs = [
 const Configuration = () => {
   const [activeTab, setActiveTab] = useState('ai');
   const { integrations, isLoading, createIntegration, deleteIntegration } = useIntegrations();
+  const { user } = useAuth();
+  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
 
   // Helper function to check if an integration exists
   const isConnected = (provider: string) => {
@@ -83,7 +87,8 @@ const Configuration = () => {
         return false;
       }
 
-      const result = await api.testIntegration(provider.toUpperCase(), {});
+      // Pass integration ID to test saved credentials
+      const result = await api.testIntegration(provider.toUpperCase(), { integrationId });
 
       if (result.success) {
         toast.success(`${provider} connection test successful!`);
@@ -122,7 +127,7 @@ const Configuration = () => {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 pb-10">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -351,10 +356,28 @@ const Configuration = () => {
               },
             ]}
             onSave={(values) => handleSave('elevenlabs', values)}
+            onTest={() => handleTest('elevenlabs')}
             onDisconnect={() => handleDisconnect('elevenlabs')}
           />
         </motion.div>
       )}
+
+      {/* Integration Request Section */}
+      <div className="mt-12 flex justify-center">
+        <button
+          onClick={() => setIsRequestModalOpen(true)}
+          className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors shadow-lg font-medium"
+        >
+          <span className="text-xl">+</span>
+          Request New Integration
+        </button>
+      </div>
+
+      <IntegrationRequestModal
+        isOpen={isRequestModalOpen}
+        onClose={() => setIsRequestModalOpen(false)}
+        userEmail={user?.email}
+      />
     </div>
   );
 };
