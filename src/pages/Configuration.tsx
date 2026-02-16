@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Bot, Share2, Video } from 'lucide-react';
 import { toast } from 'sonner';
@@ -9,6 +9,7 @@ import { useIntegrations } from '@/hooks/useIntegrations';
 import { api } from '@/services/api';
 import { IntegrationRequestModal } from '@/components/dashboard/IntegrationRequestModal';
 import { useAuth } from '@/hooks/useAuth';
+import { useQueryClient } from '@tanstack/react-query';
 
 const tabs = [
   { id: 'ai', label: 'AI Models', icon: <Bot className="h-4 w-4" /> },
@@ -21,6 +22,7 @@ const Configuration = () => {
   const { integrations, isLoading, createIntegration, deleteIntegration } = useIntegrations();
   const { user } = useAuth();
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   // Helper function to check if an integration exists
   const isConnected = (provider: string) => {
@@ -105,8 +107,37 @@ const Configuration = () => {
   };
 
   const handleOAuthConnect = (provider: IntegrationProvider) => {
-    toast.info(`OAuth flow for ${provider} is not yet implemented. Please use API credentials instead.`);
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+    const token = localStorage.getItem('token');
+    const oauthUrl = `${baseUrl}/oauth/${provider.toLowerCase()}/connect?token=${token}`;
+
+    // Open OAuth popup
+    const popup = window.open(
+      oauthUrl,
+      `${provider} OAuth`,
+      'width=600,height=700,scrollbars=yes'
+    );
+
+    if (!popup) {
+      toast.error('Please allow popups for OAuth authentication');
+    }
   };
+
+  // Listen for OAuth callback messages
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data.type === 'oauth_success') {
+        toast.success(`${event.data.provider} connected successfully!`);
+        // Refresh integrations
+        queryClient.invalidateQueries({ queryKey: ['integrations'] });
+      } else if (event.data.type === 'oauth_error') {
+        toast.error(`Failed to connect ${event.data.provider}: ${event.data.error || 'Unknown error'}`);
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [queryClient]);
 
   const handleDisconnect = async (provider: IntegrationProvider) => {
     const integrationId = getIntegrationId(provider);
@@ -212,6 +243,8 @@ const Configuration = () => {
             title="Twitter / X"
             icon="𝕏"
             isConnected={isConnected('twitter')}
+            showOAuth={true}
+            onOAuthConnect={() => handleOAuthConnect('twitter')}
             fields={[
               {
                 name: 'consumerKey',
@@ -251,6 +284,8 @@ const Configuration = () => {
             title="LinkedIn"
             icon="💼"
             isConnected={isConnected('linkedin')}
+            showOAuth={true}
+            onOAuthConnect={() => handleOAuthConnect('linkedin')}
             fields={[
               {
                 name: 'accessToken',

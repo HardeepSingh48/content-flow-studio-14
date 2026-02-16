@@ -71,10 +71,11 @@ export const useAuth = create<AuthState>((set) => ({
 
     oauthLogin: async (provider: 'google' | 'github') => {
         try {
-            // OAuth routes are mounted at /auth, not /api/auth
-            const baseUrl = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:4000';
-            window.location.href = `${baseUrl}/auth/${provider}`;
+            // OAuth routes are mounted at /api/oauth
+            const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+            window.location.href = `${baseUrl}/oauth/${provider}`;
         } catch (error) {
+            console.error('OAuth login error:', error);
             toast.error('Failed to initiate OAuth login');
         }
     },

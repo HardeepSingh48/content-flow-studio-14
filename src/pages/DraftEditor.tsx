@@ -24,12 +24,14 @@ import { getSessionDetails, updateContentVersion, regenerateContent, autoFixViol
 import { Platform, Scene, Tweet, ContentVersion, PublishOptions } from '@/types/content';
 import { toast } from 'sonner';
 import { useDebouncedCallback } from '@/hooks/useDebounce';
+import { api } from '@/services/api';
 
 const DraftEditor = () => {
   const { sessionId } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [publishModalOpen, setPublishModalOpen] = useState(false);
+  const [integrations, setIntegrations] = useState<any[]>([]);
 
   const {
     currentSession,
@@ -48,7 +50,17 @@ const DraftEditor = () => {
 
   useEffect(() => {
     if (sessionId) loadSession();
+    loadIntegrations();
   }, [sessionId]);
+
+  const loadIntegrations = async () => {
+    try {
+      const data = await api.getIntegrations();
+      setIntegrations(data.integrations || []);
+    } catch (error) {
+      console.error('Failed to load integrations:', error);
+    }
+  };
 
   const loadSession = async () => {
     if (!sessionId) return;
@@ -143,7 +155,56 @@ const DraftEditor = () => {
   };
 
   const handlePublish = async (options: PublishOptions) => {
-    toast.success(`Published to ${options.platforms.filter(p => p.enabled).map(p => p.platform).join(', ')}`);
+    try {
+      const selectedPlatforms = options.platforms.filter(p => p.enabled);
+
+      if (selectedPlatforms.length === 0) {
+        toast.error('Please select at least one platform');
+        return;
+      }
+
+      const publishPromises = selectedPlatforms.map(async (platformOption) => {
+        const platform = platformOption.platform;
+        const version = contentVersions[platform];
+
+        if (!version) {
+          throw new Error(`No content version found for ${platform}`);
+        }
+
+        // Find matching integration
+        const integration = integrations.find(i => {
+          if (platform === 'article') return i.provider === 'WORDPRESS';
+          if (platform === 'twitter') return i.provider === 'TWITTER';
+          if (platform === 'linkedin') return i.provider === 'LINKEDIN';
+          return false;
+        });
+
+        if (!integration) {
+          throw new Error(`No ${platform} integration connected`);
+        }
+
+        // Prepare metadata
+        const metadata = platformOption.options || {};
+        if (options.wordpressStatus && platform === 'article') {
+          metadata.status = options.wordpressStatus;
+        }
+
+        // Call publish API
+        return api.publishContent(
+          version.id,
+          [integration.id],
+          options.scheduledAt,
+          metadata
+        );
+      });
+
+      await Promise.all(publishPromises);
+
+      toast.success(`Successfully published to ${selectedPlatforms.map(p => p.platform).join(', ')}`);
+    } catch (error: any) {
+      console.error('Publish failed:', error);
+      toast.error(error.message || 'Failed to publish content');
+    }
   };
 
   const currentVersion = contentVersions[activePlatform];
@@ -419,7 +480,7 @@ const DraftEditor = () => {
         open={publishModalOpen}
         onOpenChange={setPublishModalOpen}
         platforms={availablePlatforms}
-        connectedIntegrations={['wordpress', 'twitter', 'linkedin']}
+        connectedIntegrations={integrations.map(i => i.provider.toLowerCase())}
         onPublish={handlePublish}
       />
     </div>
