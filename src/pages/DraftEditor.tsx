@@ -25,6 +25,7 @@ import { Platform, Scene, Tweet, ContentVersion, PublishOptions } from '@/types/
 import { toast } from 'sonner';
 import { useDebouncedCallback } from '@/hooks/useDebounce';
 import { api } from '@/services/api';
+import { ReelAudioGenerator } from '@/components/reels/ReelAudioGenerator';
 
 const DraftEditor = () => {
   const { sessionId } = useParams();
@@ -419,6 +420,11 @@ const DraftEditor = () => {
                   </div>
                 </div>
               )}
+
+              <ReelAudioGenerator
+                scriptText={currentVersion.content}
+                scriptId={currentVersion.id}
+              />
             </>
           )}
         </div>

@@ -339,6 +339,14 @@ class ApiService {
     return data;
   }
 
+  async connectLinkedInPages(masterIntegrationId: string, selectedPages: any[]) {
+    const { data } = await this.client.post('/integrations/linkedin/pages', {
+      masterIntegrationId,
+      selectedPages,
+    });
+    return data;
+  }
+
   async deleteIntegration(id: string) {
     const { data } = await this.client.delete(`/integrations/${id}`);
     return data;
@@ -482,6 +490,21 @@ class ApiService {
 
   async updateUserNiche(niche: string, nicheDetails?: any) {
     const { data } = await this.client.put('/users/niche', { niche, nicheDetails });
+    return data;
+  }
+
+  // ElevenLabs / Reel Generation
+  async getVoices() {
+    const { data } = await this.client.get('/reels/voices');
+    return data;
+  }
+
+  async generateReelAudio(scriptText: string, voiceId: string, scriptId?: string) {
+    const { data } = await this.client.post('/reels/generate-audio', {
+      scriptText,
+      voiceId,
+      scriptId
+    });
     return data;
   }
 

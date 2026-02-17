@@ -14,6 +14,8 @@ import { Separator } from '@/components/ui/separator';
 import { getProfile, getPreferences, updateProfile, updatePreferences, uploadAvatar, updatePassword } from '@/services/settings';
 import { toast } from 'sonner';
 import { Skeleton } from '@/components/ui/skeleton';
+import { LinkedInPageSelectionModal } from '@/components/integrations/LinkedInPageSelectionModal';
+import { useEffect } from 'react';
 
 const tabs = [
   { id: 'profile', label: 'Profile', icon: User },
@@ -102,7 +104,7 @@ export default function Settings() {
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    
+
     try {
       await uploadAvatar(file);
       toast.success('Avatar uploaded');
@@ -123,8 +125,41 @@ export default function Settings() {
     passwordMutation.mutate();
   };
 
+  const [isLinkedInModalOpen, setIsLinkedInModalOpen] = useState(false);
+  const [linkedInPages, setLinkedInPages] = useState<any[]>([]);
+  const [masterIntegrationId, setMasterIntegrationId] = useState('');
+
+  // Listen for OAuth success messages from popup
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data?.type === 'oauth_success' && event.data?.provider === 'linkedin') {
+        if (event.data.pages && event.data.pages.length > 0) {
+          // Open modal for page selection
+          setLinkedInPages(event.data.pages);
+          setMasterIntegrationId(event.data.integrationId);
+          setIsLinkedInModalOpen(true);
+        } else {
+          toast.success('LinkedIn connected successfully');
+          // Refresh integrations list if needed (not implemented here, but good practice)
+        }
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
   return (
     <div className="flex gap-6 max-w-5xl">
+      <LinkedInPageSelectionModal
+        isOpen={isLinkedInModalOpen}
+        onClose={() => setIsLinkedInModalOpen(false)}
+        pages={linkedInPages}
+        masterIntegrationId={masterIntegrationId}
+        onSuccess={() => {
+          // Refresh logic could go here
+        }}
+      />
       {/* Sidebar Navigation */}
       <div className="w-48 flex-shrink-0">
         <nav className="space-y-1">
@@ -133,13 +168,12 @@ export default function Settings() {
               key={tab.id}
               onClick={() => !tab.disabled && setActiveTab(tab.id)}
               disabled={tab.disabled}
-              className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                activeTab === tab.id
-                  ? 'bg-primary text-primary-foreground'
-                  : tab.disabled
+              className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${activeTab === tab.id
+                ? 'bg-primary text-primary-foreground'
+                : tab.disabled
                   ? 'text-muted-foreground/50 cursor-not-allowed'
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-              }`}
+                }`}
             >
               <tab.icon className="w-4 h-4" />
               {tab.label}
@@ -285,7 +319,7 @@ export default function Settings() {
                 {/* Content Generation */}
                 <div className="glass rounded-xl p-6 space-y-6">
                   <h3 className="font-medium text-foreground">Content Generation</h3>
-                  
+
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div className="space-y-2">
                       <Label>Default Tone</Label>
@@ -346,7 +380,7 @@ export default function Settings() {
                 {/* Notifications */}
                 <div className="glass rounded-xl p-6 space-y-4">
                   <h3 className="font-medium text-foreground">Notifications</h3>
-                  
+
                   <div className="space-y-4">
                     {[
                       { key: 'contentPublished', label: 'Content published', desc: 'When your content is successfully published' },
@@ -378,7 +412,7 @@ export default function Settings() {
                   <p className="text-sm text-muted-foreground">
                     Platforms auto-selected in content wizard
                   </p>
-                  
+
                   <div className="grid grid-cols-2 gap-3">
                     {platforms.map((platform) => (
                       <div key={platform.id} className="flex items-center gap-2">
@@ -410,7 +444,7 @@ export default function Settings() {
                 {/* AI Model Settings */}
                 <div className="glass rounded-xl p-6 space-y-6">
                   <h3 className="font-medium text-foreground">AI Model Preferences</h3>
-                  
+
                   <div className="space-y-2">
                     <Label>Preferred Model</Label>
                     <Select
