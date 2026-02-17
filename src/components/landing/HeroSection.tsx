@@ -14,7 +14,7 @@ const HeroSection = () => {
       </div>
 
       {/* Grid Pattern Overlay */}
-      <div 
+      <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
@@ -33,7 +33,7 @@ const HeroSection = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8"
           >
             <Sparkles className="w-4 h-4 text-accent" />
-            <span className="text-sm font-medium text-foreground">AI-Powered Content Creation</span>
+            <span className="text-sm font-medium text-foreground">Strategic Content Distribution</span>
           </motion.div>
 
           {/* Headline */}
@@ -43,9 +43,8 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
           >
-            Transform Topics into{' '}
-            <span className="gradient-text">Multi-Platform Content</span>{' '}
-            in Minutes
+            The Content Pipeline for{' '}
+            <span className="gradient-text">Strategic Publishers</span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -55,8 +54,8 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
           >
-            Stop juggling tools. Enter a topic, let AI generate ideas, and get 
-            platform-ready content for blogs, social media, and more—all in one workflow.
+            Built for teams who think before they publish. Manage every stage of your content
+            workflow—from ideation to multi-platform distribution—with precision and control.
           </motion.p>
 
           {/* CTA Buttons */}

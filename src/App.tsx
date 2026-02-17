@@ -17,6 +17,10 @@ import { FullPageLoader } from "@/components/LoadingSkeletons";
 const Index = lazy(() => import("./pages/Index"));
 const SignIn = lazy(() => import("./pages/SignIn"));
 const SignUp = lazy(() => import("./pages/SignUp"));
+const Features = lazy(() => import("./pages/Features"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Playbooks = lazy(() => import("./pages/Playbooks"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const DashboardOverview = lazy(() => import("./pages/DashboardOverview"));
 const Configuration = lazy(() => import("./pages/Configuration"));
@@ -56,6 +60,11 @@ const App = () => (
               <Suspense fallback={<FullPageLoader />}>
                 <Routes>
                   <Route path="/" element={<Index />} />
+                  <Route path="/features" element={<Features />} />
+                  <Route path="/pricing" element={<Pricing />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/playbooks" element={<Playbooks />} />
+
                   <Route path="/signin" element={<SignIn />} />
                   <Route path="/signup" element={<SignUp />} />
                   <Route path="/auth/callback" element={<OAuthCallback />} />

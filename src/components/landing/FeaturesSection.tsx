@@ -4,14 +4,14 @@ import { TrendingUp, Layout, Send, Sparkles, Zap, Shield } from 'lucide-react';
 const features = [
   {
     icon: TrendingUp,
-    title: 'AI-Powered Ideas',
-    description: 'Leverage Google Trends integration and smart AI suggestions to discover trending topics and create content that resonates with your audience.',
+    title: 'Strategic Workflows',
+    description: 'Build data-driven content pipelines that move from ideation to approval without the chaos. Visualize every step of your process.',
     gradient: 'from-primary to-secondary',
   },
   {
     icon: Layout,
     title: 'Multi-Platform Output',
-    description: 'Generate articles, Instagram Reels scripts, Twitter threads, and LinkedIn posts—all from a single topic in one unified workflow.',
+    description: 'Format articles, Instagram Reels scripts, Twitter threads, and LinkedIn posts perfectly for each channel from a unified dashboard.',
     gradient: 'from-secondary to-accent',
   },
   {
@@ -62,7 +62,7 @@ const FeaturesSection = () => {
             <span className="gradient-text">create at scale</span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            Our AI-powered platform streamlines your entire content creation process, 
+            Our pipeline platform streamlines your entire content creation process,
             from ideation to publication.
           </p>
         </motion.div>
@@ -84,7 +84,7 @@ const FeaturesSection = () => {
               <div className="relative h-full glass rounded-2xl p-8 transition-all duration-300 hover:border-primary/30 overflow-hidden">
                 {/* Gradient Background on Hover */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-                
+
                 {/* Icon */}
                 <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${feature.gradient} mb-6`}>
                   <feature.icon className="w-6 h-6 text-foreground" />

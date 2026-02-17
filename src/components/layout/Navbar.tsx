@@ -18,20 +18,19 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { href: '#features', label: 'Features' },
-    { href: '#pricing', label: 'Pricing' },
+    { href: '/features', label: 'Features' },
+    { href: '/playbooks', label: 'Playbooks' },
+    { href: '/pricing', label: 'Pricing' },
+    { href: '/contact', label: 'Contact Us' },
   ];
-
-  const isLandingPage = location.pathname === '/';
 
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'glass-strong shadow-lg' : 'bg-transparent'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass-strong shadow-lg' : 'bg-transparent'
+        }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
@@ -47,19 +46,20 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          {isLandingPage && (
-            <div className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-sm font-medium"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          )}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                className={`text-sm font-medium transition-colors duration-200 ${location.pathname === link.href
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-foreground'
+                  }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
 
           {/* Auth Buttons */}
           <div className="hidden md:flex items-center gap-3">
@@ -67,7 +67,7 @@ const Navbar = () => {
               <Link to="/signin">Sign In</Link>
             </Button>
             <Button variant="gradient" asChild>
-              <Link to="/signup">Sign Up</Link>
+              <Link to="/signup">Get Started</Link>
             </Button>
           </div>
 
@@ -90,23 +90,25 @@ const Navbar = () => {
           className="md:hidden glass-strong border-t border-border"
         >
           <div className="container mx-auto px-4 py-4 space-y-4">
-            {isLandingPage &&
-              navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block text-muted-foreground hover:text-foreground transition-colors py-2"
-                >
-                  {link.label}
-                </a>
-              ))}
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`block py-2 transition-colors ${location.pathname === link.href
+                    ? 'text-primary font-medium'
+                    : 'text-muted-foreground hover:text-foreground'
+                  }`}
+              >
+                {link.label}
+              </Link>
+            ))}
             <div className="flex flex-col gap-2 pt-2">
               <Button variant="ghost" asChild className="w-full justify-center">
                 <Link to="/signin">Sign In</Link>
               </Button>
               <Button variant="gradient" asChild className="w-full justify-center">
-                <Link to="/signup">Sign Up</Link>
+                <Link to="/signup">Get Started</Link>
               </Button>
             </div>
           </div>

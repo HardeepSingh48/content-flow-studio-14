@@ -5,26 +5,26 @@ const steps = [
   {
     number: '01',
     icon: Search,
-    title: 'Enter Topic or URL',
-    description: 'Start with a topic, keyword, or URL. Our AI analyzes trends and context to understand exactly what you need.',
+    title: 'Define Strategy',
+    description: 'Start with a clear goal and target audience. Structure your campaign based on platform-specific best practices.',
   },
   {
     number: '02',
     icon: Lightbulb,
-    title: 'AI Generates Ideas',
-    description: 'Get intelligent content suggestions, outlines, and angles powered by our advanced AI engine.',
+    title: 'Draft & Collaborate',
+    description: 'Create content with your team. Assign roles, manage versions, and keep everyone aligned in one shared workspace.',
   },
   {
     number: '03',
     icon: MessageSquare,
-    title: 'Answer Questions',
-    description: 'Refine your content with quick clarifying questions. The AI adapts to your style and preferences.',
+    title: 'Review & Approve',
+    description: 'Ensure quality with built-in approval workflows. Leave comments, request edits, and sign off before anything goes live.',
   },
   {
     number: '04',
     icon: Rocket,
-    title: 'Get Platform-Ready Content',
-    description: 'Receive polished, optimized content for every platform—ready to publish or schedule.',
+    title: 'Publish & Measure',
+    description: 'Schedule across all platforms simultaneously and track engagement to refine your future strategy.',
   },
 ];
 
@@ -33,7 +33,7 @@ const HowItWorksSection = () => {
     <section className="py-24 lg:py-32 relative overflow-hidden">
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-card/30 to-transparent" />
-      
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <motion.div
@@ -69,15 +69,13 @@ const HowItWorksSection = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`relative flex flex-col sm:flex-row items-start gap-6 ${
-                  index % 2 === 0 ? 'sm:flex-row' : 'sm:flex-row-reverse'
-                }`}
+                className={`relative flex flex-col sm:flex-row items-start gap-6 ${index % 2 === 0 ? 'sm:flex-row' : 'sm:flex-row-reverse'
+                  }`}
               >
                 {/* Content Card */}
                 <div className={`flex-1 ${index % 2 === 0 ? 'sm:text-right sm:pr-12' : 'sm:text-left sm:pl-12'}`}>
-                  <div className={`glass rounded-2xl p-6 lg:p-8 inline-block w-full max-w-md ${
-                    index % 2 === 0 ? 'sm:ml-auto' : 'sm:mr-auto'
-                  }`}>
+                  <div className={`glass rounded-2xl p-6 lg:p-8 inline-block w-full max-w-md ${index % 2 === 0 ? 'sm:ml-auto' : 'sm:mr-auto'
+                    }`}>
                     <span className="text-sm font-bold text-primary mb-2 block">
                       Step {step.number}
                     </span>
