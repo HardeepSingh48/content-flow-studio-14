@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Sparkles, Play } from 'lucide-react';
+import InviteModal from './InviteModal';
 
 const HeroSection = () => {
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
       {/* Background Effects */}
@@ -65,11 +68,9 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <Button variant="hero" size="xl" asChild>
-              <Link to="/signup" className="group">
-                Get Started Free
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
+            <Button variant="hero" size="xl" onClick={() => setIsInviteModalOpen(true)} className="group">
+              Get an Invite
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button variant="glass" size="lg" className="gap-2">
               <Play className="w-4 h-4" />
@@ -95,6 +96,11 @@ const HeroSection = () => {
           </motion.div>
         </div>
       </div>
+
+      <InviteModal
+        isOpen={isInviteModalOpen}
+        onClose={() => setIsInviteModalOpen(false)}
+      />
     </section>
   );
 };

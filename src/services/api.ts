@@ -19,6 +19,7 @@ const RETRY_CONFIG = {
   }
 };
 
+
 class ApiService {
   private client: AxiosInstance;
 
@@ -325,6 +326,11 @@ class ApiService {
   }
 
   // Integrations
+  async getIntegrationStatus() {
+    const { data } = await this.client.get('/integrations/status');
+    return data;
+  }
+
   async getIntegrations() {
     const { data } = await this.client.get('/integrations');
     return data;
@@ -364,6 +370,11 @@ class ApiService {
   async submitIntegrationRequest(requestData: any) {
     const { data } = await this.client.post('/integration-requests', requestData);
     return data;
+  }
+
+  async sendInviteRequest(data: any) {
+    const response = await this.client.post('/invite', data);
+    return response.data;
   }
 
   // Content Generation
@@ -539,6 +550,17 @@ class ApiService {
       platform,
       modifications,
     });
+    return data;
+  }
+
+  // Admin
+  async adminGetUsers() {
+    const { data } = await this.client.get('/admin/users');
+    return data;
+  }
+
+  async adminUpdateUserRole(userId: string, role: string) {
+    const { data } = await this.client.patch(`/admin/users/${userId}/role`, { role });
     return data;
   }
 }

@@ -1,130 +1,173 @@
-import { motion } from 'framer-motion';
+// src/pages/Features.tsx
+
+import React, { useState, useEffect } from 'react';
+import { api } from '@/services/api';
+import { Loader2 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { Button } from '@/components/ui/button';
-import {
-    GitBranch,
-    Share2,
-    LayoutTemplate,
-    Calendar,
-    Users,
-    MessageSquare,
-    Library,
-    ShieldAlert
-} from 'lucide-react';
 
-const features = [
-    {
-        icon: <GitBranch className="w-6 h-6 text-primary" />,
-        title: "Pipeline Workflow Engine",
-        description: "Visualize your content journey from draft to live post. Move content through custom stages — ideation, writing, review, approval, scheduling — with full team visibility."
-    },
-    {
-        icon: <Share2 className="w-6 h-6 text-accent" />,
-        title: "Multi-Platform Publishing",
-        description: "Connect LinkedIn, Twitter/X, Facebook, Instagram, Medium, and more. Publish simultaneously or schedule strategically per platform."
-    },
-    {
-        icon: <LayoutTemplate className="w-6 h-6 text-primary" />,
-        title: "Platform-Specific Formatting",
-        description: "Every platform has different rules. Content Pipeline Studio automatically adapts your content — character limits, hashtag placement, image dimensions — so it looks native everywhere."
-    },
-    {
-        icon: <Calendar className="w-6 h-6 text-accent" />,
-        title: "Strategic Scheduling",
-        description: "Queue weeks of content in minutes. Set exact times or let data guide your timing based on audience behavior patterns."
-    },
-    {
-        icon: <Users className="w-6 h-6 text-primary" />,
-        title: "Team Collaboration",
-        description: "Assign roles, review drafts, approve before publish. No more Slack threads asking 'is this ready to go?'"
-    },
-    {
-        icon: <MessageSquare className="w-6 h-6 text-accent" />,
-        title: "Unified Inbox & Engagement",
-        description: "Respond to comments across all platforms from one place. Never miss a conversation that matters."
-    },
-    {
-        icon: <Library className="w-6 h-6 text-primary" />,
-        title: "Content Library & Templates",
-        description: "Save your best-performing formats as templates. Build a searchable archive of everything you've published."
-    },
-    {
-        icon: <ShieldAlert className="w-6 h-6 text-accent" />,
-        title: "Manual Intervention Controls",
-        description: "Pipeline automation with human override. Hold content, request revisions, or kill a post before it goes live — full control at every stage."
+interface Integration {
+    id: string;
+    name: string;
+    category: string;
+    status: 'active' | 'beta' | 'coming_soon' | 'disabled';
+    description: string;
+    icon: string;
+    features: string[];
+    releaseDate?: string;
+    betaNote?: string;
+}
+
+interface IntegrationGroups {
+    ai_generation: Integration[];
+    publishing: Integration[];
+    ai_media: Integration[];
+}
+
+export default function Features() {
+    const [integrations, setIntegrations] = useState<IntegrationGroups | null>(null);
+    const [userRole, setUserRole] = useState('USER');
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchIntegrations();
+    }, []);
+
+    const fetchIntegrations = async () => {
+        try {
+            const response = await api.getIntegrationStatus();
+            setIntegrations(response.integrations);
+            setUserRole(response.userRole);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching integrations:', error);
+            setLoading(false);
+        }
+    };
+
+    const getStatusBadge = (status: string) => {
+        switch (status) {
+            case 'active':
+                return <Badge className="bg-green-500 hover:bg-green-600">Live</Badge>;
+            case 'beta':
+                return <Badge className="bg-yellow-500 hover:bg-yellow-600 text-black">Beta</Badge>;
+            case 'coming_soon':
+                return <Badge variant="secondary">Coming Soon</Badge>;
+            case 'disabled':
+                return <Badge variant="destructive">Disabled</Badge>;
+            default:
+                return null;
+        }
+    };
+
+    const IntegrationCard = ({ integration }: { integration: Integration }) => (
+        <Card className="h-full flex flex-col hover:shadow-lg transition-shadow">
+            <CardHeader>
+                <div className="flex justify-between items-start mb-2">
+                    <div className="flex items-center gap-3">
+                        <img
+                            src={integration.icon}
+                            alt={integration.name}
+                            className="w-10 h-10 object-contain"
+                            onError={(e) => {
+                                // Fallback if icon missing
+                                (e.target as HTMLImageElement).src = 'https://placehold.co/40x40?text=' + integration.name.charAt(0);
+                            }}
+                        />
+                        <CardTitle className="text-lg">{integration.name}</CardTitle>
+                    </div>
+                    {getStatusBadge(integration.status)}
+                </div>
+                <CardDescription>{integration.description}</CardDescription>
+            </CardHeader>
+            <CardContent className="flex-1">
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                    {integration.features.map((feature, index) => (
+                        <li key={index} className="flex items-center gap-2">
+                            <span className="text-green-500">✓</span>
+                            {feature}
+                        </li>
+                    ))}
+                </ul>
+
+                {integration.betaNote && (
+                    <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded text-xs text-yellow-800">
+                        <strong>Beta:</strong> {integration.betaNote}
+                    </div>
+                )}
+
+                {integration.releaseDate && (
+                    <p className="mt-4 text-xs text-muted-foreground">
+                        Expected: {integration.releaseDate}
+                    </p>
+                )}
+            </CardContent>
+        </Card>
+    );
+
+    if (loading) {
+        return <div className="flex justify-center items-center h-screen"><Loader2 className="animate-spin w-8 h-8" /></div>;
     }
-];
 
-const Features = () => {
     return (
         <div className="min-h-screen flex flex-col">
             <Navbar />
+            <main className="flex-1 container mx-auto px-4 py-8">
+                <div className="text-center mb-12">
+                    <h1 className="text-4xl font-bold mb-4">Features & Integrations</h1>
+                    <p className="text-xl text-muted-foreground">
+                        Everything you need to build, publish, and grow your content strategy
+                    </p>
 
-            <main className="flex-grow pt-24 pb-16">
-                {/* Hero Section */}
-                <div className="container mx-auto px-4 mb-20">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="text-center max-w-3xl mx-auto"
-                    >
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-                            Everything Your Content <span className="gradient-text">Workflow Needs</span>
-                        </h1>
-                        <p className="text-xl text-muted-foreground mb-10">
-                            From idea to published — manage every stage of your content pipeline with tools built for strategic distribution.
-                        </p>
-                        <Button size="lg" variant="gradient" className="text-lg px-8">
-                            Start Free Trial
-                        </Button>
-                    </motion.div>
+                    {(userRole === 'ADMIN' || userRole === 'ENTERPRISE') && (
+                        <div className="mt-4 inline-block bg-purple-100 text-purple-800 px-4 py-2 rounded-lg text-sm font-medium">
+                            {userRole === 'ADMIN' ? '🔧 Admin View' : '🏢 Enterprise View'} - You can see all features
+                        </div>
+                    )}
                 </div>
 
-                {/* Features Grid */}
-                <div className="container mx-auto px-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {features.map((feature, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="p-6 rounded-2xl glass-strong hover:bg-card/50 transition-colors border border-border/50"
-                            >
-                                <div className="mb-4 p-3 rounded-xl bg-background/50 w-fit">
-                                    {feature.icon}
-                                </div>
-                                <h3 className="text-xl font-bold mb-3 text-foreground">{feature.title}</h3>
-                                <p className="text-muted-foreground leading-relaxed">
-                                    {feature.description}
-                                </p>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
+                {integrations?.ai_generation?.length ? (
+                    <section className="mb-12">
+                        <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                            🤖 AI Content Generation
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {integrations.ai_generation.map((integration) => (
+                                <IntegrationCard key={integration.id} integration={integration} />
+                            ))}
+                        </div>
+                    </section>
+                ) : null}
 
-                {/* Bottom CTA */}
-                <div className="container mx-auto px-4 mt-24">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        className="glass-strong rounded-3xl p-12 text-center max-w-4xl mx-auto relative overflow-hidden"
-                    >
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-accent" />
-                        <h2 className="text-3xl font-bold mb-6">Ready to build your content pipeline?</h2>
-                        <Button size="lg" variant="gradient" className="text-lg px-10">
-                            Start Free Trial
-                        </Button>
-                    </motion.div>
-                </div>
+                {integrations?.publishing?.length ? (
+                    <section className="mb-12">
+                        <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                            📱 Social Media Publishing
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {integrations.publishing.map((integration) => (
+                                <IntegrationCard key={integration.id} integration={integration} />
+                            ))}
+                        </div>
+                    </section>
+                ) : null}
+
+                {integrations?.ai_media?.length ? (
+                    <section className="mb-12">
+                        <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                            🎬 AI Media Generation
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {integrations.ai_media.map((integration) => (
+                                <IntegrationCard key={integration.id} integration={integration} />
+                            ))}
+                        </div>
+                    </section>
+                ) : null}
             </main>
-
             <Footer />
         </div>
     );
-};
-
-export default Features;
+}

@@ -30,6 +30,7 @@ const DraftEditor = lazy(() => import("./pages/DraftEditor"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const Queue = lazy(() => import("./pages/Queue"));
 const Settings = lazy(() => import("./pages/Settings"));
+const AdminUserManagement = lazy(() => import("./pages/AdminUserManagement"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const OAuthCallback = lazy(() => import("./pages/OAuthCallback"));
 const ContentWizard = lazy(() => import("./components/content/ContentWizard"));
@@ -86,6 +87,7 @@ const App = () => (
                     <Route path="analytics" element={<Analytics />} />
                     <Route path="queue" element={<Queue />} />
                     <Route path="settings" element={<Settings />} />
+                    <Route path="admin/users" element={<AdminUserManagement />} />
                   </Route>
 
                   {/* NEW: Topic Analysis & Content Generation Routes */}

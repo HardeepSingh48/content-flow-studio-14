@@ -3,10 +3,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Zap, Menu, X } from 'lucide-react';
+import InviteModal from '@/components/landing/InviteModal';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -52,8 +54,8 @@ const Navbar = () => {
                 key={link.href}
                 to={link.href}
                 className={`text-sm font-medium transition-colors duration-200 ${location.pathname === link.href
-                    ? 'text-primary'
-                    : 'text-muted-foreground hover:text-foreground'
+                  ? 'text-primary'
+                  : 'text-muted-foreground hover:text-foreground'
                   }`}
               >
                 {link.label}
@@ -66,8 +68,14 @@ const Navbar = () => {
             <Button variant="ghost" asChild>
               <Link to="/signin">Sign In</Link>
             </Button>
-            <Button variant="gradient" asChild>
+            {/* <Button variant="gradient" asChild>
               <Link to="/signup">Get Started</Link>
+            </Button> */}
+            <Button
+              className="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20"
+              onClick={() => setIsInviteModalOpen(true)}
+            >
+              Get an Invite
             </Button>
           </div>
 
@@ -96,8 +104,8 @@ const Navbar = () => {
                 to={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`block py-2 transition-colors ${location.pathname === link.href
-                    ? 'text-primary font-medium'
-                    : 'text-muted-foreground hover:text-foreground'
+                  ? 'text-primary font-medium'
+                  : 'text-muted-foreground hover:text-foreground'
                   }`}
               >
                 {link.label}
@@ -107,13 +115,27 @@ const Navbar = () => {
               <Button variant="ghost" asChild className="w-full justify-center">
                 <Link to="/signin">Sign In</Link>
               </Button>
-              <Button variant="gradient" asChild className="w-full justify-center">
+              {/* <Button variant="gradient" asChild className="w-full justify-center">
                 <Link to="/signup">Get Started</Link>
+              </Button> */}
+              <Button
+                className="w-full justify-center bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20"
+                onClick={() => {
+                  setIsInviteModalOpen(true);
+                  setIsMobileMenuOpen(false);
+                }}
+              >
+                Get an Invite
               </Button>
             </div>
           </div>
         </motion.div>
       )}
+
+      <InviteModal
+        isOpen={isInviteModalOpen}
+        onClose={() => setIsInviteModalOpen(false)}
+      />
     </motion.nav>
   );
 };

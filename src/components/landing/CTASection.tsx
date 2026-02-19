@@ -35,17 +35,17 @@ const CTASection = () => {
 
             {/* Description */}
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
-              Join thousands of content creators who have transformed their workflow with 
+              Join thousands of content creators who have transformed their workflow with
               Content Pipeline Studio. Start creating better content, faster.
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button variant="hero" size="xl" asChild>
-                <Link to="/signup" className="group">
+                {/* <Link to="/signup" className="group">
                   Get Started Free
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                </Link> */}
               </Button>
               <Button variant="outline" size="lg">
                 Contact Sales
