@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import './variables.css';
+@import './animations.css';
+@import './patterns.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Map Design System Tokens to Shadcn-like variables for compatibility */
+    --background: var(--color-bg-primary);
+    --foreground: var(--color-neutral-900);
+
+    --card: var(--color-bg-elevated);
+    --card-foreground: var(--color-neutral-900);
+
+    --popover: var(--color-bg-elevated);
+    --popover-foreground: var(--color-neutral-900);
+
+    --primary: var(--color-primary-600);
+    --primary-foreground: var(--color-bg-primary);
+
+    --secondary: var(--color-neutral-100);
+    --secondary-foreground: var(--color-neutral-900);
+
+    --muted: var(--color-neutral-100);
+    --muted-foreground: var(--color-neutral-500);
+
+    --accent: var(--color-primary-50);
+    --accent-foreground: var(--color-primary-700);
+
+    --destructive: var(--color-error);
+    --destructive-foreground: var(--color-bg-primary);
+
+    --border: var(--color-neutral-200);
+    --input: var(--color-neutral-200);
+    --ring: var(--color-primary-500);
+
+    --radius: var(--radius-base);
+  }
+
+  /* Dark mode support (if needed, though user focused on clean white) */
+  .dark {
+    --background: var(--color-neutral-900);
+    --foreground: var(--color-neutral-50);
+
+    --card: var(--color-neutral-800);
+    --card-foreground: var(--color-neutral-50);
+
+    --popover: var(--color-neutral-800);
+    --popover-foreground: var(--color-neutral-50);
+
+    --primary: var(--color-primary-500);
+    --primary-foreground: var(--color-bg-primary);
+
+    --secondary: var(--color-neutral-800);
+    --secondary-foreground: var(--color-neutral-50);
+
+    --muted: var(--color-neutral-800);
+    --muted-foreground: var(--color-neutral-400);
+
+    --accent: var(--color-neutral-700);
+    --accent-foreground: var(--color-neutral-50);
+
+    --destructive: var(--color-error);
+    --destructive-foreground: var(--color-bg-primary);
+
+    --border: var(--color-neutral-700);
+    --input: var(--color-neutral-700);
+    --ring: var(--color-primary-400);
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: var(--font-family-primary);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 40%);
+    background-attachment: fixed;
+  }
+}
+
+@layer components {
+
+  /* Transition Classes */
+  .transition-all {
+    transition: all var(--duration-base) var(--ease-out);
+  }
+
+  .transition-colors {
+    transition: background-color var(--duration-base) var(--ease-out),
+      border-color var(--duration-base) var(--ease-out),
+      color var(--duration-base) var(--ease-out);
+  }
+
+  .transition-transform {
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  /* Enterprise UI Elements */
+  .glass {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(229, 231, 235, 0.5);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .focus-ring:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--color-primary-100);
+    border-color: var(--primary);
+  }
+}
+
+@layer utilities {
+
+  /* Typography Scale Utilities if needed */
+  .text-display {
+    font-family: var(--font-family-display);
+    letter-spacing: var(--letter-spacing-tight);
+  }
+
+  /* Responsive Grid System */
+  .grid-layout {
+    display: grid;
+    gap: var(--spacing-6);
+  }
+
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (max-width: 1024px) {
+    .grid-cols-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+
+    .grid-cols-2,
+    .grid-cols-3,
+    .grid-cols-4 {
+      grid-template-columns: 1fr;
+    }
+  }
+}

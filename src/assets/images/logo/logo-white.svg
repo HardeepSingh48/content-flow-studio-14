@@ -1,0 +1,16 @@
+<svg width="300" height="100" viewBox="0 0 300 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Icon -->
+  <g transform="translate(10, 10) scale(0.8)">
+    <path d="M50 15L20 32.5V67.5L50 85L80 67.5V32.5L50 15Z" fill="white" fill-opacity="0.1" stroke="white" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M50 35L35 43.75V56.25L50 65L65 56.25V43.75L50 35Z" fill="white" stroke="white" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="50" cy="15" r="5" fill="white"/>
+    <circle cx="80" cy="32.5" r="5" fill="white"/>
+    <circle cx="80" cy="67.5" r="5" fill="white"/>
+    <circle cx="50" cy="85" r="5" fill="white"/>
+    <circle cx="20" cy="67.5" r="5" fill="white"/>
+    <circle cx="20" cy="32.5" r="5" fill="white"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="100" y="58" font-family="Inter, sans-serif" font-weight="700" font-size="24" letter-spacing="-0.02em" fill="white">Content Flow</text>
+  <text x="100" y="78" font-family="Inter, sans-serif" font-weight="500" font-size="14" letter-spacing="0.05em" fill="#FAFAFA" style="text-transform: uppercase;">Studio</text>
+</svg>

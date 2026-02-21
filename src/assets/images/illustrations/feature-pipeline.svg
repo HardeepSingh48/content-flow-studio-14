@@ -1,0 +1,15 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50 150H350" stroke="#3B82F6" stroke-width="2" stroke-dasharray="8 8"/>
+  <circle cx="50" cy="150" r="20" fill="white" stroke="#3B82F6" stroke-width="2"/>
+  <path d="M45 150L55 150M50 145V155" stroke="#3B82F6" stroke-width="2"/>
+  
+  <circle cx="200" cy="150" r="30" fill="white" stroke="#3B82F6" stroke-width="3"/>
+  <path d="M190 150L210 150M200 140V160" stroke="#3B82F6" stroke-width="3"/>
+  
+  <circle cx="350" cy="150" r="20" fill="white" stroke="#3B82F6" stroke-width="2"/>
+  <path d="M345 150L355 150M350 145V155" stroke="#3B82F6" stroke-width="2"/>
+  
+  <!-- Flow lines -->
+  <path d="M200 120C200 80 100 80 100 120" stroke="#3B82F6" stroke-width="1" stroke-opacity="0.2"/>
+  <path d="M200 180C200 220 300 220 300 180" stroke="#3B82F6" stroke-width="1" stroke-opacity="0.2"/>
+</svg>

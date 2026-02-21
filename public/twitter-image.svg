@@ -1,0 +1,19 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#F8FAFC"/>
+  <rect width="1200" height="630" fill="url(#paint0_radial_bg)" fill-opacity="0.5"/>
+  
+  <g transform="translate(450, 180) scale(3)">
+    <path d="M50 15L20 32.5V67.5L50 85L80 67.5V32.5L50 15Z" fill="#3B82F6" fill-opacity="0.1" stroke="#3B82F6" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M50 35L35 43.75V56.25L50 65L65 56.25V43.75L50 35Z" fill="#3B82F6" stroke="#3B82F6" stroke-width="2" stroke-linejoin="round"/>
+  </g>
+  
+  <text x="600" y="480" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="48" letter-spacing="-0.02em" fill="#0F172A">Content Flow Studio</text>
+  <text x="600" y="530" text-anchor="middle" font-family="Inter, sans-serif" font-weight="500" font-size="24" letter-spacing="0.1em" fill="#64748B" style="text-transform: uppercase;">Enterprise Content Distribution</text>
+
+  <defs>
+    <radialGradient id="paint0_radial_bg" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(600 315) rotate(90) scale(400 600)">
+      <stop stop-color="#3B82F6" stop-opacity="0.1"/>
+      <stop offset="1" stop-color="#F8FAFC" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

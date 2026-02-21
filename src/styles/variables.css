@@ -1,0 +1,128 @@
+:root {
+    /* --- Outseta Theme Colors (Dark Navy) --- */
+    --color-bg-primary: #0A0E27;
+    --color-bg-secondary: rgba(255, 255, 255, 0.03);
+    --color-bg-tertiary: rgba(255, 255, 255, 0.05);
+    --color-bg-elevated: rgba(255, 255, 255, 0.08);
+
+    --color-neutral-50: #FFFFFF;
+    --color-neutral-100: rgba(255, 255, 255, 0.9);
+    --color-neutral-200: rgba(255, 255, 255, 0.8);
+    --color-neutral-300: rgba(255, 255, 255, 0.7);
+    --color-neutral-400: rgba(255, 255, 255, 0.6);
+    --color-neutral-500: rgba(255, 255, 255, 0.5);
+    --color-neutral-600: rgba(255, 255, 255, 0.3);
+    --color-neutral-700: rgba(255, 255, 255, 0.15);
+    --color-neutral-800: rgba(255, 255, 255, 0.08);
+    --color-neutral-900: #0A0E27;
+
+    --color-primary-50: rgba(139, 92, 246, 0.05);
+    --color-primary-100: rgba(139, 92, 246, 0.1);
+    --color-primary-200: rgba(139, 92, 246, 0.2);
+    --color-primary-300: rgba(139, 92, 246, 0.3);
+    --color-primary-400: rgba(139, 92, 246, 0.4);
+    --color-primary-500: #8B5CF6;
+    /* Purple */
+    --color-primary-600: #7C3AED;
+    --color-primary-700: #6D28D9;
+    --color-primary-800: #5B21B6;
+    --color-primary-900: #4C1D95;
+
+    --color-accent-blue: #6366F1;
+    --color-accent-pink: #EC4899;
+
+    /* --- Showcase Section Light Colors --- */
+    --color-showcase-bg-top: #FFF9D2;
+    --color-showcase-bg-bottom: #FDE073;
+    --color-showcase-card: #FFFFFF;
+    --color-showcase-text: #1A1A1A;
+
+    /* --- Semantic Colors --- */
+    --color-success: #10B981;
+    --color-success-bg: rgba(16, 185, 129, 0.1);
+    --color-warning: #F59E0B;
+    --color-warning-bg: rgba(245, 158, 11, 0.1);
+    --color-error: #EF4444;
+    --color-error-bg: rgba(239, 68, 68, 0.1);
+    --color-info: #3B82F6;
+    --color-info-bg: rgba(59, 130, 246, 0.1);
+
+    /* --- Typography --- */
+    --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    --font-family-display: 'Inter', sans-serif;
+    --font-family-handwritten: 'Caveat', 'Comic Sans MS', cursive;
+    /* For scribble text */
+
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
+    --font-size-5xl: 3rem;
+    --font-size-6xl: 3.75rem;
+    --font-size-7xl: 4.5rem;
+    /* Hero headline */
+
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    --line-height-tight: 1.1;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.75;
+
+    --letter-spacing-tight: -0.02em;
+    --letter-spacing-normal: 0;
+    --letter-spacing-wide: 0.025em;
+
+    /* --- Spacing System (8px base) --- */
+    --spacing-0: 0;
+    --spacing-1: 0.25rem;
+    --spacing-2: 0.5rem;
+    --spacing-3: 0.75rem;
+    --spacing-4: 1rem;
+    --spacing-5: 1.25rem;
+    --spacing-6: 1.5rem;
+    --spacing-8: 2rem;
+    --spacing-10: 2.5rem;
+    --spacing-12: 3rem;
+    --spacing-16: 4rem;
+    --spacing-20: 5rem;
+    --spacing-24: 6rem;
+    --section-padding: 7.5rem;
+    /* 120px */
+
+    /* --- Elevation System (Shadows) --- */
+    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 24px rgba(139, 92, 246, 0.3);
+    --shadow-glow-lg: 0 0 48px rgba(139, 92, 246, 0.4);
+
+    /* --- Border Radius --- */
+    --radius-none: 0;
+    --radius-sm: 0.25rem;
+    --radius-base: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+    --radius-full: 9999px;
+
+    /* --- Animation System --- */
+    --duration-fast: 150ms;
+    --duration-base: 200ms;
+    --duration-slow: 300ms;
+    --duration-slower: 500ms;
+
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+}

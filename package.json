@@ -1,5 +1,5 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "content-flow-studio-enterprise",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -48,7 +48,7 @@
     "cmdk": "^1.1.1",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.6.0",
-    "framer-motion": "^12.23.25",
+    "framer-motion": "^12.34.3",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.462.0",
     "marked": "^17.0.1",
