@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { PublicNavbar } from '@/components/public-layout/PublicNavbar';
 import { PublicFooter } from '@/components/public-layout/PublicFooter';
-import { Hero } from './sections/Hero';
+import { ScrollytellingHero } from './sections/ScrollytellingHero';
 
 const Features = lazy(() => import('./sections/Features'));
 const Showcase = lazy(() => import('./sections/Showcase').then(module => ({ default: module.Showcase })));
@@ -26,7 +26,7 @@ export const Landing = () => {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#0A0E27' }}>
       <PublicNavbar />
       <main style={{ flex: 1 }}>
-        <Hero />
+        <ScrollytellingHero />
         <Suspense fallback={<LoadingFallback />}>
           <Showcase />
           <Features />

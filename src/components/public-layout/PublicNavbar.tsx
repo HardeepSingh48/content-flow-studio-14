@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { InviteModal } from '@/components/ui/InviteModal';
 
 const navLinks = [
     { label: 'Features', href: '/features' },
@@ -13,6 +14,7 @@ const navLinks = [
 export const PublicNavbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [inviteOpen, setInviteOpen] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -74,7 +76,7 @@ export const PublicNavbar = () => {
                             onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
                             onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.65)')}
                         >Sign In</button>
-                        <button onClick={() => navigate('/signup')} style={{
+                        <button onClick={() => setInviteOpen(true)} style={{
                             background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)',
                             color: '#fff', border: 'none', cursor: 'pointer',
                             padding: '10px 22px', borderRadius: 8, fontWeight: 600, fontSize: 15,
@@ -82,7 +84,7 @@ export const PublicNavbar = () => {
                         }}
                             onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(139,92,246,0.45)'; }}
                             onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(139,92,246,0.3)'; }}
-                        >Get Started</button>
+                        >Get an Invite</button>
                     </div>
 
                     {/* Mobile toggle */}
@@ -114,11 +116,12 @@ export const PublicNavbar = () => {
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingTop: 24 }}>
                             <button onClick={() => navigate('/signin')} style={{ width: '100%', padding: 14, borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)', background: 'transparent', color: '#fff', fontWeight: 600, fontSize: 16, cursor: 'pointer' }}>Sign In</button>
-                            <button onClick={() => navigate('/signup')} style={{ width: '100%', padding: 14, borderRadius: 8, background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)', border: 'none', color: '#fff', fontWeight: 600, fontSize: 16, cursor: 'pointer' }}>Get Started Free</button>
+                            <button onClick={() => { setInviteOpen(true); setMobileOpen(false); }} style={{ width: '100%', padding: 14, borderRadius: 8, background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)', border: 'none', color: '#fff', fontWeight: 600, fontSize: 16, cursor: 'pointer' }}>Get an Invite</button>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
+            <InviteModal isOpen={inviteOpen} onClose={() => setInviteOpen(false)} />
 
             <style>{`
         @media (max-width: 768px) {
