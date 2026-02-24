@@ -36,10 +36,10 @@ const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Brand */}
           <div className="col-span-2 lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <Zap className="w-7 h-7 text-primary" />
-              <span className="text-lg font-bold text-foreground">
-                Content Pipeline<span className="gradient-text"> Studio</span>
+            <Link to="/" className="flex items-center gap-3 mb-4">
+              <img src="/Stratiara Logo.png" alt="Stratiara Logo" className="w-10 h-10 object-contain dark:invert invert scale-[1.3]" />
+              <span className="text-xl font-bold text-foreground">
+                Stratiara
               </span>
             </Link>
             <p className="text-muted-foreground text-sm max-w-xs mb-6">
@@ -114,7 +114,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} Content Pipeline Studio. All rights reserved.
+            © {currentYear} Stratiara. All rights reserved.
           </p>
           <p className="text-sm text-muted-foreground">
             Made with ❤️ for content creators

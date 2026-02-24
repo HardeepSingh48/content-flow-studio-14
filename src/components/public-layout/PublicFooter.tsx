@@ -28,9 +28,11 @@ export const PublicFooter = () => {
                 <div className="pub-footer-grid" style={{ display: 'grid', gridTemplateColumns: '2fr repeat(3, 1fr)', gap: 60, marginBottom: 64 }}>
                     {/* Brand */}
                     <div>
-                        <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, textDecoration: 'none', marginBottom: 20 }}>
-                            <div style={{ width: 32, height: 32, background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)', borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#fff' }}>CP</div>
-                            <span style={{ fontWeight: 700, fontSize: 16, color: '#fff', letterSpacing: '-0.01em' }}>ContentPipeline</span>
+                        <Link to="/" className="flex items-center gap-2 mb-4">
+                            <img src="/Stratiara Logo.png" alt="Stratiara Logo" className="w-7 h-7 object-contain dark:invert invert" />
+                            <span className="text-lg font-bold text-foreground">
+                                Stratiara<span className="gradient-text"> </span>
+                            </span>
                         </Link>
                         <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,0.45)', maxWidth: 280 }}>
                             The strategic content studio for creators and growth teams. Build. Publish. Track. Repeat.

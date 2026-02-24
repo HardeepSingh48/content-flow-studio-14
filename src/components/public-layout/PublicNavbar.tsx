@@ -42,15 +42,19 @@ export const PublicNavbar = () => {
             >
                 <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 40px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     {/* Logo */}
-                    <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
-                        <div style={{
-                            width: 36, height: 36,
-                            background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)',
-                            borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            fontWeight: 700, fontSize: 14, color: '#fff',
-                            boxShadow: '0 4px 12px rgba(139,92,246,0.3)',
-                        }}>CP</div>
-                        <span style={{ fontWeight: 700, fontSize: 18, color: '#fff', letterSpacing: '-0.01em' }}>ContentPipeline</span>
+                    <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none' }}>
+                        <img
+                            src="/Stratiara Logo.png"
+                            alt="Stratiara Logo"
+                            style={{
+                                width: 44,
+                                height: 44,
+                                objectFit: 'contain',
+                                filter: 'invert(1)', // Inverting because the logo is black and the navbar is dark
+                                transform: 'scale(1.4)'
+                            }}
+                        />
+                        <span style={{ fontWeight: 700, fontSize: 22, color: '#fff', letterSpacing: '-0.01em' }}>Stratiara</span>
                     </Link>
 
                     {/* Desktop Nav */}

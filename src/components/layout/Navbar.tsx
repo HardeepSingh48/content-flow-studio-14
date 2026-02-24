@@ -37,13 +37,17 @@ const Navbar = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="relative">
-              <div className="absolute inset-0 bg-primary/30 blur-lg rounded-full group-hover:bg-primary/50 transition-all duration-300" />
-              <Zap className="relative w-8 h-8 text-primary" />
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="relative w-11 h-11 flex items-center justify-center">
+              <div className="absolute inset-0 bg-primary/30 blur-lg rounded-full group-hover:bg-primary/50 transition-all duration-300 opacity-50" />
+              <img
+                src="/Stratiara Logo.png"
+                alt="Stratiara Logo"
+                className="relative w-full h-full object-contain dark:invert invert scale-[1.3]"
+              />
             </div>
-            <span className="text-lg font-bold text-foreground">
-              Content Pipeline<span className="gradient-text"> Studio</span>
+            <span className="text-xl font-bold text-foreground">
+              Stratiara
             </span>
           </Link>
 

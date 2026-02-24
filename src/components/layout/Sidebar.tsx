@@ -72,17 +72,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePath = '/', onNavigate }
             )}
         >
             {/* Header */}
-            <div className="h-16 flex items-center px-4 border-b border-white/10 justify-between">
+            <div className="h-20 flex items-center px-4 border-b border-white/10 justify-between">
                 {!isCollapsed && (
-                    <div className="flex items-center gap-2">
-                        <Zap className="w-6 h-6 text-primary" />
-                        <span className="text-lg font-bold text-foreground">
-                            Content Pipeline<span className="text-primary text-sm font-bold"> Studio</span>
+                    <div className="flex items-center gap-3">
+                        <img src="/Stratiara Logo.png" alt="Stratiara Logo" className="w-10 h-10 object-contain dark:invert invert scale-[1.3]" />
+                        <span className="text-xl font-bold text-foreground">
+                            Stratiara
                         </span>
                     </div>
                 )}
                 {isCollapsed && (
-                    <Zap className="w-8 h-8 text-primary mx-auto" />
+                    <img src="/Stratiara Logo.png" alt="Stratiara Logo" className="w-10 h-10 mx-auto object-contain dark:invert invert scale-[1.3]" />
                 )}
             </div>
 

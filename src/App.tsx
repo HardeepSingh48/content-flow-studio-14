@@ -15,8 +15,8 @@ import { FullPageLoader } from "@/components/LoadingSkeletons";
 
 // Lazy load pages for code splitting
 const Index = lazy(() => import("./pages/public/Landing/Landing"));
-const SignIn = lazy(() => import("./pages/SignIn"));
-const SignUp = lazy(() => import("./pages/SignUp"));
+const SignIn = lazy(() => import("./pages/public/Auth/SignIn"));
+const SignUp = lazy(() => import("./pages/public/Auth/SignUp"));
 const Features = lazy(() => import("./pages/public/Features"));
 const Pricing = lazy(() => import("./pages/public/Pricing"));
 const Contact = lazy(() => import("./pages/public/Contact"));

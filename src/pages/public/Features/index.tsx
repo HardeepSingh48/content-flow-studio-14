@@ -1,6 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Layers, Zap, PenTool, BarChart3, Globe, Lock, Code, Cpu } from 'lucide-react';
+import {
+    Layers, Zap, PenTool, BarChart3, Globe, Lock, Code, Cpu,
+    Linkedin, Twitter, Instagram, Youtube, Facebook, MapPin, Notebook, Mail, BookOpen, Music, // Platforms
+    Bot, Sparkles, MessageSquare, BrainCircuit, // Text
+    Mic, AudioLines, Radio, // Audio
+    Video, Film, Clapperboard, MonitorPlay, // Video
+    Image as ImageIcon, Camera, Palette, Wand2 // Image
+} from 'lucide-react';
 import { PlatformIcons } from '@/components/ui/PlatformIcons';
 import { PublicNavbar } from '@/components/public-layout/PublicNavbar';
 import { PublicFooter } from '@/components/public-layout/PublicFooter';
@@ -85,138 +92,142 @@ const FeaturesPage = () => {
                         })}
                     </div>
 
-                    {/* Integrations Rebuilt Section */}
-                    <div className="max-w-[1000px] mx-auto">
+                    {/* Massive Integrations Ecosystem Section */}
+                    <div className="max-w-[1280px] mx-auto mt-32">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl md:text-5xl font-bold text-white tracking-[-0.02em] mb-4">
+                                The Ultimate Content <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] to-white">Ecosystem</span>
+                            </h2>
+                            <p className="text-lg text-white/60 max-w-2xl mx-auto">
+                                We integrate with over 40 of the world's most powerful AI models and social platforms, allowing you to build unprecedented content pipelines.
+                            </p>
+                        </div>
+
+                        {/* Social Platforms */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
                             className="mb-16"
                         >
-                            <div className="flex items-center gap-3 mb-8">
-                                <span className="text-2xl">🤖</span>
-                                <h2 className="text-2xl md:text-3xl font-bold text-white tracking-[-0.02em]">AI Content Generation</h2>
+                            <div className="flex items-center gap-3 mb-6">
+                                <span className="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center">🌐</span>
+                                <h3 className="text-2xl font-semibold text-white">Posting Platforms</h3>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {/* Gemini */}
-                                <div className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-colors">
-                                    <div className="flex items-center justify-between mb-8">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400 border border-indigo-500/30">
-                                                <Cpu size={20} />
-                                            </div>
-                                            <h3 className="text-xl font-semibold text-white">Google Gemini</h3>
+                            <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+                                {[
+                                    { name: 'LinkedIn Personal', icon: Linkedin, live: true },
+                                    { name: 'Twitter / X', icon: Twitter, live: true },
+                                    { name: 'Instagram', icon: Instagram, live: true },
+                                    { name: 'YouTube', icon: Youtube, live: false },
+                                    { name: 'TikTok', icon: Music, live: false },
+                                    { name: 'LinkedIn Company', icon: Linkedin, live: false },
+                                    { name: 'Facebook Pages', icon: Facebook, live: false },
+                                    { name: 'Pinterest', icon: MapPin, live: false },
+                                    { name: 'Medium', icon: BookOpen, live: false },
+                                    { name: 'Substack', icon: Mail, live: false },
+                                ].map(p => (
+                                    <div key={p.name} className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col items-center justify-center text-center hover:bg-white/10 transition-colors group">
+                                        <div className="w-10 h-10 mb-3 rounded-full bg-white/5 flex items-center justify-center text-white/50 group-hover:text-white transition-colors">
+                                            <p.icon size={20} />
                                         </div>
-                                        <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-500/20">Live</span>
+                                        <h4 className="font-medium text-white/90 mb-2">{p.name}</h4>
+                                        {p.live ? (
+                                            <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase">Live</span>
+                                        ) : (
+                                            <span className="px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 text-[10px] font-bold uppercase opacity-0 group-hover:opacity-100 transition-opacity">Coming Soon</span>
+                                        )}
                                     </div>
-                                    <ul className="space-y-3">
-                                        {['Content generation', 'Script writing', 'Idea expansion'].map(item => (
-                                            <li key={item} className="flex items-center gap-3 text-white/70">
-                                                <span className="text-emerald-400">✓</span> {item}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-
-                                {/* ChatGPT */}
-                                <div className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-colors">
-                                    <div className="flex items-center justify-between mb-8">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 border border-emerald-500/30">
-                                                <Code size={20} />
-                                            </div>
-                                            <h3 className="text-xl font-semibold text-white">ChatGPT / OpenAI</h3>
-                                        </div>
-                                        <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-500/20">Live</span>
-                                    </div>
-                                    <ul className="space-y-3">
-                                        {['Content generation', 'Copywriting', 'Brainstorming'].map(item => (
-                                            <li key={item} className="flex items-center gap-3 text-white/70">
-                                                <span className="text-emerald-400">✓</span> {item}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
+                                ))}
                             </div>
                         </motion.div>
 
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                        >
-                            <div className="flex items-center gap-3 mb-8">
-                                <span className="text-2xl">📱</span>
-                                <h2 className="text-2xl md:text-3xl font-bold text-white tracking-[-0.02em]">Social Media Publishing</h2>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {/* LinkedIn Personal */}
-                                <div className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-colors">
-                                    <div className="flex items-center justify-between mb-8">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-lg bg-[#0077b5]/20 flex items-center justify-center border border-[#0077b5]/30">
-                                                <div className="scale-150">
-                                                    <PlatformIcons.LINKEDIN />
-                                                </div>
-                                            </div>
-                                            <h3 className="text-lg font-semibold text-white">LinkedIn (Personal)</h3>
-                                        </div>
-                                        <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-500/20">Live</span>
-                                    </div>
-                                    <ul className="space-y-3">
-                                        {['Text posts', 'Image posts'].map(item => (
-                                            <li key={item} className="flex items-center gap-3 text-[14px] text-white/70">
-                                                <span className="text-emerald-400">✓</span> {item}
-                                            </li>
-                                        ))}
-                                    </ul>
+                        {/* AI Category Grids */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+                            {/* Text & Agents */}
+                            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                                <div className="flex items-center gap-3 mb-6">
+                                    <span className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">📝</span>
+                                    <h3 className="text-xl font-semibold text-white">Text & Agents</h3>
                                 </div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {[
+                                        { name: 'ChatGPT', icon: MessageSquare }, { name: 'Gemini', icon: Sparkles },
+                                        { name: 'Claude', icon: Bot }, { name: 'Llama 3', icon: BrainCircuit },
+                                        { name: 'Mistral', icon: Zap }, { name: 'Perplexity', icon: Globe },
+                                        { name: 'Cohere', icon: Layers }, { name: 'Groq', icon: Cpu }
+                                    ].map(model => (
+                                        <div key={model.name} className="bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-sm text-white/80 flex items-center gap-3 hover:text-white hover:border-[#8B5CF6]/50 transition-colors">
+                                            <model.icon size={16} className="text-emerald-400/70" />
+                                            {model.name}
+                                        </div>
+                                    ))}
+                                </div>
+                            </motion.div>
 
-                                {/* LinkedIn Company */}
-                                <div className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-colors relative overflow-hidden">
-                                    <div className="flex items-center justify-between mb-8">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-lg bg-[#0077b5]/10 flex items-center justify-center border border-white/5 opacity-50">
-                                                <div className="scale-150 grayscale">
-                                                    <PlatformIcons.LINKEDIN />
-                                                </div>
-                                            </div>
-                                            <h3 className="text-lg font-semibold text-white/60">LinkedIn (Company)</h3>
-                                        </div>
-                                    </div>
-                                    <div className="absolute top-5 right-5">
-                                        <span className="px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-[10px] font-bold uppercase tracking-wider border border-orange-500/20">Coming Soon</span>
-                                    </div>
-                                    <ul className="space-y-3">
-                                        {['Company page posting', 'Multi-page management'].map(item => (
-                                            <li key={item} className="flex items-center gap-3 text-[14px] text-white/40">
-                                                <span className="text-white/20">✓</span> {item}
-                                            </li>
-                                        ))}
-                                    </ul>
+                            {/* Audio & Voice */}
+                            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+                                <div className="flex items-center gap-3 mb-6">
+                                    <span className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center">🎤</span>
+                                    <h3 className="text-xl font-semibold text-white">Audio & Voice</h3>
                                 </div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {[
+                                        { name: 'ElevenLabs', icon: Mic }, { name: 'NotebookLM', icon: Notebook },
+                                        { name: 'Seed-TTS', icon: AudioLines }, { name: 'OpenAI TTS', icon: MessageSquare },
+                                        { name: 'PlayHT', icon: Radio }, { name: 'Murf.ai', icon: Mic },
+                                        { name: 'Resemble AI', icon: AudioLines }, { name: 'Suno', icon: Music }
+                                    ].map(model => (
+                                        <div key={model.name} className="bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-sm text-white/80 flex items-center gap-3 hover:text-white hover:border-[#8B5CF6]/50 transition-colors">
+                                            <model.icon size={16} className="text-orange-400/70" />
+                                            {model.name}
+                                        </div>
+                                    ))}
+                                </div>
+                            </motion.div>
 
-                                {/* Twitter */}
-                                <div className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-colors">
-                                    <div className="flex items-center justify-between mb-8">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center border border-white/20">
-                                                <div className="scale-[1.8]">
-                                                    <PlatformIcons.TWITTER />
-                                                </div>
-                                            </div>
-                                            <h3 className="text-lg font-semibold text-white">Twitter / X</h3>
-                                        </div>
-                                        <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-500/20">Live</span>
-                                    </div>
-                                    <ul className="space-y-3">
-                                        {['Tweets', 'Threads'].map(item => (
-                                            <li key={item} className="flex items-center gap-3 text-[14px] text-white/70">
-                                                <span className="text-emerald-400">✓</span> {item}
-                                            </li>
-                                        ))}
-                                    </ul>
+                            {/* Video & Animation */}
+                            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
+                                <div className="flex items-center gap-3 mb-6">
+                                    <span className="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center">🎬</span>
+                                    <h3 className="text-xl font-semibold text-white">Video & Animation</h3>
                                 </div>
-                            </div>
-                        </motion.div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {[
+                                        { name: 'Veo 3', icon: Video }, { name: 'Viggle (Dance)', icon: Clapperboard },
+                                        { name: 'HeyGen', icon: Video }, { name: 'Synthesia', icon: MonitorPlay },
+                                        { name: 'Luma Dream Mach.', icon: Wand2 }, { name: 'Kling AI', icon: Film },
+                                        { name: 'Runway Gen-3', icon: Clapperboard }, { name: 'Pika Labs', icon: Film },
+                                        { name: 'Haiper', icon: Video }
+                                    ].map(model => (
+                                        <div key={model.name} className="bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-sm text-white/80 flex items-center gap-3 hover:text-white hover:border-[#8B5CF6]/50 transition-colors">
+                                            <model.icon size={16} className="text-purple-400/70" />
+                                            {model.name}
+                                        </div>
+                                    ))}
+                                </div>
+                            </motion.div>
+
+                            {/* Image & Vision */}
+                            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
+                                <div className="flex items-center gap-3 mb-6">
+                                    <span className="w-8 h-8 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center">🖼️</span>
+                                    <h3 className="text-xl font-semibold text-white">Image & Vision</h3>
+                                </div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {[
+                                        { name: 'Midjourney', icon: Palette }, { name: 'DALL-E 3', icon: ImageIcon },
+                                        { name: 'Stable Diffusion', icon: Wand2 }, { name: 'Leonardo.ai', icon: Camera },
+                                        { name: 'Adobe Firefly', icon: Sparkles }
+                                    ].map(model => (
+                                        <div key={model.name} className="bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-sm text-white/80 flex items-center gap-3 hover:text-white hover:border-[#8B5CF6]/50 transition-colors">
+                                            <model.icon size={16} className="text-pink-400/70" />
+                                            {model.name}
+                                        </div>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        </div>
                     </div>
                 </div>
             </div>

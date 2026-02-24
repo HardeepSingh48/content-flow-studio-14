@@ -529,7 +529,7 @@ export const ScrollytellingHero = () => {
                                 transition={{ duration: 0.55, ease: 'easeOut' }}
                                 style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 32 }}
                             >
-                                <div
+                                {/* <div
                                     style={{
                                         display: 'inline-flex', alignItems: 'center', gap: 8,
                                         padding: '9px 20px', borderRadius: 100,
@@ -537,10 +537,7 @@ export const ScrollytellingHero = () => {
                                         border: '1px solid rgba(139,92,246,0.30)',
                                     }}
                                 >
-                                    <Zap size={13} color="#A78BFA" />
-                                    <span style={{ fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.88)', letterSpacing: '0.01em' }}>
-                                        Now with Multi-Platform Distribution
-                                    </span>
+
                                     <span
                                         style={{
                                             padding: '2px 8px', borderRadius: 100,
@@ -550,7 +547,7 @@ export const ScrollytellingHero = () => {
                                     >
                                         NEW
                                     </span>
-                                </div>
+                                </div> */}
                             </motion.div>
 
                             {/* Headline */}
