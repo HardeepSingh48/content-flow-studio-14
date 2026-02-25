@@ -6,8 +6,8 @@ const integrations = [
     { name: 'LinkedIn', icon: PlatformIcons.LINKEDIN, status: 'live', desc: 'Professional posts, articles & newsletters' },
     { name: 'Twitter / X', icon: PlatformIcons.TWITTER, status: 'live', desc: 'Threads, tweets & viral chains' },
     { name: 'Threads', icon: PlatformIcons.THREADS, status: 'live', desc: 'Long-form conversations & community' },
-    { name: 'Medium', icon: () => <span className="text-[20px] font-bold tracking-tighter text-white">M</span>, status: 'live', desc: 'In-depth articles & opinion pieces' },
-    { name: 'Instagram', icon: () => <div className="w-5 h-5 rounded-md border border-white/80 flex items-center justify-center"><div className="w-2 h-2 rounded-full border border-white/80" /></div>, status: 'soon', desc: 'Carousels, stories & reels' },
+    { name: 'Medium', icon: PlatformIcons.MEDIUM, status: 'live', desc: 'In-depth articles & opinion pieces' },
+    { name: 'Instagram', icon: PlatformIcons.INSTAGRAM, status: 'soon', desc: 'Carousels, stories & reels' },
     { name: 'YouTube', icon: PlatformIcons.YOUTUBE, status: 'soon', desc: 'Video scripts & descriptions' },
 ];
 

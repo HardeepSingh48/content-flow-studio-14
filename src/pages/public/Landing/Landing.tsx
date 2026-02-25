@@ -31,7 +31,7 @@ export const Landing = () => {
           <Showcase />
           <Features />
           <Integrations />
-          {/* <Testimonials /> */}
+          <Testimonials />
           <PricingPreview />
           <FinalCTA />
         </Suspense>

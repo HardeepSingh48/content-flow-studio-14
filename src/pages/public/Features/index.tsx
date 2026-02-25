@@ -15,33 +15,33 @@ import { PublicFooter } from '@/components/public-layout/PublicFooter';
 const fullFeatures = [
     {
         icon: PenTool,
-        title: "Advanced Editor",
-        description: "Write and format content with a Notion-like editor tailored for social platforms. Built-in character limits and dynamic previews ensure perfect formatting."
+        title: "Strategy-First Editor",
+        description: "Write with context. Every brief links to a content pillar, target audience, and campaign goal. Your editor knows what the content needs to achieve before you type a word."
     },
     {
         icon: Layers,
-        title: "Visual Pipeline",
-        description: "Track the status of every draft, review, and scheduled post with a customizable Kanban board. Create custom stages for your specific workflow."
+        title: "Editorial Pipeline Board",
+        description: "A visual Kanban board for your entire content operation. Custom stages, priority flags, deadline tracking, and role-based ownership — built for editorial rigour."
     },
     {
         icon: Globe,
-        title: "Omnichannel Publishing",
-        description: "Publish simultaneously across LinkedIn, Twitter, YouTube Community, Threads, and more. Tweak content seamlessly per platform."
+        title: "Omnichannel Distribution",
+        description: "Once strategy approves, distribute across LinkedIn, Twitter, YouTube, Instagram, and more with one click — with platform-native formatting automatically applied."
     },
     {
         icon: Zap,
-        title: "Smart Automations",
-        description: "Set up rules to automatically move posts between pipeline stages or assign reviews to specific team members based on content type."
+        title: "Workflow Automations",
+        description: "Automate the editorial handoff. Route drafts to the right reviewer, trigger approval reminders, and enforce publishing rules — all without manual intervention."
     },
     {
         icon: BarChart3,
-        title: "Executive Analytics",
-        description: "Unified cross-platform reporting. See aggregated engagements, analyze top-performing times, and export presentation-ready reports."
+        title: "Content Performance Intelligence",
+        description: "Track which content pillars are driving audience growth, benchmark against your strategy goals, and get data-backed recommendations for your next editorial sprint."
     },
     {
         icon: Lock,
-        title: "Enterprise Security",
-        description: "SSO integrations, granular role-based access control (RBAC), and detailed audit logs to ensure your brand's voice is always protected."
+        title: "Enterprise Governance",
+        description: "SSO, granular RBAC, and full audit logs ensure brand voice is protected and every piece of content is traceable back to a strategic decision."
     }
 ];
 
@@ -57,7 +57,7 @@ const FeaturesPage = () => {
                             animate={{ opacity: 1, y: 0 }}
                             className="text-[40px] md:text-[56px] font-bold text-white leading-[1.1] tracking-[-0.02em] mb-6"
                         >
-                            Everything you need to <span className="bg-gradient-to-r from-white to-[#A78BFA] text-transparent bg-clip-text">distribute content</span>
+                            The platform built around <span className="bg-gradient-to-r from-white to-[#A78BFA] text-transparent bg-clip-text">content strategy</span>
                         </motion.h1>
                         <motion.p
                             initial={{ opacity: 0, y: 20 }}
@@ -65,7 +65,7 @@ const FeaturesPage = () => {
                             transition={{ delay: 0.1 }}
                             className="text-[18px] md:text-[20px] text-white/60 leading-[1.6]"
                         >
-                            A powerful suite of tools designed to help creators and teams build, manage, and scale their content pipelines seamlessly.
+                            Every feature in Stratiara is designed to help teams think strategically, move deliberately, and distribute at scale.
                         </motion.p>
                     </div>
 
@@ -96,10 +96,10 @@ const FeaturesPage = () => {
                     <div className="max-w-[1280px] mx-auto mt-32">
                         <div className="text-center mb-16">
                             <h2 className="text-3xl md:text-5xl font-bold text-white tracking-[-0.02em] mb-4">
-                                The Ultimate Content <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] to-white">Ecosystem</span>
+                                Integrations built for <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] to-white">strategic reach</span>
                             </h2>
                             <p className="text-lg text-white/60 max-w-2xl mx-auto">
-                                We integrate with over 40 of the world's most powerful AI models and social platforms, allowing you to build unprecedented content pipelines.
+                                Connect to 40+ platforms and AI models. Strategy drives the decisions — integrations handle the execution.
                             </p>
                         </div>
 
@@ -116,20 +116,23 @@ const FeaturesPage = () => {
                             </div>
                             <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
                                 {[
-                                    { name: 'LinkedIn Personal', icon: Linkedin, live: true },
-                                    { name: 'Twitter / X', icon: Twitter, live: true },
-                                    { name: 'Instagram', icon: Instagram, live: true },
-                                    { name: 'YouTube', icon: Youtube, live: false },
-                                    { name: 'TikTok', icon: Music, live: false },
-                                    { name: 'LinkedIn Company', icon: Linkedin, live: false },
-                                    { name: 'Facebook Pages', icon: Facebook, live: false },
-                                    { name: 'Pinterest', icon: MapPin, live: false },
-                                    { name: 'Medium', icon: BookOpen, live: false },
-                                    { name: 'Substack', icon: Mail, live: false },
+                                    { name: 'Facebook Pages', logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg', live: false },
+                                    { name: 'Facebook Profile', logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg', live: false },
+                                    { name: 'Instagram', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg', live: true },
+                                    { name: 'LinkedIn Personal', logo: 'https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg', live: true },
+                                    { name: 'LinkedIn Company', logo: 'https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg', live: false },
+                                    { name: 'Twitter / X', logo: 'https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg', live: true, invert: true },
+                                    { name: 'YouTube', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg', live: false },
+                                    { name: 'TikTok', logo: 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg', live: false, whiteBg: true },
+                                    { name: 'Pinterest', logo: 'https://upload.wikimedia.org/wikipedia/commons/3/35/Pinterest_Logo.svg', live: false },
+                                    { name: 'Medium', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/ec/Medium_logo_Monogram.svg', live: false, invert: true },
+                                    { name: 'Substack', logo: 'https://logo.clearbit.com/substack.com', live: false, whiteBg: true },
+                                    { name: 'WordPress', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/09/Wordpress-Logo.svg', live: false, whiteBg: true },
+                                    { name: 'Reddit', logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b4/Reddit_logo.svg', live: false, whiteBg: true },
                                 ].map(p => (
                                     <div key={p.name} className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col items-center justify-center text-center hover:bg-white/10 transition-colors group">
-                                        <div className="w-10 h-10 mb-3 rounded-full bg-white/5 flex items-center justify-center text-white/50 group-hover:text-white transition-colors">
-                                            <p.icon size={20} />
+                                        <div className={`w-12 h-12 mb-3 rounded-full flex items-center justify-center overflow-hidden p-2.5 ${p.whiteBg ? 'bg-white' : 'bg-white/5'}`}>
+                                            <img src={p.logo} alt={p.name} className={`w-full h-full object-contain ${p.invert ? 'invert' : ''}`} onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}&background=2C3E50&color=fff`; }} />
                                         </div>
                                         <h4 className="font-medium text-white/90 mb-2">{p.name}</h4>
                                         {p.live ? (
@@ -152,13 +155,19 @@ const FeaturesPage = () => {
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     {[
-                                        { name: 'ChatGPT', icon: MessageSquare }, { name: 'Gemini', icon: Sparkles },
-                                        { name: 'Claude', icon: Bot }, { name: 'Llama 3', icon: BrainCircuit },
-                                        { name: 'Mistral', icon: Zap }, { name: 'Perplexity', icon: Globe },
-                                        { name: 'Cohere', icon: Layers }, { name: 'Groq', icon: Cpu }
+                                        { name: 'ChatGPT', logo: 'https://cdn.simpleicons.org/openai/10a37f' },
+                                        { name: 'Gemini', logo: 'https://cdn.simpleicons.org/googlegemini/8E75B2' },
+                                        { name: 'Claude', logo: 'https://cdn.simpleicons.org/anthropic/D97706', whiteBg: true },
+                                        { name: 'Llama 3', logo: 'https://cdn.simpleicons.org/meta/0081FB' },
+                                        { name: 'Mistral', logo: 'https://cdn.simpleicons.org/mistral/FF7000' },
+                                        { name: 'Perplexity', logo: 'https://cdn.simpleicons.org/perplexity/20808D' },
+                                        { name: 'Cohere', logo: 'https://www.google.com/s2/favicons?domain=cohere.com&sz=128' },
+                                        { name: 'Groq', logo: 'https://www.google.com/s2/favicons?domain=groq.com&sz=128' }
                                     ].map(model => (
-                                        <div key={model.name} className="bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-sm text-white/80 flex items-center gap-3 hover:text-white hover:border-[#8B5CF6]/50 transition-colors">
-                                            <model.icon size={16} className="text-emerald-400/70" />
+                                        <div key={model.name} className="bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-sm text-white/80 flex items-center gap-3 hover:text-white hover:border-[#8B5CF6]/50 transition-colors group">
+                                            <div className={`w-5 h-5 flex-shrink-0 rounded-sm overflow-hidden flex items-center justify-center ${model.whiteBg ? 'bg-white p-0.5' : ''}`}>
+                                                <img src={model.logo} alt={model.name} className="w-full h-full object-contain" onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(model.name)}&background=4B5563&color=fff&size=64`; }} />
+                                            </div>
                                             {model.name}
                                         </div>
                                     ))}
@@ -173,13 +182,19 @@ const FeaturesPage = () => {
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     {[
-                                        { name: 'ElevenLabs', icon: Mic }, { name: 'NotebookLM', icon: Notebook },
-                                        { name: 'Seed-TTS', icon: AudioLines }, { name: 'OpenAI TTS', icon: MessageSquare },
-                                        { name: 'PlayHT', icon: Radio }, { name: 'Murf.ai', icon: Mic },
-                                        { name: 'Resemble AI', icon: AudioLines }, { name: 'Suno', icon: Music }
+                                        { name: 'ElevenLabs', logo: 'https://cdn.simpleicons.org/elevenlabs/000000', whiteBg: true },
+                                        { name: 'NotebookLM', logo: 'https://www.google.com/s2/favicons?domain=notebooklm.google.com&sz=128' },
+                                        { name: 'Seed-TTS', logo: 'https://cdn.simpleicons.org/bytedance/FF4444' },
+                                        { name: 'OpenAI TTS', logo: 'https://cdn.simpleicons.org/openai/000000', whiteBg: true },
+                                        { name: 'PlayHT', logo: 'https://www.google.com/s2/favicons?domain=play.ht&sz=128' },
+                                        { name: 'Murf.ai', logo: 'https://www.google.com/s2/favicons?domain=murf.ai&sz=128' },
+                                        { name: 'Resemble AI', logo: 'https://www.google.com/s2/favicons?domain=resemble.ai&sz=128' },
+                                        { name: 'Suno', logo: 'https://www.google.com/s2/favicons?domain=suno.com&sz=128' }
                                     ].map(model => (
-                                        <div key={model.name} className="bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-sm text-white/80 flex items-center gap-3 hover:text-white hover:border-[#8B5CF6]/50 transition-colors">
-                                            <model.icon size={16} className="text-orange-400/70" />
+                                        <div key={model.name} className="bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-sm text-white/80 flex items-center gap-3 hover:text-white hover:border-[#8B5CF6]/50 transition-colors group">
+                                            <div className={`w-5 h-5 flex-shrink-0 rounded-sm overflow-hidden flex items-center justify-center ${model.whiteBg ? 'bg-white p-0.5' : ''}`}>
+                                                <img src={model.logo} alt={model.name} className="w-full h-full object-contain" onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(model.name)}&background=4B5563&color=fff&size=64`; }} />
+                                            </div>
                                             {model.name}
                                         </div>
                                     ))}
@@ -194,14 +209,21 @@ const FeaturesPage = () => {
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     {[
-                                        { name: 'Veo 3', icon: Video }, { name: 'Viggle (Dance)', icon: Clapperboard },
-                                        { name: 'HeyGen', icon: Video }, { name: 'Synthesia', icon: MonitorPlay },
-                                        { name: 'Luma Dream Mach.', icon: Wand2 }, { name: 'Kling AI', icon: Film },
-                                        { name: 'Runway Gen-3', icon: Clapperboard }, { name: 'Pika Labs', icon: Film },
-                                        { name: 'Haiper', icon: Video }
+                                        { name: 'Sora', logo: 'https://cdn.simpleicons.org/openai/000000', whiteBg: true },
+                                        { name: 'Veo 3', logo: 'https://cdn.simpleicons.org/google/4285F4' },
+                                        { name: 'Viggle', logo: 'https://www.google.com/s2/favicons?domain=viggle.ai&sz=128' },
+                                        { name: 'HeyGen', logo: 'https://www.google.com/s2/favicons?domain=heygen.com&sz=128' },
+                                        { name: 'Synthesia', logo: 'https://www.google.com/s2/favicons?domain=synthesia.io&sz=128' },
+                                        { name: 'Luma', logo: 'https://www.google.com/s2/favicons?domain=lumalabs.ai&sz=128' },
+                                        { name: 'Kling AI', logo: 'https://www.google.com/s2/favicons?domain=klingai.com&sz=128' },
+                                        { name: 'Runway Gen-3', logo: 'https://www.google.com/s2/favicons?domain=runwayml.com&sz=128' },
+                                        { name: 'Pika Labs', logo: 'https://www.google.com/s2/favicons?domain=pika.art&sz=128' },
+                                        { name: 'Haiper', logo: 'https://www.google.com/s2/favicons?domain=haiper.ai&sz=128' }
                                     ].map(model => (
-                                        <div key={model.name} className="bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-sm text-white/80 flex items-center gap-3 hover:text-white hover:border-[#8B5CF6]/50 transition-colors">
-                                            <model.icon size={16} className="text-purple-400/70" />
+                                        <div key={model.name} className="bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-sm text-white/80 flex items-center gap-3 hover:text-white hover:border-[#8B5CF6]/50 transition-colors group">
+                                            <div className={`w-5 h-5 flex-shrink-0 rounded-sm overflow-hidden flex items-center justify-center ${model.whiteBg ? 'bg-white p-0.5' : ''}`}>
+                                                <img src={model.logo} alt={model.name} className="w-full h-full object-contain" onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(model.name)}&background=4B5563&color=fff&size=64`; }} />
+                                            </div>
                                             {model.name}
                                         </div>
                                     ))}
@@ -216,12 +238,16 @@ const FeaturesPage = () => {
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     {[
-                                        { name: 'Midjourney', icon: Palette }, { name: 'DALL-E 3', icon: ImageIcon },
-                                        { name: 'Stable Diffusion', icon: Wand2 }, { name: 'Leonardo.ai', icon: Camera },
-                                        { name: 'Adobe Firefly', icon: Sparkles }
+                                        { name: 'Midjourney', logo: 'https://www.google.com/s2/favicons?domain=midjourney.com&sz=128' },
+                                        { name: 'DALL-E 3', logo: 'https://cdn.simpleicons.org/openai/000000', whiteBg: true },
+                                        { name: 'Stable Diffusion', logo: 'https://cdn.simpleicons.org/stability-ai/8A2BE2' },
+                                        { name: 'Leonardo.ai', logo: 'https://www.google.com/s2/favicons?domain=leonardo.ai&sz=128' },
+                                        { name: 'Adobe Firefly', logo: 'https://cdn.simpleicons.org/adobe/FF0000' }
                                     ].map(model => (
-                                        <div key={model.name} className="bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-sm text-white/80 flex items-center gap-3 hover:text-white hover:border-[#8B5CF6]/50 transition-colors">
-                                            <model.icon size={16} className="text-pink-400/70" />
+                                        <div key={model.name} className="bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-sm text-white/80 flex items-center gap-3 hover:text-white hover:border-[#8B5CF6]/50 transition-colors group">
+                                            <div className={`w-5 h-5 flex-shrink-0 rounded-sm overflow-hidden flex items-center justify-center ${model.whiteBg ? 'bg-white p-0.5' : ''}`}>
+                                                <img src={model.logo} alt={model.name} className="w-full h-full object-contain" onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(model.name)}&background=4B5563&color=fff&size=64`; }} />
+                                            </div>
                                             {model.name}
                                         </div>
                                     ))}

@@ -565,7 +565,7 @@ export const ScrollytellingHero = () => {
                                 }}
                             >
                                 <span style={{ display: 'block', color: '#FFFFFF' }}>
-                                    Build content that
+                                    Stop creating noise.
                                 </span>
                                 <span
                                     style={{
@@ -576,7 +576,7 @@ export const ScrollytellingHero = () => {
                                         backgroundClip: 'text',
                                     }}
                                 >
-                                    flows like water
+                                    Start owning narratives.
                                 </span>
                             </motion.h1>
 
@@ -593,8 +593,9 @@ export const ScrollytellingHero = () => {
                                     margin: '0 auto 40px',
                                 }}
                             >
-                                The unified content studio for strategic publishers. Create, distribute,
-                                and track — all in one seamless pipeline.
+                                Stratiara is the content strategy platform for serious teams.
+                                Plan your narrative, move content through your editorial pipeline,
+                                and publish when the moment is right.
                             </motion.p>
 
                             {/* CTAs */}
@@ -667,10 +668,10 @@ export const ScrollytellingHero = () => {
                     className="stats-grid-wrap"
                 >
                     {[
-                        { value: '10k+', label: 'Posts published' },
-                        { value: '500+', label: 'Teams onboard' },
-                        { value: '6', label: 'Platforms connected' },
-                        { value: '3×', label: 'Content output' },
+                        { value: '80%', label: 'Less planning overhead' },
+                        { value: '500+', label: 'Strategy teams' },
+                        { value: '12×', label: 'Faster editorial cycles' },
+                        { value: '4.9★', label: 'Customer rating' },
                     ].map((s) => (
                         <div
                             key={s.label}

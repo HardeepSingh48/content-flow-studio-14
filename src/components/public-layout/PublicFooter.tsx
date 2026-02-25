@@ -35,7 +35,7 @@ export const PublicFooter = () => {
                             </span>
                         </Link>
                         <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,0.45)', maxWidth: 280 }}>
-                            The strategic content studio for creators and growth teams. Build. Publish. Track. Repeat.
+                            The content strategy platform for serious teams. Plan. Align. Distribute. Outperform.
                         </p>
                         <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 5, marginTop: 20, color: 'rgba(255,255,255,0.35)', fontSize: 14, textDecoration: 'none', transition: 'color 0.2s ease' }}
                             onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
@@ -62,7 +62,7 @@ export const PublicFooter = () => {
 
                 <div style={{ paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
                     <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.28)', margin: 0 }}>
-                        © {new Date().getFullYear()} ContentPipeline. All rights reserved.
+                        © {new Date().getFullYear()} Stratiara. All rights reserved.
                     </p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                         <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#34D399' }} />

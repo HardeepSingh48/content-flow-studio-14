@@ -2,24 +2,25 @@ import React from 'react';
 
 export const PlatformIcons = {
     LINKEDIN: () => (
-        <svg className="w-3 h-3 md:w-4 md:h-4 text-[#0A66C2]" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-        </svg>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" alt="LinkedIn" className="w-4 h-4 md:w-5 md:h-5 object-contain" />
     ),
     TWITTER: () => (
-        <svg className="w-3 h-3 md:w-3.5 md:h-3.5 text-white" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-        </svg>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X" className="w-3.5 h-3.5 md:w-4 md:h-4 object-contain dark:invert" />
     ),
     YOUTUBE: () => (
-        <svg className="w-3 h-3 md:w-4 md:h-4 text-[#FF0000]" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-        </svg>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube" className="w-4 h-4 md:w-5 md:h-5 object-contain" />
     ),
     THREADS: () => (
-        <svg className="w-3 h-3 md:w-4 md:h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M16.92 10.59a5.1 5.1 0 0 0-1.78-3.05 4.87 4.87 0 0 0-3.26-1 5.06 5.06 0 0 0-4.06 2A7.37 7.37 0 0 0 6.25 13a7.51 7.51 0 0 0 1.5 4.6 5.2 5.2 0 0 0 4.2 2 5.6 5.6 0 0 0 3.1-.78 1.83 1.83 0 0 0 1-1.7A1.28 1.28 0 0 0 14.53 16a2.08 2.08 0 0 0-1.68-.45A3 3 0 0 1 11.23 16a3.5 3.5 0 0 1-2.07-2h5.71a4 4 0 0 0 1.9-.38 1.94 1.94 0 0 0 .15-3.03zM9.68 12.3A2.37 2.37 0 0 1 11.3 10a2.22 2.22 0 0 1 1.7-.1 1.29 1.29 0 0 1 .53 1.48A2.35 2.35 0 0 1 12.55 13H9.68a2 2 0 0 1 0-.7zm4.78 8.44a8 8 0 0 1-5.74-2.18 A7.9 7.9 0 0 1 6.5 13a7.9 7.9 0 0 1 2.22-5.56 8 8 0 0 1 5.74-2.18 7.9 7.9 0 0 1 5.56 2.22 7.8 7.8 0 0 1 2.18 5.74V14a5 5 0 0 1-5 5h-1a1 1 0 0 1-1-1v-4a7.14 7.14 0 0 0 4-6.4C19.2 4 15.2 0 10.3 0 5.4 0 1.4 4 1.4 8.9A8.9 8.9 0 0 0 10.3 17.8h4.2a1 1 0 0 1 0 2h-4.2A10.9 10.9 0 0 1 0 8.9 10.9 10.9 0 0 1 10.3-2 10.9 10.9 0 0 1 21.2 8.9v5.1A7 7 0 0 1 14.3 21h1.1a1 1 0 0 1 0 2h-1z" transform="translate(1.4 1.6) scale(0.9)" />
-        </svg>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Threads_%28app%29_logo.svg" alt="Threads" className="w-4 h-4 md:w-5 md:h-5 object-contain" />
+    ),
+    INSTAGRAM: () => (
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" className="w-4 h-4 md:w-5 md:h-5 object-contain" />
+    ),
+    FACEBOOK: () => (
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="Facebook" className="w-4 h-4 md:w-5 md:h-5 object-contain" />
+    ),
+    MEDIUM: () => (
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Medium_logo_Monogram.svg" alt="Medium" className="w-4 h-4 md:w-5 md:h-5 object-contain" />
     ),
     DEFAULT: () => (
         <svg className="w-3 h-3 md:w-4 md:h-4 text-[#A78BFA]" viewBox="0 0 24 24" fill="currentColor">

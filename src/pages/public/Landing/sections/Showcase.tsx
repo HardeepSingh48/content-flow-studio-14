@@ -6,31 +6,31 @@ export function Showcase() {
     const cards = [
         {
             imageSrc: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=800',
-            title: 'B2B Growth Agency',
+            title: 'Q4 Campaign Strategy',
             avatars: ['https://i.pravatar.cc/150?u=1', 'https://i.pravatar.cc/150?u=2'],
-            category: 'COMPANY',
-            platform: 'LINKEDIN',
+            category: 'CAMPAIGN',
+            platform: 'EDITORIAL',
         },
         {
             imageSrc: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800',
-            title: 'Daily Tech Newsletter',
+            title: 'Founder Thought Leadership',
             avatars: ['https://i.pravatar.cc/150?u=3'],
-            category: 'PERSONAL BRAND',
-            platform: 'TWITTER',
+            category: 'STRATEGY',
+            platform: 'LINKEDIN',
         },
         {
             imageSrc: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
-            title: 'Show Them',
+            title: 'Series Production Pipeline',
             avatars: ['https://i.pravatar.cc/150?u=4', 'https://i.pravatar.cc/150?u=5'],
-            category: 'COURSE',
+            category: 'WORKFLOW',
             platform: 'YOUTUBE',
         },
         {
             imageSrc: 'https://images.unsplash.com/photo-1555421689-491a97ff2040?auto=format&fit=crop&q=80&w=800',
-            title: 'Creator Community',
+            title: 'Brand Voice Guidelines',
             avatars: ['https://i.pravatar.cc/150?u=6'],
-            category: 'COMMUNITY',
-            platform: 'THREADS',
+            category: 'BRAND',
+            platform: 'MULTI-CHANNEL',
         }
     ];
 
@@ -48,7 +48,7 @@ export function Showcase() {
 
                     <div className="absolute -top-16 left-0 md:-left-12 z-20 hidden lg:block origin-center hover:scale-105 transition-transform">
                         <ScribbleText arrowDirection="down-right">
-                            SEE WHAT OUR CREATORS ARE PUBLISHING
+                            SEE HOW TEAMS RUN THEIR CONTENT STRATEGY
                         </ScribbleText>
                     </div>
 
@@ -61,7 +61,7 @@ export function Showcase() {
 
                     <div className="absolute -top-16 right-0 md:-right-12 z-20 hidden lg:block origin-center hover:scale-105 transition-transform">
                         <ScribbleText arrowDirection="down-left">
-                            10 MILLION VIEWS IN THE FIRST 48 HOURS
+                            FROM BLANK BRIEF TO LIVE IN 48 HOURS
                         </ScribbleText>
                     </div>
                 </div>

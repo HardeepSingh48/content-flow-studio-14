@@ -30,12 +30,12 @@ const playbooks = [
         description: "The exact SOP used by top agencies to turn a simple 45-minute recording into a month's worth of social content."
     },
     {
-        title: "Building a Multi-Creator Pipeline",
+        title: "The Stratiara Content System: Planning to Publishing",
         icon: BookOpen,
         category: "Team Scaling",
         readTime: "15 min read",
         author: "David Park",
-        description: "How to coordinate multiple executives, ghostwriters, and ghost designers in one synchronized workflow."
+        description: "The end-to-end operating system your team needs — from pillar definition and brief templates through editorial workflow approval and omnichannel distribution."
     }
 ];
 
@@ -59,7 +59,7 @@ const PlaybooksPage = () => {
                             transition={{ delay: 0.1 }}
                             className="text-[18px] md:text-[20px] text-white/60 leading-[1.6]"
                         >
-                            Tactical playbooks, templates, and guides from the world's fastest-growing creators and B2B brands.
+                            Tactical frameworks, SOPs, and strategic templates from content leaders at fast-growing B2B brands.
                         </motion.p>
                     </div>
 

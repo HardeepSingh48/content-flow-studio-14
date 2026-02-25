@@ -4,40 +4,40 @@ import { Quote } from 'lucide-react';
 
 const testimonials = [
     {
-        quote: "ContentPipeline cut our publishing time by 60%. What used to take a full production day now ships before lunch. The pipeline board gives us total clarity.",
+        quote: "Stratiara gave us a shared editorial language. Strategy meetings went from 90 minutes to 20. Everyone knows the content pillars, the priorities, and what's moving through the pipeline.",
         name: 'Sarah Chen',
-        role: 'Head of Growth · Velocity Labs',
+        role: 'Head of Content Strategy · Velocity Labs',
         initials: 'SC',
         color: '#8B5CF6',
     },
     {
-        quote: "We went from posting twice a week to every single day across five platforms. The formatting engine alone justified the subscription on day one.",
+        quote: "We stopped producing reactive content and started building a real narrative. Our audience doubled in 60 days — not because we posted more, but because every post had a strategic purpose.",
         name: 'Marcus Adeola',
         role: 'Content Director · Frontier Capital',
         initials: 'MA',
         color: '#6366F1',
     },
     {
-        quote: "As a solo creator, this is like having a full content team in my pocket. The scheduling is smart and the engagement inbox keeps me sane.",
+        quote: "As a solo operator, I finally have a system. My content pillars are defined, my calendar is planned three weeks out, and nothing goes live without passing my own editorial filter.",
         name: 'Priya Sharma',
-        role: 'Independent Creator · 180k+ followers',
+        role: 'Independent Strategist · 180k+ followers',
         initials: 'PS',
         color: '#7C3AED',
     },
     {
-        quote: "LinkedIn engagement up 340% in three months. The team approval workflow means nothing goes live without sign-off. Game changer.",
+        quote: "Brand authority on LinkedIn is up 3× in two quarters. The approval workflow means our executives' voices are amplified without losing brand consistency. Exactly what we needed.",
         name: 'Tom Reeves',
-        role: 'VP Marketing · Harbour Software',
+        role: 'VP Brand Strategy · Harbour Software',
         initials: 'TR',
         color: '#4F46E5',
     },
 ];
 
 const metrics = [
-    { value: '340%', label: 'Avg engagement increase' },
-    { value: '12×', label: 'Faster content production' },
+    { value: '80%', label: 'Less planning overhead' },
+    { value: '3×', label: 'Faster campaign cycles' },
     { value: '4.9 / 5', label: 'Customer satisfaction' },
-    { value: '500+', label: 'Teams worldwide' },
+    { value: '500+', label: 'Strategy teams' },
 ];
 
 export const Testimonials = () => {
@@ -74,8 +74,8 @@ export const Testimonials = () => {
                         transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
                         style={{ fontSize: 'clamp(30px, 4vw, 46px)', fontWeight: 700, lineHeight: 1.18, letterSpacing: '-0.025em', color: '#fff' }}
                     >
-                        Teams who ship content
-                        <br />choose ContentPipeline
+                        Strategy-led teams
+                        <br />choose Stratiara
                     </motion.h2>
                 </div>
 

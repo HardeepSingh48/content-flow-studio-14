@@ -6,8 +6,8 @@ import { PlatformIcons } from '@/components/ui/PlatformIcons';
 const features = [
     {
         icon: Zap,
-        title: 'Pipeline Workflow Engine',
-        description: 'Visualize your content journey from draft to live. Move content through custom stages with full team visibility and zero bottlenecks.',
+        title: 'Editorial Planning Board',
+        description: 'Map your entire content calendar on a visual Kanban board. Track briefs, drafts, reviews, and approvals — all in one strategic command center.',
     },
     {
         icon: () => (
@@ -17,28 +17,28 @@ const features = [
                 <div className="w-5 h-5 rounded-md bg-white/10 flex items-center justify-center border border-white/20 shadow-md transform rotate-6 z-20"><div className="scale-75"><PlatformIcons.THREADS /></div></div>
             </div>
         ),
-        title: 'Multi-Platform Publishing',
-        description: 'Connect LinkedIn, Twitter, Instagram, and more. Publish simultaneously or schedule strategically per platform with one click.',
+        title: 'Narrative Architecture',
+        description: 'Design your content strategy around themes, pillars, and audience segments. Every post has a purpose — not just a publish date.',
     },
     {
         icon: Repeat2,
-        title: 'Platform-Specific Formatting',
-        description: 'Every platform has different rules. We automatically adapt your content so it looks native everywhere — no manual reformatting.',
+        title: 'Content Intelligence',
+        description: 'Understand what resonates before you write. Data-driven topic scoring, pillar analysis, and competitive gap insights built in.',
     },
     {
         icon: BarChart3,
-        title: 'Strategic Scheduling',
-        description: 'Queue weeks of content in minutes. Data-guided timing ensures you publish when your audience is most active and receptive.',
+        title: 'Audience Timing Engine',
+        description: 'Publish when your audience is most engaged. AI-powered timing recommendations backed by platform-specific behavioural signals.',
     },
     {
         icon: Users,
-        title: 'Team Collaboration',
-        description: "Assign roles, review drafts, approve before publish. No more Slack threads asking 'is this ready?' — workflows live in the platform.",
+        title: 'Strategy Review Workflows',
+        description: 'Align writers, editors, and stakeholders around a shared editorial vision. Role-based approval flows ensure brand voice consistency at every stage.',
     },
     {
         icon: MessageSquare,
-        title: 'Unified Engagement Inbox',
-        description: 'Respond to comments across all platforms from one place. Never miss a conversation that matters to your brand.',
+        title: 'Omnichannel Distribution',
+        description: 'When strategy says go, push content across LinkedIn, Twitter, Instagram, YouTube, and more — simultaneously, with platform-native formatting.',
     },
 ];
 

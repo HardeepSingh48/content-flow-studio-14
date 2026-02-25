@@ -8,8 +8,8 @@ const plans = [
         name: 'Solo',
         price: '$0',
         period: 'forever free',
-        description: 'For individual creators getting started with strategic distribution.',
-        features: ['5 posts per month', '2 platforms connected', 'Basic analytics', 'Community support'],
+        description: 'For individual strategists who are mapping their content pillars and getting their editorial workflow off the ground.',
+        features: ['5 content briefs per month', '2 platforms connected', 'Content pillar builder', 'Community support'],
         cta: 'Start free',
         href: '/signup',
         featured: false,
@@ -18,8 +18,8 @@ const plans = [
         name: 'Pro',
         price: '$29',
         period: 'per month',
-        description: 'For content creators and strategists who publish on a regular cadence.',
-        features: ['Unlimited posts', 'All platforms', 'Advanced analytics', 'Smart scheduling', 'Team collaboration', 'Priority support'],
+        description: 'For content strategists and editorial teams who run a structured, repeatable content operation.',
+        features: ['Unlimited briefs & posts', 'All platforms connected', 'Content pillar analytics', 'Smart scheduling', 'Strategy review workflows', 'Priority support'],
         cta: 'Start 14-day trial',
         href: '/signup',
         featured: true,
@@ -28,8 +28,8 @@ const plans = [
         name: 'Team',
         price: '$79',
         period: 'per month',
-        description: 'For growth teams scaling content operations across multiple channels.',
-        features: ['Everything in Pro', '5 team seats', 'Shared content library', 'Approval workflows', 'API access', 'Dedicated CSM'],
+        description: 'For growth organisations running multi-channel content strategy across multiple brands or executives.',
+        features: ['Everything in Pro', '5 team seats', 'Shared strategy library', 'Approval & sign-off workflows', 'API access', 'Dedicated CSM'],
         cta: 'Start 14-day trial',
         href: '/signup',
         featured: false,
@@ -72,8 +72,8 @@ export const PricingPreview = () => {
                             animate={inView ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 0.55, delay: 0.15 + i * 0.1, ease: 'easeOut' }}
                             className={`relative flex flex-col p-10 rounded-[20px] transition-all duration-300 ${plan.featured
-                                    ? 'bg-[#8B5CF6]/5 border-2 border-[#8B5CF6]/40 shadow-[0_12px_48px_rgba(139,92,246,0.15)] hover:-translate-y-2 hover:border-[#8B5CF6]/60'
-                                    : 'bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1'
+                                ? 'bg-[#8B5CF6]/5 border-2 border-[#8B5CF6]/40 shadow-[0_12px_48px_rgba(139,92,246,0.15)] hover:-translate-y-2 hover:border-[#8B5CF6]/60'
+                                : 'bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1'
                                 }`}
                         >
                             {/* Featured badge */}
@@ -106,8 +106,8 @@ export const PricingPreview = () => {
                             <Link
                                 to={plan.href}
                                 className={`flex items-center justify-center gap-2 px-6 py-[14px] rounded-xl font-semibold text-[15px] transition-all duration-200 ${plan.featured
-                                        ? 'bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white shadow-[0_4px_16px_rgba(139,92,246,0.35)] hover:shadow-[0_8px_24px_rgba(139,92,246,0.5)] hover:-translate-y-[1px]'
-                                        : 'bg-transparent text-white/70 border border-white/15 hover:bg-white/5 hover:text-white'
+                                    ? 'bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white shadow-[0_4px_16px_rgba(139,92,246,0.35)] hover:shadow-[0_8px_24px_rgba(139,92,246,0.5)] hover:-translate-y-[1px]'
+                                    : 'bg-transparent text-white/70 border border-white/15 hover:bg-white/5 hover:text-white'
                                     }`}
                             >
                                 {plan.cta} <ArrowRight size={16} />

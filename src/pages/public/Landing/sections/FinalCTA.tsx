@@ -32,9 +32,9 @@ export const FinalCTA = () => {
                     transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
                     className="text-[38px] sm:text-[48px] md:text-[72px] font-bold leading-[1.1] tracking-[-0.03em] mb-6"
                 >
-                    <span className="text-white">Ready to build your</span>
+                    <span className="text-white">Ready to lead</span>
                     <br />
-                    <span className="bg-gradient-to-br from-white to-[#A78BFA] text-transparent bg-clip-text">content engine?</span>
+                    <span className="bg-gradient-to-br from-white to-[#A78BFA] text-transparent bg-clip-text">with strategy?</span>
                 </motion.h2>
 
                 <motion.p
@@ -43,7 +43,7 @@ export const FinalCTA = () => {
                     transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
                     className="text-[18px] leading-[1.7] text-white/50 max-w-[520px] mx-auto mb-11"
                 >
-                    Join 500+ teams who replaced their content chaos with a single, strategic workflow. Start free — no credit card needed.
+                    Join 500+ teams who put strategy first and eliminated the guesswork from their content operations. Start free — no credit card needed.
                 </motion.p>
 
                 <motion.div
@@ -82,7 +82,7 @@ export const FinalCTA = () => {
                         ))}
                     </div>
                     <span className="text-[14px] text-white/35">
-                        Joined by <strong className="text-white/60 font-semibold">500+ teams</strong> this month
+                        Joined by <strong className="text-white/60 font-semibold">500+ strategy teams</strong> this month
                     </span>
                 </motion.div>
             </div>
