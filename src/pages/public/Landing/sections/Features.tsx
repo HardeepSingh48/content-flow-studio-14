@@ -60,7 +60,7 @@ export const Features = () => {
 
     return (
         <section className="relative w-full bg-[#0A0E27] py-32 overflow-hidden border-t border-white/5">
-            <div className="max-w-[1280px] mx-auto px-10">
+            <div className="max-w-[1280px] mx-auto px-6 md:px-10">
                 {/* Header */}
                 <div ref={headerRef} className="text-center max-w-[640px] mx-auto mb-[72px]">
                     <motion.h2

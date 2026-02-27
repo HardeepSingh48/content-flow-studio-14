@@ -355,6 +355,13 @@ export const ScrollytellingHero = () => {
     const pipelineRef = useRef<HTMLCanvasElement>(null);
     const engineRef = useRef<ContentPipelineFlow | null>(null);
     const [inviteOpen, setInviteOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 768);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     useEffect(() => {
         // Detect low-performance devices early
@@ -364,8 +371,8 @@ export const ScrollytellingHero = () => {
 
         if (!ambientRef.current || !pipelineRef.current || !sectionRef.current) return;
 
-        if (isLowPerf) {
-            // Skip canvas on low-perf devices; CSS background covers it
+        if (isLowPerf || isMobile) {
+            // Skip canvas on low-perf devices or mobile; CSS background covers it
             ambientRef.current.style.display = 'none';
             pipelineRef.current.style.display = 'none';
         }
@@ -383,7 +390,7 @@ export const ScrollytellingHero = () => {
         gsap.ticker.lagSmoothing(0);
 
         // ── Canvas engine ──
-        if (!isLowPerf) {
+        if (!isLowPerf && !isMobile) {
             const engine = new ContentPipelineFlow(
                 ambientRef.current!,
                 pipelineRef.current!
@@ -427,7 +434,7 @@ export const ScrollytellingHero = () => {
             gsap.ticker.remove(lenis.raf);
             lenis.destroy();
         };
-    }, []);
+    }, [isMobile]);
 
     return (
         <>
@@ -436,7 +443,7 @@ export const ScrollytellingHero = () => {
                 ref={sectionRef}
                 id="scrollytelling-hero"
                 style={{
-                    height: '800vh',
+                    height: isMobile ? '100vh' : '800vh',
                     position: 'relative',
                 }}
                 className="mobile-hero-height"
@@ -609,7 +616,7 @@ export const ScrollytellingHero = () => {
                                     onClick={() => setInviteOpen(true)}
                                     className="hero-btn-primary"
                                 >
-                                    Get an Invite <ArrowRight size={16} style={{ display: 'inline', marginLeft: 6, verticalAlign: 'middle' }} />
+                                    Request Access <ArrowRight size={16} style={{ display: 'inline', marginLeft: 6, verticalAlign: 'middle' }} />
                                 </button>
                                 <Link to="/features" className="hero-btn-secondary">
                                     See how it works

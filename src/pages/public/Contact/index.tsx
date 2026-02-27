@@ -11,12 +11,12 @@ const ContactPage = () => {
             <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#8B5CF6]/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
 
             <div className="pt-32 pb-24 relative z-10">
-                <div className="max-w-[1280px] mx-auto px-6 md:px-10 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+                <div className="max-w-[1280px] mx-auto px-6 md:px-10 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24">
                     <div className="max-w-[500px]">
                         <motion.h1
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="text-[40px] md:text-[56px] font-bold text-white leading-[1.1] tracking-[-0.02em] mb-6"
+                            className="text-[28px] md:text-[40px] lg:text-[56px] font-bold text-white leading-[1.15] tracking-[-0.02em] mb-6"
                         >
                             Get in touch with our team
                         </motion.h1>
@@ -24,7 +24,7 @@ const ContactPage = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1 }}
-                            className="text-[18px] md:text-[20px] text-white/60 leading-[1.6] mb-12"
+                            className="text-[16px] md:text-[18px] lg:text-[20px] text-white/60 leading-[1.6] mb-12"
                         >
                             Whether you have a question about features, pricing, or anything else, our team is ready to answer all your questions.
                         </motion.p>
@@ -32,12 +32,9 @@ const ContactPage = () => {
                         <div className="space-y-8">
                             <div>
                                 <h3 className="text-white font-semibold text-lg mb-2">Support</h3>
-                                <p className="text-white/60">help@contentpipeline.com</p>
+                                <p className="text-white/60">contact@stratiara.com</p>
                             </div>
-                            <div>
-                                <h3 className="text-white font-semibold text-lg mb-2">Sales</h3>
-                                <p className="text-white/60">sales@contentpipeline.com</p>
-                            </div>
+
                         </div>
                     </div>
 

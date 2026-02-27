@@ -88,7 +88,7 @@ export const PublicNavbar = () => {
                         }}
                             onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(139,92,246,0.45)'; }}
                             onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(139,92,246,0.3)'; }}
-                        >Get an Invite</button>
+                        >Request Access</button>
                     </div>
 
                     {/* Mobile toggle */}
@@ -120,7 +120,7 @@ export const PublicNavbar = () => {
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingTop: 24 }}>
                             <button onClick={() => navigate('/signin')} style={{ width: '100%', padding: 14, borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)', background: 'transparent', color: '#fff', fontWeight: 600, fontSize: 16, cursor: 'pointer' }}>Sign In</button>
-                            <button onClick={() => { setInviteOpen(true); setMobileOpen(false); }} style={{ width: '100%', padding: 14, borderRadius: 8, background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)', border: 'none', color: '#fff', fontWeight: 600, fontSize: 16, cursor: 'pointer' }}>Get an Invite</button>
+                            <button onClick={() => { setInviteOpen(true); setMobileOpen(false); }} style={{ width: '100%', padding: 14, borderRadius: 8, background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)', border: 'none', color: '#fff', fontWeight: 600, fontSize: 16, cursor: 'pointer' }}>Request Access</button>
                         </div>
                     </motion.div>
                 )}

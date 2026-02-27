@@ -18,6 +18,65 @@ const SignUp = () => {
   const [error, setError] = useState('');
   const [showNicheModal, setShowNicheModal] = useState(false);
 
+  // Temporary restriction flag
+  const isRestricted = true;
+
+  if (isRestricted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-secondary/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-accent/20 rounded-full blur-3xl" />
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-md relative z-10"
+        >
+          {/* Card */}
+          <div className="glass-strong rounded-2xl p-8 flex flex-col items-center text-center">
+            {/* Logo */}
+            <Link to="/" className="flex items-center justify-center gap-2 mb-8">
+              <Zap className="w-8 h-8 text-primary" />
+              <span className="text-xl font-bold text-foreground">
+                Content Pipeline<span className="gradient-text"> Studio</span>
+              </span>
+            </Link>
+
+            <Lock className="w-16 h-16 text-muted-foreground/50 mb-6" />
+
+            <h1 className="text-2xl font-bold text-foreground mb-4">Access Restricted</h1>
+            <p className="text-muted-foreground mb-8 text-sm leading-relaxed">
+              We are currently limiting new signups to ensure the best experience for our existing users. Please check back later.
+            </p>
+
+            <div className="w-full space-y-4">
+              <Button
+                variant="gradient"
+                size="lg"
+                className="w-full"
+                onClick={() => navigate('/')}
+              >
+                Return to Home
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full"
+                onClick={() => navigate('/signin')}
+              >
+                Sign In Instead
+              </Button>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);

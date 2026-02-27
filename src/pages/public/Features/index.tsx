@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import {
-    Layers, Zap, PenTool, BarChart3, Globe, Lock, Code, Cpu,
+    Layers, Zap, PenTool, BarChart3, Globe, Lock, Code, Cpu, Calendar,
     Linkedin, Twitter, Instagram, Youtube, Facebook, MapPin, Notebook, Mail, BookOpen, Music, // Platforms
     Bot, Sparkles, MessageSquare, BrainCircuit, // Text
     Mic, AudioLines, Radio, // Audio
@@ -42,6 +42,16 @@ const fullFeatures = [
         icon: Lock,
         title: "Enterprise Governance",
         description: "SSO, granular RBAC, and full audit logs ensure brand voice is protected and every piece of content is traceable back to a strategic decision."
+    },
+    {
+        icon: Calendar,
+        title: "Visual Content Calendar",
+        description: "Plan and schedule your entire content strategy in one unified view. Drag-and-drop posts, manage campaigns across platforms, and never miss a critical publishing window."
+    },
+    {
+        icon: MessageSquare,
+        title: "Real-Time Collaboration",
+        description: "Bring your team together with inline commenting, collaborative editing, and direct mentions. Review cycles have never been this fast and transparent."
     }
 ];
 
@@ -126,7 +136,7 @@ const FeaturesPage = () => {
                                     { name: 'TikTok', logo: 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg', live: false, whiteBg: true },
                                     { name: 'Pinterest', logo: 'https://upload.wikimedia.org/wikipedia/commons/3/35/Pinterest_Logo.svg', live: false },
                                     { name: 'Medium', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/ec/Medium_logo_Monogram.svg', live: false, invert: true },
-                                    { name: 'Substack', logo: 'https://logo.clearbit.com/substack.com', live: false, whiteBg: true },
+                                    { name: 'Substack', logo: 'https://www.google.com/s2/favicons?domain=substack.com&sz=128', live: false, whiteBg: true },
                                     { name: 'WordPress', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/09/Wordpress-Logo.svg', live: false, whiteBg: true },
                                     { name: 'Reddit', logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b4/Reddit_logo.svg', live: false, whiteBg: true },
                                 ].map(p => (
@@ -155,11 +165,11 @@ const FeaturesPage = () => {
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     {[
-                                        { name: 'ChatGPT', logo: 'https://cdn.simpleicons.org/openai/10a37f' },
+                                        { name: 'ChatGPT', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg', whiteBg: true },
                                         { name: 'Gemini', logo: 'https://cdn.simpleicons.org/googlegemini/8E75B2' },
                                         { name: 'Claude', logo: 'https://cdn.simpleicons.org/anthropic/D97706', whiteBg: true },
                                         { name: 'Llama 3', logo: 'https://cdn.simpleicons.org/meta/0081FB' },
-                                        { name: 'Mistral', logo: 'https://cdn.simpleicons.org/mistral/FF7000' },
+                                        { name: 'Mistral', logo: 'https://www.google.com/s2/favicons?domain=mistral.ai&sz=128' },
                                         { name: 'Perplexity', logo: 'https://cdn.simpleicons.org/perplexity/20808D' },
                                         { name: 'Cohere', logo: 'https://www.google.com/s2/favicons?domain=cohere.com&sz=128' },
                                         { name: 'Groq', logo: 'https://www.google.com/s2/favicons?domain=groq.com&sz=128' }
@@ -185,7 +195,7 @@ const FeaturesPage = () => {
                                         { name: 'ElevenLabs', logo: 'https://cdn.simpleicons.org/elevenlabs/000000', whiteBg: true },
                                         { name: 'NotebookLM', logo: 'https://www.google.com/s2/favicons?domain=notebooklm.google.com&sz=128' },
                                         { name: 'Seed-TTS', logo: 'https://cdn.simpleicons.org/bytedance/FF4444' },
-                                        { name: 'OpenAI TTS', logo: 'https://cdn.simpleicons.org/openai/000000', whiteBg: true },
+                                        { name: 'OpenAI TTS', logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg', whiteBg: true },
                                         { name: 'PlayHT', logo: 'https://www.google.com/s2/favicons?domain=play.ht&sz=128' },
                                         { name: 'Murf.ai', logo: 'https://www.google.com/s2/favicons?domain=murf.ai&sz=128' },
                                         { name: 'Resemble AI', logo: 'https://www.google.com/s2/favicons?domain=resemble.ai&sz=128' },
@@ -209,7 +219,7 @@ const FeaturesPage = () => {
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     {[
-                                        { name: 'Sora', logo: 'https://cdn.simpleicons.org/openai/000000', whiteBg: true },
+                                        { name: 'Sora', logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg', whiteBg: true },
                                         { name: 'Veo 3', logo: 'https://cdn.simpleicons.org/google/4285F4' },
                                         { name: 'Viggle', logo: 'https://www.google.com/s2/favicons?domain=viggle.ai&sz=128' },
                                         { name: 'HeyGen', logo: 'https://www.google.com/s2/favicons?domain=heygen.com&sz=128' },
@@ -239,10 +249,10 @@ const FeaturesPage = () => {
                                 <div className="grid grid-cols-2 gap-3">
                                     {[
                                         { name: 'Midjourney', logo: 'https://www.google.com/s2/favicons?domain=midjourney.com&sz=128' },
-                                        { name: 'DALL-E 3', logo: 'https://cdn.simpleicons.org/openai/000000', whiteBg: true },
-                                        { name: 'Stable Diffusion', logo: 'https://cdn.simpleicons.org/stability-ai/8A2BE2' },
+                                        { name: 'DALL-E 3', logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg', whiteBg: true },
+                                        { name: 'Stable Diffusion', logo: 'https://www.google.com/s2/favicons?domain=stability.ai&sz=128' },
                                         { name: 'Leonardo.ai', logo: 'https://www.google.com/s2/favicons?domain=leonardo.ai&sz=128' },
-                                        { name: 'Adobe Firefly', logo: 'https://cdn.simpleicons.org/adobe/FF0000' }
+                                        { name: 'Adobe Firefly', logo: 'https://www.google.com/s2/favicons?domain=firefly.adobe.com&sz=128' }
                                     ].map(model => (
                                         <div key={model.name} className="bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-sm text-white/80 flex items-center gap-3 hover:text-white hover:border-[#8B5CF6]/50 transition-colors group">
                                             <div className={`w-5 h-5 flex-shrink-0 rounded-sm overflow-hidden flex items-center justify-center ${model.whiteBg ? 'bg-white p-0.5' : ''}`}>

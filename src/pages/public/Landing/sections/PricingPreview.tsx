@@ -1,36 +1,37 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Check, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { InviteModal } from '@/components/ui/InviteModal';
 
 const plans = [
     {
         name: 'Solo',
-        price: '$0',
-        period: 'forever free',
+        price: '$99',
+        period: 'per month',
         description: 'For individual strategists who are mapping their content pillars and getting their editorial workflow off the ground.',
         features: ['5 content briefs per month', '2 platforms connected', 'Content pillar builder', 'Community support'],
-        cta: 'Start free',
+        cta: 'Request Access',
         href: '/signup',
         featured: false,
     },
     {
         name: 'Pro',
-        price: '$29',
+        price: '$199',
         period: 'per month',
         description: 'For content strategists and editorial teams who run a structured, repeatable content operation.',
         features: ['Unlimited briefs & posts', 'All platforms connected', 'Content pillar analytics', 'Smart scheduling', 'Strategy review workflows', 'Priority support'],
-        cta: 'Start 14-day trial',
+        cta: 'Request Access',
         href: '/signup',
         featured: true,
     },
     {
         name: 'Team',
-        price: '$79',
+        price: '$499',
         period: 'per month',
         description: 'For growth organisations running multi-channel content strategy across multiple brands or executives.',
         features: ['Everything in Pro', '5 team seats', 'Shared strategy library', 'Approval & sign-off workflows', 'API access', 'Dedicated CSM'],
-        cta: 'Start 14-day trial',
+        cta: 'Request Access',
         href: '/signup',
         featured: false,
     },
@@ -39,10 +40,10 @@ const plans = [
 export const PricingPreview = () => {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true });
-
+    const [inviteOpen, setInviteOpen] = useState(false);
     return (
         <section className="relative w-full bg-[#0A0E27] py-32 overflow-hidden border-t border-white/5">
-            <div className="max-w-[1280px] mx-auto px-10">
+            <div className="max-w-[1280px] mx-auto px-6 md:px-10">
                 {/* Header */}
                 <div ref={ref} className="text-center max-w-[580px] mx-auto mb-[72px]">
                     <motion.h2
@@ -103,15 +104,17 @@ export const PricingPreview = () => {
                                 ))}
                             </ul>
 
-                            <Link
-                                to={plan.href}
+                            <button
+                                onClick={() => setInviteOpen(true)}
                                 className={`flex items-center justify-center gap-2 px-6 py-[14px] rounded-xl font-semibold text-[15px] transition-all duration-200 ${plan.featured
                                     ? 'bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white shadow-[0_4px_16px_rgba(139,92,246,0.35)] hover:shadow-[0_8px_24px_rgba(139,92,246,0.5)] hover:-translate-y-[1px]'
                                     : 'bg-transparent text-white/70 border border-white/15 hover:bg-white/5 hover:text-white'
                                     }`}
                             >
                                 {plan.cta} <ArrowRight size={16} />
-                            </Link>
+                            </button>
+
+                            <InviteModal isOpen={inviteOpen} onClose={() => setInviteOpen(false)} />
                         </motion.div>
                     ))}
                 </div>

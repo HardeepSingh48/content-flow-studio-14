@@ -46,7 +46,7 @@ export function Showcase() {
             <div className="max-w-[1400px] mx-auto px-6 relative z-10">
                 <div className="flex justify-between items-end mb-16 md:mb-24 relative max-w-5xl mx-auto">
 
-                    <div className="absolute -top-16 left-0 md:-left-12 z-20 hidden lg:block origin-center hover:scale-105 transition-transform">
+                    <div className="absolute -top-16 left-0 md:-left-12 z-20 origin-center hover:scale-105 transition-transform">
                         <ScribbleText arrowDirection="down-right">
                             SEE HOW TEAMS RUN THEIR CONTENT STRATEGY
                         </ScribbleText>

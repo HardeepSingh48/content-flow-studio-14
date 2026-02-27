@@ -6,19 +6,19 @@ const footerLinks = {
         { label: 'Features', href: '/features' },
         { label: 'Playbooks', href: '/playbooks' },
         { label: 'Pricing', href: '/pricing' },
-        { label: "What's new", href: '#' },
+        { label: "What's new", href: '/features' },
     ],
     Company: [
-        { label: 'About', href: '#' },
-        { label: 'Blog', href: '#' },
-        { label: 'Careers', href: '#' },
+        // { label: 'About', href: '#' },
+        // { label: 'Blog', href: '#' },
+        // { label: 'Careers', href: '#' },
         { label: 'Contact', href: '/contact' },
     ],
-    Legal: [
-        { label: 'Privacy Policy', href: '#' },
-        { label: 'Terms of Service', href: '#' },
-        { label: 'Cookie Policy', href: '#' },
-    ],
+    // Legal: [
+    //     { label: 'Privacy Policy', href: '#' },
+    //     { label: 'Terms of Service', href: '#' },
+    //     { label: 'Cookie Policy', href: '#' },
+    // ],
 };
 
 export const PublicFooter = () => {
@@ -40,7 +40,7 @@ export const PublicFooter = () => {
                         <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 5, marginTop: 20, color: 'rgba(255,255,255,0.35)', fontSize: 14, textDecoration: 'none', transition: 'color 0.2s ease' }}
                             onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
                             onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.35)')}
-                        >@contentpipeline <ArrowUpRight size={13} /></a>
+                        >@stratiara <ArrowUpRight size={13} /></a>
                     </div>
 
                     {Object.entries(footerLinks).map(([group, links]) => (
