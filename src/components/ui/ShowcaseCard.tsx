@@ -8,11 +8,15 @@ export interface ShowcaseCardProps {
     avatars: string[];
     category: string;
     platform: string;
+    link?: string;
 }
 
-export function ShowcaseCard({ imageSrc, logoSrc, title, avatars, category, platform }: ShowcaseCardProps) {
+export function ShowcaseCard({ imageSrc, logoSrc, title, avatars, category, platform, link }: ShowcaseCardProps) {
+    const CardWrapper = link ? 'a' : 'div';
+    const wrapperProps = link ? { href: link, target: "_blank", rel: "noopener noreferrer" } : {};
+
     return (
-        <div className="w-[320px] md:w-[450px] flex-shrink-0 bg-white/5 backdrop-blur-md rounded-[24px] border border-white/10 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_32px_rgba(139,92,246,0.15)] hover:border-white/20 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2 group cursor-pointer relative z-20">
+        <CardWrapper {...wrapperProps} className="w-[320px] md:w-[450px] flex-shrink-0 bg-white/5 backdrop-blur-md rounded-[24px] border border-white/10 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_32px_rgba(139,92,246,0.15)] hover:border-white/20 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2 group cursor-pointer relative z-20 block">
             <div className="p-4 md:p-5">
                 <div className="w-full h-[200px] md:h-[260px] rounded-xl overflow-hidden bg-neutral-900 relative shadow-inner">
                     <img src={imageSrc} alt={title || 'Showcase'} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
@@ -56,6 +60,6 @@ export function ShowcaseCard({ imageSrc, logoSrc, title, avatars, category, plat
                     </div>
                 </div>
             </div>
-        </div>
+        </CardWrapper>
     );
 }
