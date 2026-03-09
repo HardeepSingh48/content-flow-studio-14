@@ -69,7 +69,7 @@ const HeroSection = () => {
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Button variant="hero" size="xl" onClick={() => setIsInviteModalOpen(true)} className="group">
-              Get an Invite
+              Join the Program
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button variant="glass" size="lg" className="gap-2">

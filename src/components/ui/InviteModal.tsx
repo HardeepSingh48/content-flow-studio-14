@@ -163,7 +163,7 @@ export const InviteModal = ({ isOpen, onClose }: InviteModalProps) => {
                                                     Sending Request...
                                                 </>
                                             ) : (
-                                                "Request Access"
+                                                "Get Started"
                                             )}
                                         </button>
                                     </div>

@@ -7,6 +7,7 @@ interface User {
     id: string;
     email: string;
     name?: string;
+    role?: string;
 }
 
 interface AuthState {
@@ -21,8 +22,20 @@ interface AuthState {
     setAuthFromToken: (token: string) => void;
 }
 
+// Rehydrate user from the stored JWT on every page load (no network call needed)
+const getInitialUser = (): User | null => {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return { id: payload.userId, email: payload.email, role: payload.role };
+    } catch {
+        return null;
+    }
+};
+
 export const useAuth = create<AuthState>((set) => ({
-    user: null,
+    user: getInitialUser(),
     token: localStorage.getItem('token'),
     isAuthenticated: !!localStorage.getItem('token'),
 
@@ -87,7 +100,7 @@ export const useAuth = create<AuthState>((set) => ({
             const payload = JSON.parse(atob(token.split('.')[1]));
             set({
                 user: {
-                    id: payload.userId, email: payload.email,
+                    id: payload.userId, email: payload.email, role: payload.role,
                 },
                 token,
                 isAuthenticated: true,

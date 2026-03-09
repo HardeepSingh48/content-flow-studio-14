@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, LinkedinIcon } from 'lucide-react';
 
 const footerLinks = {
     Product: [
@@ -9,9 +9,7 @@ const footerLinks = {
         { label: "What's new", href: '/features' },
     ],
     Company: [
-        // { label: 'About', href: '#' },
-        // { label: 'Blog', href: '#' },
-        // { label: 'Careers', href: '#' },
+        { label: 'Blog', href: '/blog' },
         { label: 'Contact', href: '/contact' },
     ],
     // Legal: [
@@ -37,10 +35,14 @@ export const PublicFooter = () => {
                         <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,0.45)', maxWidth: 280 }}>
                             The content strategy platform for serious teams. Plan. Align. Distribute. Outperform.
                         </p>
-                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 5, marginTop: 20, color: 'rgba(255,255,255,0.35)', fontSize: 14, textDecoration: 'none', transition: 'color 0.2s ease' }}
-                            onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-                            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.35)')}
-                        >@stratiara <ArrowUpRight size={13} /></a>
+                        <div>
+
+                            <a href="https://www.linkedin.com/company/stratiara/" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 5, marginTop: 20, color: 'rgba(255,255,255,0.35)', fontSize: 14, textDecoration: 'none', transition: 'color 0.2s ease' }}
+                                onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.35)')}
+                            ><LinkedinIcon style={{ paddingBottom: '3px' }} /> @stratiara <ArrowUpRight size={13} /></a>
+
+                        </div>
                     </div>
 
                     {Object.entries(footerLinks).map(([group, links]) => (

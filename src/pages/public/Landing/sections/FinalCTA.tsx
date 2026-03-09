@@ -56,7 +56,7 @@ export const FinalCTA = () => {
                         onClick={() => setInviteOpen(true)}
                         className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg no-underline bg-gradient-to-br from-[#8B5CF6] to-[#6366F1] text-white font-semibold text-[16px] shadow-[0_4px_20px_rgba(139,92,246,0.4)] transition-all duration-200 hover:-translate-y-[2px] hover:shadow-[0_8px_28px_rgba(139,92,246,0.55)]"
                     >
-                        Get an Invite
+                        Get Started
                         <ArrowRight size={16} />
                     </button>
                     <Link

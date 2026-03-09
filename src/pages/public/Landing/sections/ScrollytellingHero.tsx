@@ -616,7 +616,7 @@ export const ScrollytellingHero = () => {
                                     onClick={() => setInviteOpen(true)}
                                     className="hero-btn-primary"
                                 >
-                                    Request Access <ArrowRight size={16} style={{ display: 'inline', marginLeft: 6, verticalAlign: 'middle' }} />
+                                    Get Started <ArrowRight size={16} style={{ display: 'inline', marginLeft: 6, verticalAlign: 'middle' }} />
                                 </button>
                                 <Link to="/features" className="hero-btn-secondary">
                                     See how it works

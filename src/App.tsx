@@ -5,13 +5,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/hooks/useTheme";
-import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { ProtectedRoute, PublicOnlyRoute } from "@/components/auth/ProtectedRoute";
 import { CommandPalette } from "@/components/CommandPalette";
 import { KeyboardShortcutsProvider } from "@/components/KeyboardShortcuts";
 import { OfflineBanner } from "@/components/OfflineBanner";
 import { SkipToContent } from "@/components/SkipToContent";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { FullPageLoader } from "@/components/LoadingSkeletons";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 // Lazy load pages for code splitting
 const Index = lazy(() => import("./pages/public/Landing/Landing"));
@@ -21,6 +22,10 @@ const Features = lazy(() => import("./pages/public/Features"));
 const Pricing = lazy(() => import("./pages/public/Pricing"));
 const Contact = lazy(() => import("./pages/public/Contact"));
 const Playbooks = lazy(() => import("./pages/public/Playbooks"));
+const Blog = lazy(() => import("./pages/public/Blog"));
+const BlogPost = lazy(() => import("./pages/public/Blog/BlogPost"));
+const PendingApproval = lazy(() => import("./pages/public/Auth/PendingApproval"));
+const AdminApprovals = lazy(() => import("./pages/admin/AdminApprovals"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const DashboardOverview = lazy(() => import("./pages/DashboardOverview"));
 const Configuration = lazy(() => import("./pages/Configuration"));
@@ -54,6 +59,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <ScrollToTop />
             <KeyboardShortcutsProvider>
               <SkipToContent />
               <OfflineBanner />
@@ -65,9 +71,12 @@ const App = () => (
                   <Route path="/pricing" element={<Pricing />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/playbooks" element={<Playbooks />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/:slug" element={<BlogPost />} />
 
-                  <Route path="/signin" element={<SignIn />} />
-                  <Route path="/signup" element={<SignUp />} />
+                  <Route path="/signin" element={<PublicOnlyRoute><SignIn /></PublicOnlyRoute>} />
+                  <Route path="/signup" element={<PublicOnlyRoute><SignUp /></PublicOnlyRoute>} />
+                  <Route path="/signup/pending" element={<PendingApproval />} />
                   <Route path="/auth/callback" element={<OAuthCallback />} />
 
                   {/* Protected Dashboard Routes */}
@@ -88,6 +97,7 @@ const App = () => (
                     <Route path="queue" element={<Queue />} />
                     <Route path="settings" element={<Settings />} />
                     <Route path="admin/users" element={<AdminUserManagement />} />
+                    <Route path="admin/approvals" element={<AdminApprovals />} />
                   </Route>
 
                   {/* NEW: Topic Analysis & Content Generation Routes */}

@@ -49,9 +49,16 @@ const SignIn = () => {
       toast.success('Welcome back!');
       navigate('/dashboard');
     } catch (error: any) {
-      const errorMessage = error.response?.data?.error || error.message || 'Sign in failed';
-      setError(errorMessage);
-      toast.error(errorMessage);
+      const code = error.response?.data?.code;
+      if (code === 'PENDING_APPROVAL') {
+        setError('Your account is awaiting admin approval. You will be notified once it is approved.');
+      } else if (code === 'ACCOUNT_REJECTED') {
+        setError('Your application was not approved. Please contact contact@stratiara.com for more information.');
+      } else {
+        const errorMessage = error.response?.data?.userMessage || error.response?.data?.error || error.message || 'Sign in failed';
+        setError(errorMessage);
+        toast.error(errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }

@@ -20,6 +20,7 @@ const ContactPage = () => {
                         >
                             Get in touch with our team
                         </motion.h1>
+
                         <motion.p
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -34,7 +35,10 @@ const ContactPage = () => {
                                 <h3 className="text-white font-semibold text-lg mb-2">Support</h3>
                                 <p className="text-white/60">contact@stratiara.com</p>
                             </div>
-
+                            <div className="inline-flex items-center gap-2 bg-[#8B5CF6]/10 border border-[#8B5CF6]/30 rounded-full px-4 py-2">
+                                <span className="w-2 h-2 rounded-full bg-[#A78BFA] animate-pulse flex-shrink-0"></span>
+                                <p className="text-[#C4B5FD] text-sm font-medium">We can work with 15 companies for now</p>
+                            </div>
                         </div>
                     </div>
 
