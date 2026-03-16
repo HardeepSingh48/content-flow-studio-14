@@ -1,32 +1,31 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FileText, Link2, Calendar, FileEdit, PlusCircle, Settings } from 'lucide-react';
+import { FileText, Link2, Calendar, FileEdit, PlusCircle, Settings, Loader2 } from 'lucide-react';
 import { StatCard } from '@/components/dashboard/StatCard';
 import { IntegrationCard } from '@/components/dashboard/IntegrationCard';
 import { Button } from '@/components/ui/button';
 import { Integration, DashboardStats } from '@/types/integrations';
-
-const mockStats: DashboardStats = {
-  totalContent: 24,
-  connectedPlatforms: 3,
-  publishedThisMonth: 12,
-  pendingDrafts: 5,
-};
-
-const defaultIntegrations: Integration[] = [
-  { id: '1', provider: 'wordpress', name: 'WordPress', icon: '🌐', status: 'not_connected', category: 'social' },
-  { id: '2', provider: 'twitter', name: 'Twitter / X', icon: '𝕏', status: 'not_connected', category: 'social' },
-  { id: '3', provider: 'linkedin', name: 'LinkedIn', icon: '💼', status: 'not_connected', category: 'social' },
-  { id: '4', provider: 'gemini', name: 'Gemini AI', icon: '✨', status: 'connected', category: 'ai' },
-  { id: '5', provider: 'openai', name: 'OpenAI', icon: '🤖', status: 'connected', category: 'ai' },
-  { id: '6', provider: 'elevenlabs', name: 'ElevenLabs', icon: '🎙️', status: 'not_connected', category: 'video' },
-  { id: '7', provider: 'heygen', name: 'HeyGen', icon: '🎬', status: 'connected', category: 'video' },
-];
+import { useQuery } from '@tanstack/react-query';
+import { api } from '@/services/api';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const DashboardOverview = () => {
   const navigate = useNavigate();
-  const [integrations] = useState<Integration[]>(defaultIntegrations);
+
+  const { data: stats, isLoading: statsLoading } = useQuery<DashboardStats>({
+    queryKey: ['dashboard-stats'],
+    queryFn: () => api.getDashboardStats(),
+  });
+
+  const { data: integrationsData, isLoading: integrationsLoading } = useQuery<any>({
+    queryKey: ['integrations'],
+    queryFn: () => api.getIntegrations(),
+  });
+
+  // Safely extract the array if the backend wraps it in a response object (e.g. { data: [...] } or { integrations: [...] })
+  const integrations: Integration[] = Array.isArray(integrationsData)
+    ? integrationsData
+    : (integrationsData?.data || integrationsData?.integrations || []);
 
   const connectedCount = integrations.filter((i) => i.status === 'connected').length;
 
@@ -43,28 +42,39 @@ const DashboardOverview = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          title="Total Content Created"
-          value={mockStats.totalContent}
-          icon={FileText}
-          trend={{ value: 12, isPositive: true }}
-        />
-        <StatCard
-          title="Connected Platforms"
-          value={connectedCount}
-          icon={Link2}
-        />
-        <StatCard
-          title="Published This Month"
-          value={mockStats.publishedThisMonth}
-          icon={Calendar}
-          trend={{ value: 8, isPositive: true }}
-        />
-        <StatCard
-          title="Pending Drafts"
-          value={mockStats.pendingDrafts}
-          icon={FileEdit}
-        />
+        {statsLoading ? (
+          <>
+            <Skeleton className="h-[120px] w-full rounded-xl" />
+            <Skeleton className="h-[120px] w-full rounded-xl" />
+            <Skeleton className="h-[120px] w-full rounded-xl" />
+            <Skeleton className="h-[120px] w-full rounded-xl" />
+          </>
+        ) : (
+          <>
+            <StatCard
+              title="Total Content Created"
+              value={stats?.totalContent || 0}
+              icon={FileText}
+              trend={{ value: 12, isPositive: true }}
+            />
+            <StatCard
+              title="Connected Platforms"
+              value={stats?.connectedPlatforms ?? connectedCount}
+              icon={Link2}
+            />
+            <StatCard
+              title="Published This Month"
+              value={stats?.publishedThisMonth || 0}
+              icon={Calendar}
+              trend={{ value: 8, isPositive: true }}
+            />
+            <StatCard
+              title="Pending Drafts"
+              value={stats?.pendingDrafts || 0}
+              icon={FileEdit}
+            />
+          </>
+        )}
       </div>
 
       {/* Connected Integrations */}
@@ -89,7 +99,11 @@ const DashboardOverview = () => {
           </Button>
         </div>
 
-        {connectedCount === 0 ? (
+        {integrationsLoading ? (
+          <div className="flex justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+        ) : connectedCount === 0 ? (
           <div className="glass rounded-xl p-12 text-center">
             <div className="text-4xl mb-4">🔌</div>
             <h3 className="text-lg font-semibold text-foreground mb-2">
@@ -104,7 +118,7 @@ const DashboardOverview = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {integrations.map((integration, index) => (
+            {integrations.filter(i => i.status === 'connected').map((integration, index) => (
               <motion.div
                 key={integration.id}
                 initial={{ opacity: 0, y: 20 }}

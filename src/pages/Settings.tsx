@@ -91,11 +91,11 @@ export default function Settings() {
     maxTokens: 2048,
   });
 
-  // Initialize local state when data loads
-  useState(() => {
-    if (profile) setLocalProfile({ name: profile.name });
+  // Sync local state when API data loads (profile name pre-fills correctly now)
+  useEffect(() => {
+    if (profile) setLocalProfile({ name: profile.name ?? '' });
     if (preferences) setLocalPrefs(preferences);
-  });
+  }, [profile, preferences]);
 
   const profileMutation = useMutation({
     mutationFn: (data: any) => api.updateProfile(data),
